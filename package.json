@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/rharkor/cathub/issues"
   },
-  "homepage": "https://github.com/rharkor/cathub#readme"
+  "homepage": "https://github.com/rharkor/cathub#readme",
+  "packageManager": "npm@11.0.0",
+  "dependencies": {
+    "turbo": "^2.3.3"
+  }
 }
