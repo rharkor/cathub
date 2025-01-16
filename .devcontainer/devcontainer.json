@@ -14,9 +14,22 @@
   "workspaceFolder": "/workspace",
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [5432, 6379],
+  "forwardPorts": [3000, 3001, 5432, 6379],
 
-  "portsAttributes": {},
+  "portsAttributes": {
+    "3000": {
+      "name": "Frontend"
+    },
+    "3001": {
+      "name": "Backend"
+    },
+    "5432": {
+      "name": "PostgreSQL"
+    },
+    "6379": {
+      "name": "Redis"
+    }
+  },
 
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": "/bin/bash -c \"./.devcontainer/post-create-command.sh devcontainer\"",
