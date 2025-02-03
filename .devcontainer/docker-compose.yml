@@ -1,4 +1,4 @@
-name: dimension
+name: cathub
 services:
   app:
     build:
