@@ -1,4 +1,5 @@
 import SuperJSON from "superjson";
+
 import { initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 
@@ -19,18 +20,10 @@ const t = initTRPC.context<Context>().create({
   transformer: SuperJSON,
 });
 
-const router = t.router;
-const publicProcedure = t.procedure;
+export const router = t.router;
+export const publicProcedure = t.procedure;
 
-const meRouter = router({
-  test: publicProcedure.query(() => {
-    return "test";
-  }),
-});
-
-const appRouter = router({
-  me: meRouter,
-});
+const appRouter = router({});
 
 export type AppRouter = typeof appRouter;
 export { appRouter, createContext };

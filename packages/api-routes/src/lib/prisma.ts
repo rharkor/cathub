@@ -16,7 +16,7 @@ const getPrisma = () => {
 };
 
 export const prisma: PrismaClient =
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+   
   globalForPrisma.prisma ||
   getPrisma().$extends({
     query: {
