@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "pkgroll"
+    "build": "pkgroll",
+    "build:dev": "pkgroll --watch",
+    "dev": "pkgroll --watch"
   },
   "keywords": [],
   "exports": {
