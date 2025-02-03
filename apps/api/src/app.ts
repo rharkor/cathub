@@ -1,12 +1,29 @@
+import * as trpcExpress from "@trpc/server/adapters/express";
 import express, { Request, Response } from "express";
+import { appRouter, createContext } from "@cathub/api-routes";
+import cors from "cors";
 const app = express();
 
-// database connections
+app.use(cors());
 
-// routes
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+app.use((req, _res, next) => {
+  // request logger
+  console.log("⬅️ ", req.method, req.path);
+
+  next();
 });
+
+app.get("/health", (_req: Request, res: Response) => {
+  res.send("OK");
+});
+
+app.use(
+  "/trpc",
+  trpcExpress.createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  })
+);
 
 const APP_PORT = process.env.PORT || 3001;
 

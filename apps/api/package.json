@@ -13,9 +13,12 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "@cathub/api-routes": "*",
+    "@rharkor/logger": "^1.3.1",
+    "@trpc/server": "^11.0.0-rc.700",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
-    "zod": "^3.24.1",
-    "@cathub/api-routes": "*"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

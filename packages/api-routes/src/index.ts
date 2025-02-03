@@ -1,3 +1,4 @@
+import SuperJSON from "superjson";
 import { initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 
@@ -14,7 +15,9 @@ const createContext = ({
 };
 type Context = Awaited<ReturnType<typeof createContext>>;
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+  transformer: SuperJSON,
+});
 
 const router = t.router;
 const publicProcedure = t.procedure;
@@ -30,3 +33,4 @@ const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
+export { appRouter, createContext };
