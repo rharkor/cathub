@@ -11,6 +11,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Install more global node modules
 RUN su node -c "npm install -g npm@latest"
 RUN su node -c "npm install -g turbo"
+RUN su node -c "npm install -g prisma"
 
 # https://pnpm.io/fr/installation#in-a-docker-container
 # RUN su node -c "wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -"
