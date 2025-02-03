@@ -2,7 +2,9 @@
   "name": "cathub",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "setup": "turbo run build --filter='@cathub/*'^..."
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
