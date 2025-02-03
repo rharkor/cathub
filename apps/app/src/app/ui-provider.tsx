@@ -1,11 +1,7 @@
-"use client";
+"use client"
 
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider } from "@heroui/react"
 
-export default function RootNextUIProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <HeroUIProvider>{children}</HeroUIProvider>;
+export default function RootNextUIProvider({ children }: { children: React.ReactNode }) {
+  return <HeroUIProvider>{children}</HeroUIProvider>
 }

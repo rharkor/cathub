@@ -1,40 +1,26 @@
-"use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+"use client"
+import { logger } from "@rharkor/logger"
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import React, { useState } from "react"
 
-import { toast } from "react-toastify";
+import { trpc, trpcClient } from "./client"
 
-import { AppRouter } from "@cathub/api-routes";
-import { logger } from "@rharkor/logger";
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-
-import { trpc, trpcClient } from "./client";
-
-export default function TrpcProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function TrpcProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
         queryCache: new QueryCache({
-          onError: (error, query) => {
-            logger.error("Query error", error);
+          onError: (error) => {
+            logger.error("Query error", error)
           },
         }),
         mutationCache: new MutationCache({
-          onError: (error, _v, _c, mutation) => {
-            logger.error("Mutation error", error);
+          onError: (error) => {
+            logger.error("Mutation error", error)
           },
         }),
       })
-  );
+  )
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
@@ -45,5 +31,5 @@ export default function TrpcProvider({
           </div> */}
       </QueryClientProvider>
     </trpc.Provider>
-  );
+  )
 }

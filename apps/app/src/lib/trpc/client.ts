@@ -1,19 +1,16 @@
-import SuperJSON from "superjson";
+import { type AppRouter } from "@cathub/api-routes"
+import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client"
+import { createTRPCReact } from "@trpc/react-query"
+import SuperJSON from "superjson"
 
-import { type AppRouter } from "@cathub/api-routes";
-import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
-import { createTRPCReact } from "@trpc/react-query";
-
-export const trpc = createTRPCReact<AppRouter>({});
+export const trpc = createTRPCReact<AppRouter>({})
 
 export const trpcClient = trpc.createClient({
   links: [
     // adds pretty logs to your console in development and logs errors in production
     loggerLink({
       enabled: (opts) =>
-        // eslint-disable-next-line no-process-env
-        (process.env.NODE_ENV === "development" &&
-          typeof window !== "undefined") ||
+        (process.env.NODE_ENV === "development" && typeof window !== "undefined") ||
         (opts.direction === "down" && opts.result instanceof Error),
     }),
     // splitLink({
@@ -32,4 +29,4 @@ export const trpcClient = trpc.createClient({
       transformer: SuperJSON,
     }),
   ],
-});
+})
