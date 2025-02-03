@@ -1,0 +1,17 @@
+model Post {
+    id      String @id @default(cuid())
+    content String
+    rate    Int
+    User    User   @relation(fields: [userId], references: [id])
+    userId  String
+    Cat     Cat    @relation(fields: [catId], references: [id])
+    catId   String
+}
+
+model PostComment {
+    id      String @id @default(cuid())
+    content String
+    rate    Int
+    User    User   @relation(fields: [userId], references: [id])
+    userId  String
+}

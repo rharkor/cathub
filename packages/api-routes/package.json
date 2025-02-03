@@ -25,7 +25,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.740.0",
     "@aws-sdk/s3-presigned-post": "^3.740.0",
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.3.0",
     "@rharkor/logger": "^1.3.1",
     "@t3-oss/env-core": "^0.12.0",
     "@trpc/server": "npm:@trpc/server@next",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "eslint": "^9.19.0",
-    "prisma": "^6.2.1",
+    "prisma": "^6.3.0",
     "typescript": "^5.7.3"
   }
 }

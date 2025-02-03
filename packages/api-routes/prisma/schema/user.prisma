@@ -15,6 +15,30 @@ model User {
     createdAt     DateTime        @default(now())
     updatedAt     DateTime        @updatedAt
     FileUploading FileUploading[]
+
+    firstname   String?
+    lastname    String?
+    bio         String?
+    Cat         Cat[]
+    PostComment PostComment[]
+    Post        Post[]
+}
+
+model Cat {
+    id                String  @id @default(cuid())
+    name              String
+    sexe              String
+    description       String
+    contact_ig        String?
+    contact_whats_app String?
+    contact_snap      String?
+    profilePictureId  String? @unique
+    profilePicture    File?   @relation(fields: [profilePictureId], references: [id], onDelete: SetNull, name: "FileCats")
+    File              File[]
+
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
+    Post   Post[]
 }
 
 model Account {
