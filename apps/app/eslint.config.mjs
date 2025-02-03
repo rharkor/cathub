@@ -1,15 +1,15 @@
-import { FlatCompat } from "@eslint/eslintrc";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
-import unusedImports from "eslint-plugin-unused-imports";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc"
+import simpleImportSort from "eslint-plugin-simple-import-sort"
+import unusedImports from "eslint-plugin-unused-imports"
+import { dirname } from "path"
+import { fileURLToPath } from "url"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-});
+})
 
 const config = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
@@ -39,8 +39,9 @@ const config = [
       "tailwindcss/no-custom-classname": "off",
       "tailwindcss/classnames-order": "off",
       "no-console": ["error", { allow: ["warn", "error"] }],
+      "no-process-env": "error",
     },
   },
-];
+]
 
-export default config;
+export default config
