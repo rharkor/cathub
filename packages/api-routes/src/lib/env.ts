@@ -13,6 +13,7 @@ export const env = createEnv({
     DATABASE_URL_NON_POOLING: z.string().optional(),
     S3_REGION: z.string(),
     S3_ENDPOINT: z.string(),
+    S3_BUCKET_NAME: z.string(),
     S3_ACCESS_KEY_ID: z.string(),
     S3_SECRET_ACCESS_KEY: z.string(),
   },

@@ -1,14 +1,18 @@
 import { z } from "zod";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Session = {
-  // TODO
+  user: {
+    id: string;
+  };
 };
 
-export type apiInputFromSchema<T extends (() => z.Schema) | undefined> = {
+export type apiInputFromSchema<
+  T extends (() => z.Schema) | undefined,
+  LoggedIn extends boolean = false
+> = {
   input: T extends () => z.Schema ? z.infer<ReturnType<T>> : unknown;
   ctx: {
-    session: Session | null | undefined;
+    session: LoggedIn extends true ? Session : null | undefined;
     headers?: { [k: string]: string } | null | undefined;
     req?: Request | null | undefined;
     fromServer?: boolean;
