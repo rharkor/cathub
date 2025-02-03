@@ -1,7 +1,9 @@
 name: cathub
 services:
   db:
-    image: postgis/postgis:latest
+    build:
+      context: ./postgis
+      dockerfile: Dockerfile
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data

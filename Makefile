@@ -4,4 +4,5 @@ up:
 down:
 	docker compose -f docker/docker-compose.local.yml down
 
-
+logs:
+	docker compose -f docker/docker-compose.local.yml logs -f
