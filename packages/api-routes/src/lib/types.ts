@@ -1,20 +1,20 @@
-import { z } from "zod";
+import { z } from "zod"
 
 type Session = {
   user: {
-    id: string;
-  };
-};
+    id: string
+  }
+}
 
-export type apiInputFromSchema<
-  T extends (() => z.Schema) | undefined,
-  LoggedIn extends boolean = false
-> = {
-  input: T extends () => z.Schema ? z.infer<ReturnType<T>> : unknown;
+export type apiInputFromSchema<T extends (() => z.Schema) | undefined> = {
+  input: T extends () => z.Schema ? z.infer<ReturnType<T>> : unknown
   ctx: {
-    session: LoggedIn extends true ? Session : null | undefined;
-    headers?: { [k: string]: string } | null | undefined;
-    req?: Request | null | undefined;
-    fromServer?: boolean;
-  };
-};
+    session: Session | null | undefined
+  }
+}
+
+export function ensureLoggedIn(session: Session | null | undefined): asserts session is Session {
+  if (!session) {
+    throw new Error("You must be logged in to access this resource")
+  }
+}

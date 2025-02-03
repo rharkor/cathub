@@ -13,13 +13,35 @@
   },
   "keywords": [],
   "exports": {
-    "require": {
-      "types": "./dist/index.d.cts",
-      "default": "./dist/index.cjs"
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
     },
-    "import": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+    "./constants": {
+      "require": {
+        "types": "./dist/lib/constants.d.cts",
+        "default": "./dist/lib/constants.cjs"
+      },
+      "import": {
+        "types": "./dist/lib/constants.d.mts",
+        "default": "./dist/lib/constants.mjs"
+      }
+    },
+    "./utils": {
+      "require": {
+        "types": "./dist/lib/utils.d.cts",
+        "default": "./dist/lib/utils.cjs"
+      },
+      "import": {
+        "types": "./dist/lib/utils.d.mts",
+        "default": "./dist/lib/utils.mjs"
+      }
     }
   },
   "dependencies": {
