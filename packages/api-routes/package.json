@@ -1,9 +1,6 @@
 {
   "name": "@cathub/api-routes",
   "version": "1.0.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
   "scripts": {
     "type-check": "tsc --noEmit",
     "build": "pkgroll"
