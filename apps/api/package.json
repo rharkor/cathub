@@ -6,6 +6,7 @@
     "dev": "nodemon",
     "start": "node dist/app.js",
     "build": "tsc",
+    "type-check": "tsc --noEmit",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
