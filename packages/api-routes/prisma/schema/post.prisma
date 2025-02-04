@@ -1,0 +1,59 @@
+model Post {
+    id        String   @id @default(cuid())
+    image     String
+    text      String
+    createdAt DateTime @default(now())
+    category  String
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    comments Comment[]
+
+    likes    UserLikeToPost[]
+    dislikes UserDislikeToPost[]
+
+    PostLike PostLike[]
+
+    PostDislike PostDislike[]
+
+    PostComment PostComment[]
+}
+
+// a user can like a post only once
+model PostLike {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+}
+
+// a user can dislike a post only once
+model PostDislike {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+
+    @@unique([userId, postId])
+}
+
+// a user can comment a post many times
+model PostComment {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+}
