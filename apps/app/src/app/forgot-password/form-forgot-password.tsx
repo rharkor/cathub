@@ -50,7 +50,7 @@ const FormForgotPassword = () => {
       </Form>
       <p className="mt-4 text-center">
         Retour à la page de connexion{" "}
-        <Link href="/login" className="hover:text-primary-hover text-primary">
+        <Link href="/login" className="text-primary hover:text-primary-hover">
           clique ici !
         </Link>
       </p>

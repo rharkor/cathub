@@ -73,9 +73,9 @@ const RegisterForm = () => {
           {signUpMutation.isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </Form>
-      <p className="text-foreground/70 mt-4 text-center text-sm">
+      <p className="mt-4 text-center text-sm text-foreground/70">
         Déjà un compte ?{" "}
-        <Link href="/login" className="hover:text-primary-hover text-primary">
+        <Link href="/login" className="text-primary hover:text-primary-hover">
           Se connecter
         </Link>
       </p>
