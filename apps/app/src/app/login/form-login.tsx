@@ -62,15 +62,15 @@ const LoginForm = () => {
           {signInMutation.isPending ? "Connexion..." : "Se connecter"}
         </Button>
       </Form>
-      <p className="text-foreground/70 mt-4 text-center text-sm">
+      <p className="mt-4 text-center text-sm text-foreground/70">
         Pas encore de compte ?{" "}
-        <Link href="/register" className="hover:text-primary-hover text-primary">
+        <Link href="/register" className="text-primary hover:text-primary-hover">
           S&apos;inscrire
         </Link>
       </p>
-      <p className="text-foreground/70 mt-4 text-center text-sm">
+      <p className="mt-4 text-center text-sm text-foreground/70">
         Mot de passe oublié ?{" "}
-        <Link href="/forgot-password" className="hover:text-primary-hover text-primary">
+        <Link href="/forgot-password" className="text-primary hover:text-primary-hover">
           Réinitialiser
         </Link>
       </p>

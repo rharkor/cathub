@@ -48,9 +48,9 @@ const FormForgotPassword = () => {
           Réinitialiser mon mot de passe
         </Button>
       </Form>
-      <p className="text-foreground/70 mt-4 text-center text-sm">
+      <p className="mt-4 text-center text-sm text-foreground/70">
         Retour à la page de connexion{" "}
-        <Link href="/login" className="hover:text-primary-hover text-primary">
+        <Link href="/login" className="text-primary hover:text-primary-hover">
           clique ici !
         </Link>
       </p>
