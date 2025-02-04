@@ -11,6 +11,9 @@ export async function getMe({ ctx: { session } }: apiInputFromSchema<typeof unde
       where: {
         id: session.userId,
       },
+      include: {
+        profilePicture: true,
+      },
     })
 
     return user

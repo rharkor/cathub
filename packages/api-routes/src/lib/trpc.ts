@@ -24,7 +24,10 @@ export const router = t.router
 export const publicProcedure = t.procedure
 
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
-  const token = ctx.req.cookies["token"]
+  const token = ctx.req.headers.cookie
+    ?.split("; ")
+    .find((row) => row.startsWith("token="))
+    ?.split("=")[1]
 
   if (token) {
     const session = parseJwt(token)

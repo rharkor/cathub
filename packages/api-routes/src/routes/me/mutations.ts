@@ -31,7 +31,7 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
         ? profilePictureKey
         : await getImageUploading(profilePictureKey)
 
-    //* Disconnect old profile picture (when null or set)
+    //* Disconnect old profile picture (when null or set to null)
     if (profilePictureKey !== undefined && user.profilePicture) {
       await prisma.user.update({
         where: {
