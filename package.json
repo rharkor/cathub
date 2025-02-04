@@ -6,7 +6,9 @@
     "setup": "turbo run build --filter='@cathub/*'^...",
     "type-check": "turbo run type-check",
     "lint": "turbo run lint",
-    "prettier": "turbo run prettier"
+    "lint:fix": "turbo run lint:fix",
+    "prettier": "turbo run prettier",
+    "prettier:fix": "turbo run prettier:fix"
   },
   "workspaces": [
     "apps/*",

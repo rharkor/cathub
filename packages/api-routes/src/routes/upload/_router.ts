@@ -1,11 +1,8 @@
-import { publicProcedure, router } from "@/index";
+import { publicProcedure, router } from "@/lib/trpc"
 
-import { presignedUrl } from "./mutations";
-import { presignedUrlResponseSchema, presignedUrlSchema } from "./schemas";
+import { presignedUrl } from "./mutations"
+import { presignedUrlResponseSchema, presignedUrlSchema } from "./schemas"
 
 export const uploadRouter = router({
-  presignedUrl: publicProcedure
-    .input(presignedUrlSchema())
-    .output(presignedUrlResponseSchema())
-    .mutation(presignedUrl),
-});
+  presignedUrl: publicProcedure.input(presignedUrlSchema()).output(presignedUrlResponseSchema()).mutation(presignedUrl),
+})
