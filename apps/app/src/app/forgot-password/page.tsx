@@ -1,13 +1,15 @@
 import Image from "next/image"
 import React from "react"
 
-import RegisterForm from "./form-register"
+import FormForgotPassword from "./form-forgot-password"
 
-export default function RegisterPage() {
+const ForgotPassword = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Image src={"/cathub.png"} alt="logo" width={200} height={200} />
-      <RegisterForm />
+      <FormForgotPassword />
     </div>
   )
 }
+
+export default ForgotPassword

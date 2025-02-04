@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss"
 import { heroui } from "@heroui/react"
+import type { Config } from "tailwindcss"
 
 export default {
   content: [
@@ -11,8 +11,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "#000000",
+        foreground: "#ffffff",
+        primary: {
+          DEFAULT: "#ff9000",
+          hover: "#ff7300",
+        },
+        secondary: {
+          DEFAULT: "#1b1b1b",
+          hover: "#2d2d2d",
+        },
       },
     },
   },
