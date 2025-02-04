@@ -38,8 +38,8 @@ const LoginForm = () => {
       <h1 className="mb-6 text-center">Connexion</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block">Email:</label>
           <Input
+            label="Email:"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -48,8 +48,8 @@ const LoginForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block">Mot de passe:</label>
           <Input
+            label="Mot de passe:"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -62,15 +62,15 @@ const LoginForm = () => {
           {signInMutation.isPending ? "Connexion..." : "Se connecter"}
         </Button>
       </Form>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="text-foreground/70 mt-4 text-center text-sm">
         Pas encore de compte ?{" "}
-        <Link href="/register" className="text-primary hover:text-primary-hover">
+        <Link href="/register" className="hover:text-primary-hover text-primary">
           S&apos;inscrire
         </Link>
       </p>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="text-foreground/70 mt-4 text-center text-sm">
         Mot de passe oublié ?{" "}
-        <Link href="/forgot-password" className="text-primary hover:text-primary-hover">
+        <Link href="/forgot-password" className="hover:text-primary-hover text-primary">
           Réinitialiser
         </Link>
       </p>

@@ -39,8 +39,8 @@ const RegisterForm = () => {
       <h1 className="mb-6 text-center">Inscription</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block">Nom d&apos;utilisateur:</label>
           <Input
+            label="Nom d'utilisateur:"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -49,8 +49,8 @@ const RegisterForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block">Email:</label>
           <Input
+            label="Email:"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -59,8 +59,8 @@ const RegisterForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block">Mot de passe:</label>
           <Input
+            label="Mot de passe:"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -73,9 +73,9 @@ const RegisterForm = () => {
           {signUpMutation.isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </Form>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="text-foreground/70 mt-4 text-center text-sm">
         Déjà un compte ?{" "}
-        <Link href="/login" className="text-primary hover:text-primary-hover">
+        <Link href="/login" className="hover:text-primary-hover text-primary">
           Se connecter
         </Link>
       </p>

@@ -24,8 +24,8 @@ const FormForgotPassword = () => {
       <h1 className="mb-6 text-center">Inscription</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block">Nouveau mot de passe:</label>
           <Input
+            label="Nouveau mot de passe:"
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -34,8 +34,8 @@ const FormForgotPassword = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block">Confirmer nouveau mot de passe:</label>
           <Input
+            label="Confirmer nouveau mot de passe:"
             type="password"
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -50,7 +50,7 @@ const FormForgotPassword = () => {
       </Form>
       <p className="mt-4 text-center">
         Retour à la page de connexion{" "}
-        <Link href="/login" className="text-primary hover:text-primary-hover">
+        <Link href="/login" className="hover:text-primary-hover text-primary">
           clique ici !
         </Link>
       </p>
