@@ -1,11 +1,16 @@
 "use client"
 
+import { Button, Form, Input } from "@heroui/react"
 import { setCookie } from "cookies-next"
+import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
+
+import Logo from "../../../public/logo.png"
 
 export default function RegisterPage() {
   const { setToken } = useSession()
@@ -33,29 +38,53 @@ export default function RegisterPage() {
   }
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        {error && <div style={{ color: "red" }}>{error}</div>}
-        <button type="submit" disabled={signUpMutation.isPending}>
-          Register
-        </button>
-      </form>
-      <p>
-        Already have an account? <a href="/login">Login</a>
-      </p>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+      <Image src={Logo} alt="" width={200} height={200} />
+      <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
+        <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Inscription</h1>
+        <Form onSubmit={handleSubmit} className="space-y-6">
+          <div className="w-full space-y-2">
+            <label className="block text-sm font-medium text-foreground">Nom d&apos;utilisateur:</label>
+            <Input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full rounded-md"
+            />
+          </div>
+          <div className="w-full space-y-2">
+            <label className="block text-sm font-medium text-foreground">Email:</label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full rounded-md"
+            />
+          </div>
+          <div className="w-full space-y-2">
+            <label className="block text-sm font-medium text-foreground">Mot de passe:</label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full rounded-md"
+            />
+          </div>
+          {error && <div className="text-center text-sm text-red-500">{error}</div>}
+          <Button type="submit" color="primary" disabled={signUpMutation.isPending} className="w-full">
+            {signUpMutation.isPending ? "Inscription..." : "S'inscrire"}
+          </Button>
+        </Form>
+        <p className="text-foreground/70 mt-4 text-center text-sm">
+          Déjà un compte ?{" "}
+          <Link href="/login" className="hover:text-primary-hover text-primary">
+            Se connecter
+          </Link>
+        </p>
+      </div>
     </div>
   )
 }
