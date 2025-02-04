@@ -8,6 +8,7 @@
     "type-check": "tsc --noEmit",
     "start": "next start",
     "lint": "next lint",
+    "lint-report": "eslint ./src/ -f ../../node_modules/eslint-detailed-reporter/lib/detailed.js -o ../../report/report-app.html",
     "lint:fix": "next lint --fix",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""

@@ -6,6 +6,7 @@
     "build": "pkgroll",
     "build:dev": "pkgroll --watch",
     "lint": "eslint",
+    "lint-report": "eslint . -f ../../node_modules/eslint-detailed-reporter/lib/detailed.js -o ../../report/report-packages.html",
     "lint:fix": "eslint --fix",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
