@@ -36,10 +36,10 @@ const RegisterForm = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Inscription</h1>
+      <h1 className="mb-6 text-center">Inscription</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Nom d&apos;utilisateur:</label>
+          <label className="block">Nom d&apos;utilisateur:</label>
           <Input
             type="text"
             value={username}
@@ -49,7 +49,7 @@ const RegisterForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Email:</label>
+          <label className="block">Email:</label>
           <Input
             type="email"
             value={email}
@@ -59,7 +59,7 @@ const RegisterForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Mot de passe:</label>
+          <label className="block">Mot de passe:</label>
           <Input
             type="password"
             value={password}
@@ -68,14 +68,14 @@ const RegisterForm = () => {
             className="w-full rounded-md"
           />
         </div>
-        {error && <div className="text-center text-sm text-red-500">{error}</div>}
+        {error && <div className="text-center text-red-500">{error}</div>}
         <Button type="submit" color="primary" disabled={signUpMutation.isPending} className="w-full">
           {signUpMutation.isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </Form>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="text-foreground/70 mt-4 text-center text-sm">
         Déjà un compte ?{" "}
-        <Link href="/login" className="text-primary hover:text-primary-hover">
+        <Link href="/login" className="hover:text-primary-hover text-primary">
           Se connecter
         </Link>
       </p>

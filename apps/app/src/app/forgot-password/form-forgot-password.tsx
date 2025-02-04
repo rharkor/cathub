@@ -21,10 +21,10 @@ const FormForgotPassword = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Inscription</h1>
+      <h1 className="mb-6 text-center">Inscription</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Nouveau mot de passe:</label>
+          <label className="block">Nouveau mot de passe:</label>
           <Input
             type="password"
             value={newPassword}
@@ -34,7 +34,7 @@ const FormForgotPassword = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Confirmer nouveau mot de passe:</label>
+          <label className="block">Confirmer nouveau mot de passe:</label>
           <Input
             type="password"
             value={confirmNewPassword}
@@ -48,9 +48,9 @@ const FormForgotPassword = () => {
           Réinitialiser mon mot de passe
         </Button>
       </Form>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="mt-4 text-center">
         Retour à la page de connexion{" "}
-        <Link href="/login" className="text-primary hover:text-primary-hover">
+        <Link href="/login" className="hover:text-primary-hover text-primary">
           clique ici !
         </Link>
       </p>

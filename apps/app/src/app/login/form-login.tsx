@@ -35,10 +35,10 @@ const LoginForm = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Connexion</h1>
+      <h1 className="mb-6 text-center">Connexion</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Email:</label>
+          <label className="block">Email:</label>
           <Input
             type="email"
             value={email}
@@ -48,7 +48,7 @@ const LoginForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Mot de passe:</label>
+          <label className="block">Mot de passe:</label>
           <Input
             type="password"
             value={password}
@@ -62,15 +62,15 @@ const LoginForm = () => {
           {signInMutation.isPending ? "Connexion..." : "Se connecter"}
         </Button>
       </Form>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="text-foreground/70 mt-4 text-center text-sm">
         Pas encore de compte ?{" "}
-        <Link href="/register" className="text-primary hover:text-primary-hover">
+        <Link href="/register" className="hover:text-primary-hover text-primary">
           S&apos;inscrire
         </Link>
       </p>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="text-foreground/70 mt-4 text-center text-sm">
         Mot de passe oublié ?{" "}
-        <Link href="/forgot-password" className="text-primary hover:text-primary-hover">
+        <Link href="/forgot-password" className="hover:text-primary-hover text-primary">
           Réinitialiser
         </Link>
       </p>
