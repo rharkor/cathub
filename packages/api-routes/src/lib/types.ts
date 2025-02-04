@@ -1,9 +1,10 @@
 import { z } from "zod"
 
-type Session = {
-  user: {
-    id: string
-  }
+export type Session = {
+  userId: string
+  email: string
+  iat: number
+  exp: number
 }
 
 export type apiInputFromSchema<T extends (() => z.Schema) | undefined> = {

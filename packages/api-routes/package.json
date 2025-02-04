@@ -43,6 +43,16 @@
         "types": "./dist/lib/utils.d.mts",
         "default": "./dist/lib/utils.mjs"
       }
+    },
+    "./types": {
+      "require": {
+        "types": "./dist/lib/types.d.cts",
+        "default": "./dist/lib/types.cjs"
+      },
+      "import": {
+        "types": "./dist/lib/types.d.mts",
+        "default": "./dist/lib/types.mjs"
+      }
     }
   },
   "dependencies": {
@@ -56,14 +66,18 @@
     "@types/express-serve-static-core": "^5.0.6",
     "@types/node": "^22.9.0",
     "@types/qs": "^6.9.18",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "jsonwebtoken": "^9.0.2",
     "pkgroll": "^2.6.1",
     "superjson": "^2.2.2",
     "typescript-eslint": "^8.22.0",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.8"
   },
   "author": "",
   "license": "ISC",

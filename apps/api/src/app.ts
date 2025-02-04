@@ -32,6 +32,7 @@ app.use(
 
 const APP_PORT = env.PORT || 3001
 
-app.listen(APP_PORT, () => {
+app.listen(APP_PORT, async () => {
+  await logger.init()
   logger.info(`Server started on port ${APP_PORT}`)
 })
