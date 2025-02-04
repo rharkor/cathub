@@ -2,7 +2,15 @@
   "name": "cathub",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "setup": "turbo run build --filter='@cathub/*'^...",
+    "type-check": "turbo run type-check",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "prettier": "turbo run prettier",
+    "prettier:fix": "turbo run prettier:fix",
+    "test": "turbo run test"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -19,8 +27,8 @@
     "url": "https://github.com/rharkor/cathub/issues"
   },
   "homepage": "https://github.com/rharkor/cathub#readme",
-  "packageManager": "npm@11.0.0",
   "dependencies": {
     "turbo": "^2.3.3"
-  }
+  },
+  "packageManager": "npm@11.0.0"
 }

@@ -1,36 +1,41 @@
-import SuperJSON from "superjson";
-import { initTRPC } from "@trpc/server";
-import * as trpcExpress from "@trpc/server/adapters/express";
+import { z } from "zod"
 
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => {
-  // Auth user here
-
-  return {
-    req,
-    res,
-  };
-};
-type Context = Awaited<ReturnType<typeof createContext>>;
-
-const t = initTRPC.context<Context>().create({
-  transformer: SuperJSON,
-});
-
-const router = t.router;
-const publicProcedure = t.procedure;
-
-const meRouter = router({
-  test: publicProcedure.query(() => {
-    return "test";
-  }),
-});
+import { createContext, publicProcedure, router } from "./lib/trpc"
+import { authRouter } from "./routes/auth/_router"
+import { uploadRouter } from "./routes/upload/_router"
 
 const appRouter = router({
-  me: meRouter,
-});
+  upload: uploadRouter,
+  auth: authRouter,
+  me: router({
+    get: publicProcedure.query(async () => {
+      return {
+        id: "1",
+        name: "John Doe",
+        role: "admin",
+        profilePicture: {
+          bucket: "test",
+          endpoint: "test",
+          key: "test",
+        },
+      }
+    }),
+    update: publicProcedure
+      .input(
+        z.object({
+          profilePictureKey: z.string().nullish(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return {
+          id: "1",
+          name: "John Doe",
+          role: "admin",
+          profilePictureKey: input.profilePictureKey,
+        }
+      }),
+  }),
+})
 
-export type AppRouter = typeof appRouter;
-export { appRouter, createContext };
+export type AppRouter = typeof appRouter
+export { appRouter, createContext }

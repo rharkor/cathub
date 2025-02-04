@@ -4,6 +4,9 @@ import express, { Request, Response } from "express"
 import { appRouter, createContext } from "@cathub/api-routes"
 import { logger } from "@rharkor/logger"
 import * as trpcExpress from "@trpc/server/adapters/express"
+
+import { env } from "./lib/env"
+
 const app = express()
 
 app.use(cors())
@@ -27,8 +30,9 @@ app.use(
   })
 )
 
-const APP_PORT = process.env.PORT || 3001
+const APP_PORT = env.PORT || 3001
 
-app.listen(APP_PORT, () => {
+app.listen(APP_PORT, async () => {
+  await logger.init()
   logger.info(`Server started on port ${APP_PORT}`)
 })

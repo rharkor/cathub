@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
 const getPrisma = () => {
   const instance = new PrismaClient({
@@ -10,19 +10,18 @@ const getPrisma = () => {
         level: "query",
       },
     ],
-  });
+  })
 
-  return instance;
-};
+  return instance
+}
 
 export const prisma: PrismaClient =
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   globalForPrisma.prisma ||
   getPrisma().$extends({
     query: {
       user: {
         async $allOperations({ args, query }) {
-          const result = await query(args);
+          const result = await query(args)
           if (
             !("select" in args) ||
             (args.select &&
@@ -33,22 +32,18 @@ export const prisma: PrismaClient =
             if (Array.isArray(result)) {
               result.forEach((r) => {
                 if ("password" in r) {
-                  delete r.password;
+                  delete r.password
                 }
-              });
-            } else if (
-              typeof result === "object" &&
-              result &&
-              "password" in result
-            ) {
-              delete result.password;
+              })
+            } else if (typeof result === "object" && result && "password" in result) {
+              delete result.password
             }
           }
-          return result;
+          return result
         },
       },
     },
-  });
+  })
 
 // eslint-disable-next-line no-process-env
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma
