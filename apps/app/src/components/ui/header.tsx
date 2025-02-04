@@ -16,7 +16,9 @@ const Header = () => {
           <div className="flex items-center gap-6 text-white hover:text-primary">
             <Link href="/chats">Chats</Link>
           </div>
-          <Avatar className="h-8 w-8 cursor-pointer" name="John Doe" />
+          <Link href="/profile">
+            <Avatar className="h-8 w-8 cursor-pointer" name="John Doe" />
+          </Link>
         </div>
       </div>
     </nav>
