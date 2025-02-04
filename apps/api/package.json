@@ -25,12 +25,16 @@
     "@trpc/server": "^11.0.0-rc.700",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "express": "^4.21.2",
     "tsx": "^4.19.2",
     "typescript-eslint": "^8.22.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
     "eslint": "^9.18.0",

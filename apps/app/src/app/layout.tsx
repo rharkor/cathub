@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { cookies } from "next/headers"
 
+import Footer from "@/components/ui/footer"
+import Header from "@/components/ui/header"
 import { SessionProvider } from "@/contexts/use-session"
 import { parseJwt } from "@/lib/jwt"
 import TrpcProvider from "@/lib/trpc/provider"
@@ -39,7 +41,11 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <TrpcProvider>
           <SessionProvider ssrToken={token?.value ?? null} ssrPayload={payload ?? null}>
-            <RootNextUIProvider>{children}</RootNextUIProvider>
+            <RootNextUIProvider>
+              <Header />
+              {children}
+              <Footer />
+            </RootNextUIProvider>
           </SessionProvider>
         </TrpcProvider>
       </body>

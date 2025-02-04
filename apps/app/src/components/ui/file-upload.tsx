@@ -167,7 +167,7 @@ export default function FileUpload({
             {...props}
           />
           <Upload className="size-12" />
-          <p className="text-foreground/80 text-center text-sm">
+          <p className="text-center text-sm text-foreground/80">
             Cliquez ou faites glisser un fichier ici pour l&apos;uploader.
           </p>
         </div>

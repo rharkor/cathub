@@ -139,7 +139,7 @@ export default function UpdateAvatar() {
         <Button
           color="danger"
           className={cn(
-            "absolute right-0 top-0 h-[unset] min-w-0 rounded-full p-1.5 text-foreground opacity-0 transition-all duration-200 focus:opacity-100 group-hover:opacity-100 group-focus:opacity-100",
+            "absolute right-0 top-0 h-[unset] min-w-0 rounded-full p-1.5 opacity-0 transition-all duration-200 focus:opacity-100 group-hover:opacity-100 group-focus:opacity-100",
             {
               hidden: isAccountLoading || !account?.profilePicture,
             }
