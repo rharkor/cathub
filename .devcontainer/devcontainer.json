@@ -63,7 +63,8 @@
         "humao.rest-client",
         "tldraw-org.tldraw-vscode",
         "unifiedjs.vscode-mdx",
-        "YoavBls.pretty-ts-errors"
+        "YoavBls.pretty-ts-errors",
+        "rvest.vs-code-prettier-eslint"
       ]
     }
   }
