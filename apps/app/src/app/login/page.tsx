@@ -74,6 +74,12 @@ export default function LoginPage() {
               S&apos;inscrire
             </Link>
           </p>
+          <p className="text-foreground/70 mt-4 text-center text-sm">
+            Mot de passe oublié ?{" "}
+            <Link href="/forgot-password" className="hover:text-primary-hover text-primary">
+              Réinitialiser
+            </Link>
+          </p>
         </div>
       </div>
     </>
