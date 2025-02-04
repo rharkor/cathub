@@ -35,11 +35,11 @@ const LoginForm = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Connexion</h1>
+      <h1 className="mb-6 text-center">Connexion</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Email:</label>
           <Input
+            label="Email:"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -48,8 +48,8 @@ const LoginForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Mot de passe:</label>
           <Input
+            label="Mot de passe:"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -58,7 +58,7 @@ const LoginForm = () => {
           />
         </div>
         {error && <div className="text-center text-sm text-red-500">{error}</div>}
-        <Button type="submit" color="primary" disabled={signInMutation.isPending} className="w-full">
+        <Button type="submit" color="primary" isDisabled={signInMutation.isPending} className="w-full">
           {signInMutation.isPending ? "Connexion..." : "Se connecter"}
         </Button>
       </Form>

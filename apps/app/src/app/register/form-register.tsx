@@ -36,11 +36,11 @@ const RegisterForm = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Inscription</h1>
+      <h1 className="mb-6 text-center">Inscription</h1>
       <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Nom d&apos;utilisateur:</label>
           <Input
+            label="Nom d'utilisateur:"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -49,8 +49,8 @@ const RegisterForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Email:</label>
           <Input
+            label="Email:"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -59,8 +59,8 @@ const RegisterForm = () => {
           />
         </div>
         <div className="w-full space-y-2">
-          <label className="block text-sm font-medium text-foreground">Mot de passe:</label>
           <Input
+            label="Mot de passe:"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -68,8 +68,8 @@ const RegisterForm = () => {
             className="w-full rounded-md"
           />
         </div>
-        {error && <div className="text-center text-sm text-red-500">{error}</div>}
-        <Button type="submit" color="primary" disabled={signUpMutation.isPending} className="w-full">
+        {error && <div className="text-center text-red-500">{error}</div>}
+        <Button type="submit" color="primary" isDisabled={signUpMutation.isPending} className="w-full">
           {signUpMutation.isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </Form>
