@@ -8,7 +8,8 @@
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "prettier": "turbo run prettier",
-    "prettier:fix": "turbo run prettier:fix"
+    "prettier:fix": "turbo run prettier:fix",
+    "test": "turbo run test"
   },
   "workspaces": [
     "apps/*",
