@@ -23,17 +23,8 @@ model User {
     age         Int?
     image       String?
 
-    Post Post[]
-
-    Comment Comment[]
-
-    UserLikeToPost UserLikeToPost[]
-
-    UserDislikeToPost UserDislikeToPost[]
-
-    PostLike PostLike[]
-
-    PostDislike PostDislike[]
-
-    PostComment PostComment[]
+    posts        Post[]
+    postLikes    PostLike[]
+    postDislikes PostDislike[]
+    postComments PostComment[]
 }

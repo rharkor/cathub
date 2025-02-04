@@ -1,23 +1,24 @@
+enum Category {
+    KINKY_KITTENS // Chatons coquins
+    TABBY_TEASES // Taquineries tigrées
+    FELINE_FETISH // Fétichisme félin
+    SULTRY_STRAYS // Chats errants sensuels
+    WHISKER_WONDERS // Merveilles à moustaches
+}
+
 model Post {
-    id        String   @id @default(cuid())
+    id        String     @id @default(cuid())
     image     String
     text      String
-    createdAt DateTime @default(now())
-    category  String
+    createdAt DateTime   @default(now())
+    category  Category[]
 
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
-    comments Comment[]
-
-    likes    UserLikeToPost[]
-    dislikes UserDislikeToPost[]
-
-    PostLike PostLike[]
-
-    PostDislike PostDislike[]
-
-    PostComment PostComment[]
+    likes    PostLike[]
+    dislikes PostDislike[]
+    comments PostComment[]
 }
 
 // a user can like a post only once
@@ -49,6 +50,7 @@ model PostDislike {
 // a user can comment a post many times
 model PostComment {
     id        String   @id @default(cuid())
+    text      String
     createdAt DateTime @default(now())
 
     post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
