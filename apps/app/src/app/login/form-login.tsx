@@ -58,7 +58,7 @@ const LoginForm = () => {
           />
         </div>
         {error && <div className="text-center text-sm text-red-500">{error}</div>}
-        <Button type="submit" color="primary" disabled={signInMutation.isPending} className="w-full">
+        <Button type="submit" color="primary" isDisabled={signInMutation.isPending} className="w-full">
           {signInMutation.isPending ? "Connexion..." : "Se connecter"}
         </Button>
       </Form>

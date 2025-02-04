@@ -69,7 +69,7 @@ const RegisterForm = () => {
           />
         </div>
         {error && <div className="text-center text-red-500">{error}</div>}
-        <Button type="submit" color="primary" disabled={signUpMutation.isPending} className="w-full">
+        <Button type="submit" color="primary" isDisabled={signUpMutation.isPending} className="w-full">
           {signUpMutation.isPending ? "Inscription..." : "S'inscrire"}
         </Button>
       </Form>
