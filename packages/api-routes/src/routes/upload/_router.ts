@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "@/lib/trpc"
+import { publicProcedure, router } from "../../lib/trpc"
 
 import { presignedUrl } from "./mutations"
 import { presignedUrlResponseSchema, presignedUrlSchema } from "./schemas"
