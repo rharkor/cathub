@@ -1,6 +1,7 @@
 {
     "watch": [
-        "src"
+        "src",
+        "../../packages/api-routes"
     ],
     "ext": "ts",
     "ignore": [

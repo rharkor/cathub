@@ -2,9 +2,10 @@
 
 import { maxUploadSize } from "@cathub/api-routes/constants"
 import { bytesToMegabytes } from "@cathub/api-routes/utils"
-import { Avatar, Button, Modal, ModalBody, ModalContent, ModalHeader, Skeleton, Spinner } from "@heroui/react"
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, Skeleton, Spinner } from "@heroui/react"
 import { logger } from "@rharkor/logger"
 import { Camera, Trash } from "lucide-react"
+import Image from "next/image"
 import { useState } from "react"
 import { toast } from "react-toastify"
 
@@ -13,9 +14,14 @@ import { trpc } from "@/lib/trpc/client"
 import { cn, getImageUrl } from "@/lib/utils"
 
 export default function UpdateAvatar() {
+  const utils = trpc.useUtils()
   const { data: account, isLoading: isAccountLoading } = trpc.me.get.useQuery()
   const getPresignedUrlMutation = trpc.upload.presignedUrl.useMutation()
-  const updateUserMutation = trpc.me.update.useMutation()
+  const updateUserMutation = trpc.me.update.useMutation({
+    onSuccess: () => {
+      utils.me.invalidate()
+    },
+  })
 
   const isUpdatePending = getPresignedUrlMutation.isPending || updateUserMutation.isPending
 
@@ -99,12 +105,24 @@ export default function UpdateAvatar() {
     <>
       <div className={cn("group relative h-20 w-20 rounded-full")}>
         <Skeleton isLoaded={!isAccountLoading} className={cn("rounded-full")}>
-          <Avatar
-            className="!size-20 text-large"
-            src={getImageUrl(account?.profilePicture) || undefined}
-            name={account?.name || undefined}
+          <div
+            className="relative !size-20 overflow-hidden rounded-full bg-content3 text-large"
             onClick={() => setShowModal(true)}
-          />
+          >
+            {getImageUrl(account?.profilePicture) ? (
+              <Image
+                className="size-full object-cover"
+                src={getImageUrl(account?.profilePicture) || ""}
+                alt={account?.username || ""}
+                width={80}
+                height={80}
+              />
+            ) : (
+              <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-sm font-medium">
+                {account?.username?.slice(0, 2)}
+              </p>
+            )}
+          </div>
         </Skeleton>
         <Button
           className={cn(

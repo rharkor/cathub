@@ -1,14 +1,15 @@
 import { randomUUID } from "crypto"
 import { z } from "zod"
 
-import { maxUploadSize } from "@/lib/constants"
-import { env } from "@/lib/env"
-import { prisma } from "@/lib/prisma"
-import { s3Client } from "@/lib/s3"
-import { apiInputFromSchema, ensureLoggedIn } from "@/lib/types"
-import { stringToSlug } from "@/lib/utils"
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post"
 import { logger } from "@rharkor/logger"
+
+import { maxUploadSize } from "../../lib/constants"
+import { env } from "../../lib/env"
+import { prisma } from "../../lib/prisma"
+import { s3Client } from "../../lib/s3"
+import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
+import { stringToSlug } from "../../lib/utils"
 
 import { presignedUrlResponseSchema, presignedUrlSchema } from "./schemas"
 

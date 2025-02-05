@@ -29,6 +29,12 @@ export const trpcClient = trpc.createClient({
     unstable_httpBatchStreamLink({
       url: `${env.NEXT_PUBLIC_API_URL}/trpc`,
       transformer: SuperJSON,
+      fetch(url, options) {
+        return fetch(url, {
+          ...options,
+          credentials: "include", // ensures cookies from the browser are sent
+        })
+      },
     }),
   ],
 })

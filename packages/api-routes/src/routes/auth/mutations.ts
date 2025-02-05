@@ -2,10 +2,11 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
 
-import { env } from "@/lib/env"
-import { prisma } from "@/lib/prisma"
-import { apiInputFromSchema, Session } from "@/lib/types"
 import { logger } from "@rharkor/logger"
+
+import { env } from "../../lib/env"
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema, Session } from "../../lib/types"
 
 import { signInResponseSchema, signInSchema, signUpSchema } from "./schemas"
 

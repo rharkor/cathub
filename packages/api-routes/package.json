@@ -3,66 +3,45 @@
   "version": "1.0.0",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "pkgroll",
-    "build:dev": "pkgroll --watch",
+    "build": "tsc",
+    "build:dev": "tsc --watch",
     "lint": "eslint",
+    "lint-report": "eslint . -f ../../node_modules/eslint-detailed-reporter/lib/detailed.js -o ../../report/report-packages.html",
     "lint:fix": "eslint --fix",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
-    "dev": "pkgroll --watch"
+    "dev": "tsc --watch"
   },
   "keywords": [],
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./constants": {
-      "require": {
-        "types": "./dist/lib/constants.d.cts",
-        "default": "./dist/lib/constants.cjs"
-      },
-      "import": {
-        "types": "./dist/lib/constants.d.mts",
-        "default": "./dist/lib/constants.mjs"
-      }
+      "types": "./dist/lib/constants.d.ts",
+      "default": "./dist/lib/constants.js"
     },
     "./utils": {
-      "require": {
-        "types": "./dist/lib/utils.d.cts",
-        "default": "./dist/lib/utils.cjs"
-      },
-      "import": {
-        "types": "./dist/lib/utils.d.mts",
-        "default": "./dist/lib/utils.mjs"
-      }
+      "types": "./dist/lib/utils.d.ts",
+      "default": "./dist/lib/utils.js"
     },
     "./types": {
-      "require": {
-        "types": "./dist/lib/types.d.cts",
-        "default": "./dist/lib/types.cjs"
-      },
-      "import": {
-        "types": "./dist/lib/types.d.mts",
-        "default": "./dist/lib/types.mjs"
-      }
+      "types": "./dist/lib/types.d.ts",
+      "default": "./dist/lib/types.js"
     }
   },
   "dependencies": {
+    "@cathub/database-main": "*",
     "@aws-sdk/client-s3": "^3.740.0",
     "@aws-sdk/s3-presigned-post": "^3.740.0",
-    "@prisma/client": "^6.2.1",
     "@rharkor/logger": "^1.3.1",
     "@t3-oss/env-core": "^0.12.0",
     "@trpc/server": "npm:@trpc/server@next",
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/express-serve-static-core": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^22.9.0",
     "@types/qs": "^6.9.18",
     "bcrypt": "^5.1.1",
@@ -71,23 +50,18 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "jsonwebtoken": "^9.0.2",
-    "pkgroll": "^2.6.1",
+    "pkgroll": "^2.8.0",
     "superjson": "^2.2.2",
     "typescript-eslint": "^8.22.0",
     "zod": "^3.24.1",
-    "@types/bcrypt": "^5.0.2",
-    "@types/jsonwebtoken": "^9.0.8"
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3",
+    "@prisma/client": "^6.3.1",
+    "prisma": "^6.3.1"
   },
+  "peerDependencies": {},
   "author": "",
   "license": "ISC",
   "type": "module",
-  "description": "",
-  "prisma": {
-    "schema": "./prisma/schema"
-  },
-  "devDependencies": {
-    "eslint": "^9.19.0",
-    "prisma": "^6.2.1",
-    "typescript": "^5.7.3"
-  }
+  "description": ""
 }
