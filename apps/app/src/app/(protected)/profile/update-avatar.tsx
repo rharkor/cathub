@@ -18,8 +18,8 @@ export default function UpdateAvatar() {
   const { data: account, isLoading: isAccountLoading } = trpc.me.get.useQuery()
   const getPresignedUrlMutation = trpc.upload.presignedUrl.useMutation()
   const updateUserMutation = trpc.me.update.useMutation({
-    onSuccess: () => {
-      utils.me.invalidate()
+    onSuccess: async () => {
+      await utils.me.invalidate()
     },
   })
 
@@ -101,6 +101,8 @@ export default function UpdateAvatar() {
     _setShowModal(show)
   }
 
+  const profilePicutreUrl = getImageUrl(account?.profilePicture)
+
   return (
     <>
       <div className={cn("group relative h-20 w-20 rounded-full")}>
@@ -109,10 +111,10 @@ export default function UpdateAvatar() {
             className="relative !size-20 overflow-hidden rounded-full bg-content3 text-large"
             onClick={() => setShowModal(true)}
           >
-            {getImageUrl(account?.profilePicture) ? (
+            {profilePicutreUrl ? (
               <Image
                 className="size-full object-cover"
-                src={getImageUrl(account?.profilePicture) || ""}
+                src={profilePicutreUrl || ""}
                 alt={account?.username || ""}
                 width={80}
                 height={80}
