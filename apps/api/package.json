@@ -12,7 +12,8 @@
     "lint:fix": "eslint --fix",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
-    "debug": "npx tsx ./debug/index.ts"
+    "debug": "npx tsx ./debug/index.ts",
+    "seed": "npx tsx ./src/database/seed.ts"
   },
   "keywords": [],
   "author": "",

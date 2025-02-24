@@ -12,6 +12,8 @@ export const env = createEnv({
     PORT: z.number().optional(),
     DATABASE_PRISMA_URL: z.string().min(1),
     DATABASE_URL_NON_POOLING: z.string().optional(),
+    ADMIN_EMAIL: z.string().min(1),
+    ADMIN_PASSWORD: z.string().min(1),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
