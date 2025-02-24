@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation"
 import React from "react"
 
+import Header from "@/components/ui/header"
 import { useSession } from "@/contexts/use-session"
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
@@ -11,5 +12,10 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
     return redirect("/login")
   }
 
-  return <>{children}</>
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  )
 }
