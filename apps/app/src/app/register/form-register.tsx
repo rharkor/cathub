@@ -37,7 +37,7 @@ const RegisterForm = () => {
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
       <h1 className="mb-6 text-center">Inscription</h1>
-      <Form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-2">
         <div className="w-full space-y-2">
           <Input
             label="Nom d'utilisateur:"

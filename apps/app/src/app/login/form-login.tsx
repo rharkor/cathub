@@ -39,7 +39,7 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
       <h1 className="mb-6 text-center">Connexion</h1>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
         <FormField form={form} name="email" type="email" required className="w-full rounded-md" label="Email" />
         <FormField
           form={form}
@@ -59,7 +59,7 @@ const LoginForm = () => {
           S&apos;inscrire
         </Link>
       </p>
-      <p className="mt-4 text-center text-sm text-foreground/70">
+      <p className="mt-2 text-center text-sm text-foreground/70">
         Mot de passe oublié ?{" "}
         <Link href="/forgot-password" className="text-primary hover:text-primary-hover">
           Réinitialiser
