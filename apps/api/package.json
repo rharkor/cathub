@@ -8,9 +8,12 @@
     "build": "tsc",
     "type-check": "tsc --noEmit",
     "lint": "eslint",
+    "lint-report": "eslint . -f ../../node_modules/eslint-detailed-reporter/lib/detailed.js -o ../../report/report-api.html",
     "lint:fix": "eslint --fix",
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
-    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "debug": "npx tsx ./debug/index.ts",
+    "seed": "npx tsx ./src/database/seed.ts"
   },
   "keywords": [],
   "author": "",

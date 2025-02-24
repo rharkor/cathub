@@ -2,10 +2,12 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { z } from "zod"
 
-import { env } from "@/lib/env"
-import { prisma } from "@/lib/prisma"
-import { apiInputFromSchema, Session } from "@/lib/types"
 import { logger } from "@rharkor/logger"
+import { TRPCError } from "@trpc/server"
+
+import { env } from "../../lib/env"
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema, Session } from "../../lib/types"
 
 import { signInResponseSchema, signInSchema, signUpSchema } from "./schemas"
 
@@ -26,14 +28,14 @@ export async function signIn({ input }: apiInputFromSchema<typeof signInSchema>)
     const user = await prisma.user.findUnique({ where: { email }, select: { password: true, id: true, email: true } })
     if (!user) {
       logger.warn(`Sign in attempt with non-existing email: ${email}`)
-      throw new Error("Invalid credentials")
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" })
     }
 
     // Compare the provided password with the stored hash
     const isPasswordValid = await bcrypt.compare(password, user.password)
     if (!isPasswordValid) {
-      logger.warn(`Sign in attempt with invalid password for email: ${email}`)
-      throw new Error("Invalid credentials")
+      logger.debug(`Sign in attempt with invalid password for email: ${email}`)
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" })
     }
 
     // Generate a JWT for the signed in user
@@ -51,22 +53,26 @@ export async function signIn({ input }: apiInputFromSchema<typeof signInSchema>)
       return data
     } catch (error) {
       logger.error(`Error generating JWT for user: ${user.id}`, error)
-      throw new Error("Failed to generate access token")
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to generate access token" })
     }
   } catch (error) {
-    logger.error("Error signing in", error)
-    throw new Error("Failed to sign in")
+    if (error instanceof TRPCError) {
+      throw error
+    }
+    if (error instanceof Error && error.message !== "Invalid credentials") {
+      logger.error("Error signing in", error)
+    }
+    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to sign in" })
   }
 }
 
 export async function signUp({ input }: apiInputFromSchema<typeof signUpSchema>) {
   try {
     const { email, password, username } = input
-
     // Check if a user with the given email already exists
     const existingUser = await prisma.user.findUnique({ where: { email } })
     if (existingUser) {
-      throw new Error("User already exists")
+      throw new TRPCError({ code: "BAD_REQUEST", message: "User already exists" })
     }
 
     // Hash the user password before storing it
@@ -96,10 +102,13 @@ export async function signUp({ input }: apiInputFromSchema<typeof signUpSchema>)
       return data
     } catch (error) {
       logger.error(`Error generating JWT for new user: ${newUser.id}`, error)
-      throw new Error("Failed to generate access token")
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to generate access token" })
     }
   } catch (error) {
+    if (error instanceof TRPCError) {
+      throw error
+    }
     logger.error("Error signing up", error)
-    throw new Error("Failed to sign up")
+    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to sign up" })
   }
 }
