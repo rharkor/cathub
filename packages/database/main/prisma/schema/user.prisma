@@ -27,4 +27,10 @@ model User {
     description String?
     price       Int?
     age         Int?
+    image       String?
+
+    posts        Post[]
+    postLikes    PostLike[]
+    postDislikes PostDislike[]
+    postComments PostComment[]
 }
