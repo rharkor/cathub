@@ -3,6 +3,11 @@ enum Sex {
     FEMALE
 }
 
+enum Role {
+    USER
+    ADMIN
+}
+
 model User {
     id               String  @id @default(cuid())
     username         String
@@ -10,6 +15,7 @@ model User {
     password         String
     profilePictureId String? @unique
     profilePicture   File?   @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
+    role             Role    @default(USER)
 
     createdAt     DateTime        @default(now())
     updatedAt     DateTime        @updatedAt
