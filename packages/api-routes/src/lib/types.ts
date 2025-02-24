@@ -22,6 +22,6 @@ export function ensureLoggedIn(session: Session | null | undefined): asserts ses
 }
 
 export enum Status {
-    SUCCESS = "success",
-    ERROR = "error"
+  SUCCESS = "success",
+  ERROR = "error",
 }
