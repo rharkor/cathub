@@ -2,11 +2,13 @@ import { z } from "zod"
 
 import { createContext, publicProcedure, router } from "./lib/trpc"
 import { authRouter } from "./routes/auth/_router"
+import { postRouter } from "./routes/post/_router"
 import { uploadRouter } from "./routes/upload/_router"
 
 const appRouter = router({
   upload: uploadRouter,
   auth: authRouter,
+  post: postRouter,
   me: router({
     get: publicProcedure.query(async () => {
       return {
