@@ -20,8 +20,3 @@ export function ensureLoggedIn(session: Session | null | undefined): asserts ses
     throw new Error("You must be logged in to access this resource")
   }
 }
-
-export enum Status {
-  SUCCESS = "success",
-  ERROR = "error",
-}

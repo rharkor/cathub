@@ -2,11 +2,18 @@ import { z } from "zod"
 
 import { prisma } from "@/lib/prisma"
 import { apiInputFromSchema, ensureLoggedIn } from "@/lib/types"
-import { Status } from "@/lib/types"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
-import { deletePostSchema, getPostByIdResponseSchema, getPostByIdSchema, getPostsResponseSchema, postResponseSchema, postSchema } from "./schemas"
+import {
+  createPostResponseSchema,
+  deletePostResponseSchema,
+  deletePostSchema,
+  getPostByIdResponseSchema,
+  getPostByIdSchema,
+  getPostsResponseSchema,
+  postSchema,
+} from "./schemas"
 
 export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof postSchema>) {
   try {
@@ -21,8 +28,8 @@ export async function createPost({ input, ctx: { session } }: apiInputFromSchema
         userId: session.userId,
       },
     })
-    const data: z.infer<ReturnType<typeof postResponseSchema>> = {
-      status: Status.SUCCESS
+    const data: z.infer<ReturnType<typeof createPostResponseSchema>> = {
+      status: "success",
     }
     return data
   } catch (error) {
@@ -35,8 +42,8 @@ export async function deletePost({ input }: apiInputFromSchema<typeof deletePost
   try {
     const { id } = input
     await prisma.post.delete({ where: { id } })
-    const data: z.infer<ReturnType<typeof postResponseSchema>> = {
-      status: Status.SUCCESS
+    const data: z.infer<ReturnType<typeof deletePostResponseSchema>> = {
+      status: "success",
     }
     return data
   } catch (error) {
@@ -49,8 +56,7 @@ export async function getAllPosts() {
   try {
     const posts = await prisma.post.findMany()
     const data: z.infer<ReturnType<typeof getPostsResponseSchema>> = {
-      status: Status.SUCCESS,
-    posts,
+      posts,
     }
     return data
   } catch (error) {
@@ -64,9 +70,8 @@ export async function getPostById({ input }: apiInputFromSchema<typeof getPostBy
     const { id } = input
     const post = await prisma.post.findUnique({ where: { id } })
     const data: z.infer<ReturnType<typeof getPostByIdResponseSchema>> = {
-      status: Status.SUCCESS,
-    post,
-  }
+      post,
+    }
     return data
   } catch (error) {
     logger.error("Error getting post by id", error)

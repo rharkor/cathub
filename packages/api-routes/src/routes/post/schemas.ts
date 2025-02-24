@@ -4,25 +4,33 @@ import { Category } from "@prisma/client"
 
 export const postSchema = () =>
   z.object({
+    id: z.string(),
     image: z.string(),
     text: z.string(),
+    createdAt: z.date(),
     category: z.array(z.nativeEnum(Category)),
+    userId: z.string(),
   })
 
-export const postResponseSchema = () =>
+export const createPostSchema = () =>
+  postSchema().pick({
+    image: true,
+    text: true,
+    category: true,
+  })
+
+export const createPostResponseSchema = () =>
   z.object({
     status: z.string(),
   })
 
 export const getPostByIdResponseSchema = () =>
   z.object({
-    status: z.string(),
     post: postSchema(),
   })
 
 export const getPostsResponseSchema = () =>
   z.object({
-    status: z.string(),
     posts: z.array(postSchema()),
   })
 
