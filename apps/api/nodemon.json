@@ -7,5 +7,6 @@
     "ignore": [
         "src/**/*.spec.ts"
     ],
-    "exec": "tsx ./src/app.ts"
+    "exec": "tsx ./src/app.ts",
+    "delay": "1000"
 }

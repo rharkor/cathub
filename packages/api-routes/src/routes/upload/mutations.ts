@@ -3,6 +3,7 @@ import { z } from "zod"
 
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post"
 import { logger } from "@rharkor/logger"
+import { TRPCError } from "@trpc/server"
 
 import { maxUploadSize } from "../../lib/constants"
 import { env } from "../../lib/env"
@@ -26,7 +27,7 @@ export const presignedUrl = async ({ input, ctx: { session } }: apiInputFromSche
     const endpoint = env.S3_ENDPOINT
     if (!endpoint || !bucket) {
       logger.error("S3 endpoint or bucket is not defined")
-      throw new Error("S3 endpoint or bucket is not defined")
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "S3 endpoint or bucket is not defined" })
     }
 
     await prisma.fileUploading.create({
@@ -63,7 +64,10 @@ export const presignedUrl = async ({ input, ctx: { session } }: apiInputFromSche
     }
     return response
   } catch (error) {
+    if (error instanceof TRPCError) {
+      throw error
+    }
     logger.error("Error generating presigned URL", error)
-    throw new Error("Failed to generate presigned URL")
+    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to generate presigned URL" })
   }
 }
