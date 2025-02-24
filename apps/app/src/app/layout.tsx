@@ -38,7 +38,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} text-foreground antialiased dark`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased dark`}>
         <TrpcProvider>
           <SessionProvider ssrToken={token?.value ?? null} ssrPayload={payload ?? null}>
             <RootNextUIProvider>

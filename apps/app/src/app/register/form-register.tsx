@@ -39,13 +39,13 @@ const RegisterForm = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-xl font-medium">Inscription</h1>
+      <h1 className="mb-4 text-center text-2xl font-medium">Inscription</h1>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
         <div className="w-full space-y-2">
-          <FormField form={form} name="username" type="text" label="Nom d'utilisateur" required />
+          <FormField form={form} name="username" type="text" label="Nom d'utilisateur" autoComplete="none" required />
         </div>
         <div className="w-full space-y-2">
-          <FormField form={form} name="email" type="email" label="Email" required />
+          <FormField form={form} name="email" autoComplete="username" type="email" label="Email" required />
         </div>
         <div className="w-full space-y-2">
           <FormField

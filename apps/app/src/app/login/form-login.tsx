@@ -38,13 +38,13 @@ const LoginForm = () => {
 
   return (
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
-      <h1 className="mb-6 text-center text-xl font-medium">Connexion</h1>
+      <h1 className="mb-4 text-center text-2xl font-medium">Connexion</h1>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
         <FormField form={form} name="email" type="email" required className="w-full rounded-md" label="Email" />
         <FormField
           form={form}
           name="password"
-          type="password"
+          type="password-eye-slash"
           required
           className="w-full rounded-md"
           label="Mot de passe"
