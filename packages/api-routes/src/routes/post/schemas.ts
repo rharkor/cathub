@@ -14,6 +14,10 @@ export const postResponseSchema = () => z.object({
     status: z.string(),
 })
 
+export const getPostByIdSchema = () => z.object({
+    id: z.string(),
+})
+
 export const deletePostSchema = () => z.object({
     id: z.string(),
 })

@@ -3,7 +3,7 @@ import { apiInputFromSchema } from "@/lib/types";
 import { Status } from "@/lib/types"
 import { logger } from "@rharkor/logger";
 
-import { deletePostSchema, postSchema } from "./schemas";
+import { deletePostSchema, getPostByIdSchema, postSchema } from "./schemas";
 
 export async function createPost({ input }: apiInputFromSchema<typeof postSchema>) {
     try {
@@ -36,4 +36,15 @@ export async function deletePost({ input }: apiInputFromSchema<typeof deletePost
         logger.error("Error deleting post", error)
         throw new Error("Failed to delete post")
     }
+}
+
+export async function getAllPosts() {
+    const posts = await prisma.post.findMany()
+    return posts
+}
+
+export async function getPostById({ input }: apiInputFromSchema<typeof getPostByIdSchema>) {
+    const { id } = input
+    const post = await prisma.post.findUnique({ where: { id } })
+    return post
 }
