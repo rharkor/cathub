@@ -70,7 +70,14 @@ export async function getPostById({ input }: apiInputFromSchema<typeof getPostBy
     const { id } = input
     const post = await prisma.post.findUnique({ where: { id } })
     const data: z.infer<ReturnType<typeof getPostByIdResponseSchema>> = {
-      post,
+      post: post ?? {
+        id: "",
+        image: "",
+        text: "",
+        createdAt: new Date(),
+        category: [],
+        userId: "",
+      },
     }
     return data
   } catch (error) {
