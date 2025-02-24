@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 import { logger } from "@rharkor/logger"
+import { TRPCError } from "@trpc/server"
 
 import { prisma } from "../../lib/prisma"
 import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
@@ -23,7 +24,7 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
       },
     })
     if (!user) {
-      throw new Error("User not found")
+      throw new TRPCError({ code: "NOT_FOUND", message: "User not found" })
     }
 
     const profilePicture =
@@ -65,7 +66,10 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
     const data: z.infer<ReturnType<typeof updateResponseSchema>> = { success: true }
     return data
   } catch (error) {
+    if (error instanceof TRPCError) {
+      throw error
+    }
     logger.error("Error updating user", error)
-    throw new Error("Failed to update user")
+    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to update user" })
   }
 }

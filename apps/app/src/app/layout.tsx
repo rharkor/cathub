@@ -1,11 +1,11 @@
 import "./globals.css"
+import "react-toastify/ReactToastify.css"
 
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { cookies } from "next/headers"
+import { ToastContainer } from "react-toastify"
 
-import Footer from "@/components/ui/footer"
-import Header from "@/components/ui/header"
 import { SessionProvider } from "@/contexts/use-session"
 import { parseJwt } from "@/lib/jwt"
 import TrpcProvider from "@/lib/trpc/provider"
@@ -38,13 +38,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} text-foreground antialiased dark`}>
         <TrpcProvider>
           <SessionProvider ssrToken={token?.value ?? null} ssrPayload={payload ?? null}>
             <RootNextUIProvider>
-              <Header />
               {children}
-              <Footer />
+              {/* <Footer /> */}
+              <ToastContainer theme="dark" />
             </RootNextUIProvider>
           </SessionProvider>
         </TrpcProvider>

@@ -28,18 +28,5 @@ export default {
     },
   },
   darkMode: "class",
-  plugins: [
-    heroui(),
-    function ({ addBase }: { addBase: any }) {
-      addBase({
-        body: { color: "#ffffff", fontWeight: "normal", fontSize: "1rem" },
-        h1: { color: "#ff9000", fontWeight: "700", fontSize: "2rem" },
-        h2: { color: "#ff9000", fontWeight: "700", fontSize: "1.5rem" },
-        h3: { color: "#ff9000", fontWeight: "700", fontSize: "1.25rem" },
-        p: { color: "#ffffff", fontWeight: "normal", fontSize: "1rem" },
-        span: { color: "#ffffff", fontWeight: "normal", fontSize: "1rem" },
-        label: { color: "#ffffff", fontWeight: "normal", fontSize: "1rem" },
-      })
-    },
-  ],
+  plugins: [heroui()],
 } satisfies Config
