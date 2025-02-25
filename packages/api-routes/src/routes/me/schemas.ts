@@ -10,20 +10,14 @@ export const updateSchema = () =>
     description: z.string().optional(),
     price: z.number().int().optional(),
     age: z.number().int().optional(),
-    image: z.string().optional(),
-  })
-
-export const deleteMeSchema = () =>
-  z.object({
-    userId: z.string(),
   })
 
 export const updateResponseSchema = () =>
   z.object({
-    success: z.boolean(),
+    status: z.string(),
   })
 
 export const deleteMeResponseSchema = () =>
   z.object({
-    success: z.boolean(),
+    status: z.string(),
   })

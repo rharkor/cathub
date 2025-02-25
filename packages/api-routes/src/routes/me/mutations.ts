@@ -7,13 +7,13 @@ import { prisma } from "../../lib/prisma"
 import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
 import { getImageUploading } from "../../lib/uploads"
 
-import { deleteMeResponseSchema, deleteMeSchema, updateResponseSchema, updateSchema } from "./schemas"
+import { deleteMeResponseSchema, updateResponseSchema, updateSchema } from "./schemas"
 
 export async function update({ input, ctx: { session } }: apiInputFromSchema<typeof updateSchema>) {
   try {
     ensureLoggedIn(session)
 
-    const { profilePictureKey, username, email, isCathub, sex, description, price, age, image } = input
+    const { profilePictureKey, username, email, isCathub, sex, description, price, age } = input
 
     const user = await prisma.user.findUnique({
       where: {
@@ -55,7 +55,6 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
         description,
         price,
         age,
-        image,
         profilePicture:
           profilePicture !== undefined && profilePicture !== null
             ? {
@@ -71,7 +70,9 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
       },
     })
 
-    const data: z.infer<ReturnType<typeof updateResponseSchema>> = { success: true }
+    const data: z.infer<ReturnType<typeof updateResponseSchema>> = {
+      status: "success",
+    }
     return data
   } catch (error) {
     if (error instanceof TRPCError) {
@@ -82,15 +83,15 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
   }
 }
 
-export async function deleteMe({ input, ctx: { session } }: apiInputFromSchema<typeof deleteMeSchema>) {
+export async function deleteMe({ ctx: { session } }: apiInputFromSchema<typeof undefined>) {
   try {
     ensureLoggedIn(session)
 
-    const { userId } = input
+    await prisma.user.delete({ where: { id: session.userId } })
 
-    await prisma.user.delete({ where: { id: userId } })
-
-    const data: z.infer<ReturnType<typeof deleteMeResponseSchema>> = { success: true }
+    const data: z.infer<ReturnType<typeof deleteMeResponseSchema>> = {
+      status: "success",
+    }
     return data
   } catch (error) {
     if (error instanceof TRPCError) {
