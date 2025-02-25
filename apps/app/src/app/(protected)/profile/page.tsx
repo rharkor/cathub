@@ -9,7 +9,9 @@ import UpdateAvatar from "./update-avatar"
 export default async function ProfilePage() {
   const cookiesStore = await cookies()
   const user = await serverTrpc(cookiesStore).me.get()
-  if (user.isCathub) {
+
+  // If the user has a sex then it means the user has already completed the advanced profile
+  if (!!user.sex) {
     redirect("/cathub-profile")
   }
 
