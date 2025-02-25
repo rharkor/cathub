@@ -4,6 +4,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Skeleton
 import { Category, File, User } from "@prisma/client"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 import { trpc } from "@/lib/trpc/client"
 import { cn, getImageUrl } from "@/lib/utils"
@@ -135,7 +136,14 @@ export default function ProfileBasicInfos({
 
         {/* Posts Section */}
         <div className="mt-8">
-          <h2 className="mb-4 text-2xl font-bold">Posts récents</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Posts récents</h2>
+            {isMyProfile && (
+              <Link href="/cathub-profile/create-post">
+                <Button color="primary">Créer un post</Button>
+              </Link>
+            )}
+          </div>
 
           {getPostsQuery.isPending ? (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -187,7 +195,14 @@ export default function ProfileBasicInfos({
           ) : (
             <div className="rounded-lg bg-content2 p-8 text-center">
               <p className="mb-4 text-lg font-medium">Pas encore de posts</p>
-              {isMyProfile && <p className="text-content3-foreground">Les posts que vous créez apparaîtront ici</p>}
+              {isMyProfile && (
+                <>
+                  <p className="mb-4 text-content3-foreground">Les posts que vous créez apparaîtront ici</p>
+                  <Link href="/cathub-profile/create-post">
+                    <Button color="primary">Créer mon premier post</Button>
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>
