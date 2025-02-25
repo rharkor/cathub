@@ -105,10 +105,16 @@ export default function UpdateAvatar() {
 
   return (
     <>
-      <div className={cn("group relative size-20 rounded-full lg:size-32")}>
-        <Skeleton isLoaded={!isAccountLoading} className={cn("rounded-full")}>
+      <div className={cn("group relative size-full rounded-full")}>
+        <Skeleton
+          isLoaded={!isAccountLoading}
+          className={cn("size-full rounded-full")}
+          classNames={{
+            content: "size-full",
+          }}
+        >
           <div
-            className="relative !size-20 overflow-hidden rounded-full bg-content3 text-large lg:!size-32"
+            className="relative size-full overflow-hidden rounded-full bg-content3 text-large"
             onClick={() => setShowModal(true)}
           >
             {profilePicutreUrl ? (
@@ -116,12 +122,12 @@ export default function UpdateAvatar() {
                 className="size-full object-cover"
                 src={profilePicutreUrl || ""}
                 alt={account?.username || ""}
-                width={80}
-                height={80}
+                width={512}
+                height={512}
               />
             ) : (
               <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-sm font-medium lg:text-xl">
-                {account?.username?.slice(0, 2)}
+                {account?.username?.slice(0, 3)}
               </p>
             )}
           </div>

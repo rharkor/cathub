@@ -13,6 +13,7 @@ import {
   deletePostSchema,
   getPostByIdResponseSchema,
   getPostByIdSchema,
+  getPostsRequestSchema,
   getPostsResponseSchema,
 } from "./schemas"
 
@@ -53,9 +54,13 @@ export async function deletePost({ input }: apiInputFromSchema<typeof deletePost
   }
 }
 
-export async function getAllPosts() {
+export async function getAllPosts({ input }: apiInputFromSchema<typeof getPostsRequestSchema>) {
   try {
-    const posts = await prisma.post.findMany()
+    const posts = await prisma.post.findMany({
+      where: {
+        userId: input.userId,
+      },
+    })
     const data: z.infer<ReturnType<typeof getPostsResponseSchema>> = {
       posts,
     }

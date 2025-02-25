@@ -13,7 +13,7 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
   try {
     ensureLoggedIn(session)
 
-    const { profilePictureKey, username, email, isCathub, sex, description, price, age } = input
+    const { profilePictureKey, username, isCathub, sex, description, price, age } = input
 
     const user = await prisma.user.findUnique({
       where: {
@@ -49,7 +49,6 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
       where: { id: session.userId },
       data: {
         username,
-        email,
         isCathub,
         sex,
         description,

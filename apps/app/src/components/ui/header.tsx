@@ -1,6 +1,6 @@
 "use client"
 
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
@@ -23,18 +23,24 @@ const Header = () => {
           </Link>
           <Dropdown>
             <DropdownTrigger>
-              <Avatar
-                className="h-8 w-8 cursor-pointer"
-                name={userQuery.data?.username}
-                src={getImageUrl(userQuery.data?.profilePicture) ?? undefined}
-              />
+              <div className="size-10 cursor-pointer overflow-hidden rounded-full bg-default-100">
+                {userQuery.data?.profilePicture && (
+                  <Image
+                    src={getImageUrl(userQuery.data.profilePicture) ?? ""}
+                    className="size-full object-cover"
+                    alt="Profile picture"
+                    width={60}
+                    height={60}
+                  />
+                )}
+              </div>
             </DropdownTrigger>
             <DropdownMenu>
               <DropdownItem key="profile" as={Link} href="/profile">
-                Profile
+                Profil
               </DropdownItem>
               <DropdownItem key="sign-out" onPress={signOut} color="danger" className="text-danger">
-                Sign out
+                Se déconnecter
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

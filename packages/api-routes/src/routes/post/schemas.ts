@@ -29,6 +29,11 @@ export const getPostByIdResponseSchema = () =>
     post: postSchema(),
   })
 
+export const getPostsRequestSchema = () =>
+  z.object({
+    userId: z.string(),
+  })
+
 export const getPostsResponseSchema = () =>
   z.object({
     posts: z.array(postSchema()),

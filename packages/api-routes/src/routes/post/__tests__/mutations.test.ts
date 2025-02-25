@@ -121,7 +121,19 @@ describe("Post Mutations", () => {
       ;(prisma.post.findMany as jest.Mock).mockResolvedValue(mockPosts)
 
       // Act
-      const result = await getAllPosts()
+      const result = await getAllPosts({
+        input: {
+          userId: "",
+        },
+        ctx: {
+          session: {
+            userId: "",
+            email: "",
+            exp: 0,
+            iat: 0,
+          },
+        },
+      })
 
       // Assert
       expect(prisma.post.findMany).toHaveBeenCalled()
