@@ -24,9 +24,9 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  min-height: 100%;
 }
 
-html,
-body {
+html {
   height: 100%;
 }

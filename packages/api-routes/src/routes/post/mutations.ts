@@ -1,21 +1,23 @@
 import { z } from "zod"
 
-import { prisma } from "@/lib/prisma"
-import { apiInputFromSchema, ensureLoggedIn } from "@/lib/types"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
+
 import {
   createPostResponseSchema,
+  createPostSchema,
   deletePostResponseSchema,
   deletePostSchema,
   getPostByIdResponseSchema,
   getPostByIdSchema,
+  getPostsRequestSchema,
   getPostsResponseSchema,
-  postSchema,
 } from "./schemas"
 
-export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof postSchema>) {
+export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof createPostSchema>) {
   try {
     ensureLoggedIn(session)
 
@@ -52,9 +54,13 @@ export async function deletePost({ input }: apiInputFromSchema<typeof deletePost
   }
 }
 
-export async function getAllPosts() {
+export async function getAllPosts({ input }: apiInputFromSchema<typeof getPostsRequestSchema>) {
   try {
-    const posts = await prisma.post.findMany()
+    const posts = await prisma.post.findMany({
+      where: {
+        userId: input.userId,
+      },
+    })
     const data: z.infer<ReturnType<typeof getPostsResponseSchema>> = {
       posts,
     }

@@ -1,4 +1,4 @@
-import { protectedProcedure, router } from "@/lib/trpc"
+import { protectedProcedure, router } from "../../lib/trpc"
 
 import { createPost, deletePost, getAllPosts, getPostById } from "./mutations"
 import {
@@ -7,6 +7,7 @@ import {
   deletePostSchema,
   getPostByIdResponseSchema,
   getPostByIdSchema,
+  getPostsRequestSchema,
   getPostsResponseSchema,
   postSchema,
 } from "./schemas"
@@ -14,6 +15,6 @@ import {
 export const postRouter = router({
   createPost: protectedProcedure.input(postSchema()).output(createPostResponseSchema()).mutation(createPost),
   deletePost: protectedProcedure.input(deletePostSchema()).output(deletePostResponseSchema()).mutation(deletePost),
-  getPostById: protectedProcedure.input(getPostByIdSchema()).output(getPostByIdResponseSchema()).mutation(getPostById),
-  getPosts: protectedProcedure.output(getPostsResponseSchema()).mutation(getAllPosts),
+  getPostById: protectedProcedure.input(getPostByIdSchema()).output(getPostByIdResponseSchema()).query(getPostById),
+  getPosts: protectedProcedure.input(getPostsRequestSchema()).output(getPostsResponseSchema()).query(getAllPosts),
 })
