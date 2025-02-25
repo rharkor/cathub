@@ -30,7 +30,10 @@ const Header = () => {
               />
             </DropdownTrigger>
             <DropdownMenu>
-              <DropdownItem key="sign-out" onPress={signOut} color="danger">
+              <DropdownItem key="profile" as={Link} href="/profile">
+                Profile
+              </DropdownItem>
+              <DropdownItem key="sign-out" onPress={signOut} color="danger" className="text-danger">
                 Sign out
               </DropdownItem>
             </DropdownMenu>

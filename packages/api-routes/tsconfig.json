@@ -16,9 +16,7 @@
     "rootDir": "./src",
     "sourceMap": true,
     "declarationMap": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "paths": {}
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

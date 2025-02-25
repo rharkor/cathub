@@ -54,3 +54,5 @@ dist
 !packages/database/logs/turbo.json
 
 tests-local
+
+report

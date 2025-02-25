@@ -22,12 +22,12 @@ model User {
     FileUploading FileUploading[]
 
     //* Cathub
-    isCathub    Boolean @default(false)
+    isCathub    Boolean                                @default(false)
     sex         Sex?
     description String?
     price       Int?
     age         Int?
-    image       String?
+    location    Unsupported("geography(Point, 4326)")?
 
     posts        Post[]
     postLikes    PostLike[]
