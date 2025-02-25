@@ -3,13 +3,7 @@
 import { meSchemas } from "@cathub/api-routes/schemas"
 import {
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
   Checkbox,
-  Chip,
-  Divider,
   Input,
   Modal,
   ModalBody,
@@ -17,23 +11,20 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-  Skeleton,
   Textarea,
 } from "@heroui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Category, File, Sex, User } from "@prisma/client"
-import { Heart, MessageCircle, Share2 } from "lucide-react"
-import Image from "next/image"
+import { File, Sex, User } from "@prisma/client"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { z } from "zod"
 
+import KibbleIcon from "@/components/icons/kibble"
+import ProfileBasicInfos from "@/components/profile/infos"
 import FormField from "@/components/ui/form"
 import { trpc } from "@/lib/trpc/client"
-
-import UpdateAvatar from "./update-avatar"
 
 export default function BasicInfos({
   ssrUser,
@@ -46,9 +37,6 @@ export default function BasicInfos({
   const [isOpen, setIsOpen] = useState(false)
   const getAccountQuery = trpc.me.get.useQuery(undefined, {
     placeholderData: ssrUser,
-  })
-  const getPostsQuery = trpc.post.getPosts.useQuery(undefined, {
-    enabled: !getAccountQuery.isLoading && !!getAccountQuery.data?.id,
   })
 
   const form = useForm<z.infer<ReturnType<typeof meSchemas.updateSchema>>>({
@@ -90,136 +78,14 @@ export default function BasicInfos({
 
   return (
     <>
-      <div className="container mx-auto p-4">
-        <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative size-64 overflow-hidden rounded-xl">
-              <UpdateAvatar />
-            </div>
-
-            <Button color="primary" size="lg" className="w-full font-semibold" onPress={() => setIsOpen(true)}>
-              Edit Profile
-            </Button>
-          </div>
-
-          <div className="col-span-2 flex flex-col gap-4">
-            <Skeleton isLoaded={!getAccountQuery.isLoading} className="h-12 w-full">
-              <h1 className="text-3xl font-bold">{getAccountQuery.data?.username || "Loading..."}</h1>
-            </Skeleton>
-
-            <div className="flex flex-wrap gap-2">
-              {getAccountQuery.data?.sex && (
-                <Skeleton isLoaded={!getAccountQuery.isLoading} className="rounded-medium">
-                  <Chip color="primary" variant="flat">
-                    {getAccountQuery.data?.sex === "FEMALE"
-                      ? "Female"
-                      : getAccountQuery.data?.sex === "MALE"
-                        ? "Male"
-                        : "Other"}
-                  </Chip>
-                </Skeleton>
-              )}
-
-              {getAccountQuery.data?.age && (
-                <Skeleton isLoaded={!getAccountQuery.isLoading} className="rounded-medium">
-                  <Chip variant="flat">{getAccountQuery.data?.age || "?"} yo</Chip>
-                </Skeleton>
-              )}
-
-              {getAccountQuery.data?.price && (
-                <Skeleton isLoaded={!getAccountQuery.isLoading} className="rounded-medium">
-                  <Chip color="success" variant="flat">
-                    ${getAccountQuery.data?.price}/month
-                  </Chip>
-                </Skeleton>
-              )}
-            </div>
-
-            <Divider className="my-2" />
-
-            <Skeleton isLoaded={!getAccountQuery.isLoading} className="h-24 w-full">
-              <div className="rounded-lg bg-content2 p-4">
-                <h3 className="mb-2 text-lg font-semibold">About Me</h3>
-                <p className="text-content3-foreground">
-                  {getAccountQuery.data?.description || "No description provided."}
-                </p>
-              </div>
-            </Skeleton>
-
-            <div className="mt-4 flex flex-wrap gap-4">
-              <Button color="primary" variant="flat" startContent={<Heart size={18} />}>
-                Follow
-              </Button>
-              <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
-                Message
-              </Button>
-              <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
-                Share
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Posts Section */}
-        <div className="mt-8">
-          <h2 className="mb-4 text-2xl font-bold">Recent Posts</h2>
-
-          {getPostsQuery.isPending ? (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((item) => (
-                <Skeleton key={item} className="h-80 w-full rounded-xl" />
-              ))}
-            </div>
-          ) : getPostsQuery.data?.posts && getPostsQuery.data.posts.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {getPostsQuery.data.posts
-                .filter((post) => post.userId === getAccountQuery.data?.id)
-                .map((post) => (
-                  <Card key={post.id} className="overflow-hidden">
-                    {post.image && (
-                      <CardHeader className="p-0">
-                        <Image
-                          src={post.image}
-                          alt={post.text}
-                          width={400}
-                          height={300}
-                          className="aspect-video w-full object-cover"
-                        />
-                      </CardHeader>
-                    )}
-                    <CardBody className="p-4">
-                      <p className="line-clamp-3">{post.text}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {post.category.map((cat: Category) => (
-                          <Chip key={cat} variant="flat" size="sm">
-                            {cat}
-                          </Chip>
-                        ))}
-                      </div>
-                    </CardBody>
-                    <CardFooter className="flex justify-between">
-                      <div className="flex items-center gap-2">
-                        <Button isIconOnly variant="light" size="sm">
-                          <Heart size={16} />
-                        </Button>
-                        <Button isIconOnly variant="light" size="sm">
-                          <MessageCircle size={16} />
-                        </Button>
-                      </div>
-                      <span className="text-sm text-default-400">{new Date(post.createdAt).toLocaleDateString()}</span>
-                    </CardFooter>
-                  </Card>
-                ))}
-            </div>
-          ) : (
-            <div className="rounded-lg bg-content2 p-8 text-center">
-              <p className="mb-4 text-lg font-medium">No posts yet</p>
-              <p className="text-content3-foreground">Posts you create will appear here</p>
-            </div>
-          )}
-        </div>
-      </div>
-
+      <ProfileBasicInfos
+        isLoading={getAccountQuery.isLoading}
+        onEditProfile={() => {
+          setIsOpen(true)
+        }}
+        user={getAccountQuery.data}
+        isMyProfile
+      />
       {/* Edit Profile Modal */}
       <Modal
         isOpen={isOpen}
@@ -270,7 +136,7 @@ export default function BasicInfos({
                   name="price"
                   type="number"
                   label="Prix"
-                  startContent="$"
+                  startContent={<KibbleIcon className="size-4" />}
                   isDisabled={updateUserMutation.isPending}
                 />
 

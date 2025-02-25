@@ -7,6 +7,7 @@ import {
   deletePostSchema,
   getPostByIdResponseSchema,
   getPostByIdSchema,
+  getPostsRequestSchema,
   getPostsResponseSchema,
   postSchema,
 } from "./schemas"
@@ -15,5 +16,5 @@ export const postRouter = router({
   createPost: protectedProcedure.input(postSchema()).output(createPostResponseSchema()).mutation(createPost),
   deletePost: protectedProcedure.input(deletePostSchema()).output(deletePostResponseSchema()).mutation(deletePost),
   getPostById: protectedProcedure.input(getPostByIdSchema()).output(getPostByIdResponseSchema()).query(getPostById),
-  getPosts: protectedProcedure.output(getPostsResponseSchema()).query(getAllPosts),
+  getPosts: protectedProcedure.input(getPostsRequestSchema()).output(getPostsResponseSchema()).query(getAllPosts),
 })
