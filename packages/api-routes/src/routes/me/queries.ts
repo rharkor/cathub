@@ -18,7 +18,7 @@ export async function getMe({ ctx: { session } }: apiInputFromSchema<typeof unde
     })
 
     if (!user) {
-      throw new TRPCError({ code: "NOT_FOUND", message: "User not found" })
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" })
     }
 
     return user

@@ -8,6 +8,7 @@ import {
   CardFooter,
   CardHeader,
   Checkbox,
+  Chip,
   Divider,
   Input,
   Modal,
@@ -20,7 +21,7 @@ import {
   Textarea,
 } from "@heroui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Category, Sex } from "@prisma/client"
+import { Category, File, Sex, User } from "@prisma/client"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -34,10 +35,18 @@ import { trpc } from "@/lib/trpc/client"
 
 import UpdateAvatar from "./update-avatar"
 
-export default function BasicInfos() {
+export default function BasicInfos({
+  ssrUser,
+}: {
+  ssrUser: User & {
+    profilePicture: File | null
+  }
+}) {
   const utils = trpc.useUtils()
   const [isOpen, setIsOpen] = useState(false)
-  const getAccountQuery = trpc.me.get.useQuery()
+  const getAccountQuery = trpc.me.get.useQuery(undefined, {
+    placeholderData: ssrUser,
+  })
   const getPostsQuery = trpc.post.getPosts.useQuery(undefined, {
     enabled: !getAccountQuery.isLoading && !!getAccountQuery.data?.id,
   })
@@ -98,34 +107,30 @@ export default function BasicInfos() {
               <h1 className="text-3xl font-bold">{getAccountQuery.data?.username || "Loading..."}</h1>
             </Skeleton>
 
-            <div className="flex flex-wrap gap-4">
-              <Skeleton isLoaded={!getAccountQuery.isLoading} className="h-8 w-24">
-                <div className="rounded-full bg-primary/10 px-4 py-1 text-primary">
-                  {getAccountQuery.data?.sex === "FEMALE"
-                    ? "Female"
-                    : getAccountQuery.data?.sex === "MALE"
-                      ? "Male"
-                      : "Other"}
-                </div>
-              </Skeleton>
-
-              <Skeleton isLoaded={!getAccountQuery.isLoading} className="h-8 w-20">
-                <div className="rounded-full bg-secondary/10 px-4 py-1 text-secondary">
-                  {getAccountQuery.data?.age || "?"} yo
-                </div>
-              </Skeleton>
-
-              {getAccountQuery.data?.price && (
-                <Skeleton isLoaded={!getAccountQuery.isLoading} className="h-8 w-24">
-                  <div className="rounded-full bg-success/10 px-4 py-1 text-success">
-                    ${getAccountQuery.data?.price}/month
-                  </div>
+            <div className="flex flex-wrap gap-2">
+              {getAccountQuery.data?.sex && (
+                <Skeleton isLoaded={!getAccountQuery.isLoading} className="rounded-medium">
+                  <Chip color="primary" variant="flat">
+                    {getAccountQuery.data?.sex === "FEMALE"
+                      ? "Female"
+                      : getAccountQuery.data?.sex === "MALE"
+                        ? "Male"
+                        : "Other"}
+                  </Chip>
                 </Skeleton>
               )}
 
-              {getAccountQuery.data?.isCathub && (
-                <Skeleton isLoaded={!getAccountQuery.isLoading} className="h-8 w-32">
-                  <div className="rounded-full bg-warning/10 px-4 py-1 text-warning">CatHub Creator</div>
+              {getAccountQuery.data?.age && (
+                <Skeleton isLoaded={!getAccountQuery.isLoading} className="rounded-medium">
+                  <Chip variant="flat">{getAccountQuery.data?.age || "?"} yo</Chip>
+                </Skeleton>
+              )}
+
+              {getAccountQuery.data?.price && (
+                <Skeleton isLoaded={!getAccountQuery.isLoading} className="rounded-medium">
+                  <Chip color="success" variant="flat">
+                    ${getAccountQuery.data?.price}/month
+                  </Chip>
                 </Skeleton>
               )}
             </div>
@@ -186,9 +191,9 @@ export default function BasicInfos() {
                       <p className="line-clamp-3">{post.text}</p>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {post.category.map((cat: Category) => (
-                          <span key={cat} className="rounded-full bg-content3 px-2 py-1 text-xs">
+                          <Chip key={cat} variant="flat" size="sm">
                             {cat}
-                          </span>
+                          </Chip>
                         ))}
                       </div>
                     </CardBody>

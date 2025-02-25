@@ -44,10 +44,11 @@ export default function BasicInfos() {
   }
 
   return (
-    <>
-      <div className="flex w-full max-w-md flex-col gap-4">
+    <div className="w-full max-w-md">
+      <div className="mb-6 rounded-lg bg-content1 p-6 shadow-sm">
+        <h2 className="mb-4 text-xl font-semibold">Account Information</h2>
         <form onSubmit={form.handleSubmit(handleSaveChanges)} className="flex flex-col gap-4">
-          <div className="flex w-[300px] flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <Input label="Email" isDisabled value={getAccountQuery.data?.email} />
             <FormField
               form={form}
@@ -59,7 +60,7 @@ export default function BasicInfos() {
             />
           </div>
 
-          <div className="flex justify-end gap-2">
+          <div className="mt-2 flex justify-end gap-2">
             {isEditing ? (
               <>
                 <Button
@@ -84,11 +85,17 @@ export default function BasicInfos() {
         </form>
       </div>
 
-      <Link href={"/cathub-profile"} className="mt-4 w-full">
-        <Button color="primary" className="w-full">
-          Profil créateur
-        </Button>
-      </Link>
-    </>
+      <div className="rounded-lg bg-content1 p-6 shadow-sm">
+        <h2 className="mb-4 text-xl font-semibold">Creator Profile</h2>
+        <p className="mb-4 text-sm text-default-500">
+          Access your creator profile to manage your content and settings.
+        </p>
+        <Link href={"/cathub-profile"} className="block w-full">
+          <Button color="primary" className="w-full">
+            Profil créateur
+          </Button>
+        </Link>
+      </div>
+    </div>
   )
 }

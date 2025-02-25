@@ -122,8 +122,8 @@ export default function UpdateAvatar() {
                 className="size-full object-cover"
                 src={profilePicutreUrl || ""}
                 alt={account?.username || ""}
-                width={256}
-                height={256}
+                width={512}
+                height={512}
               />
             ) : (
               <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-sm font-medium lg:text-xl">
