@@ -8,16 +8,16 @@ import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
 
 import {
   createPostResponseSchema,
+  createPostSchema,
   deletePostResponseSchema,
   deletePostSchema,
   getPostByIdResponseSchema,
   getPostByIdSchema,
   getPostsRequestSchema,
   getPostsResponseSchema,
-  postSchema,
 } from "./schemas"
 
-export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof postSchema>) {
+export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof createPostSchema>) {
   try {
     ensureLoggedIn(session)
 
