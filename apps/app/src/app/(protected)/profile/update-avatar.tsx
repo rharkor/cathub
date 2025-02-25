@@ -121,7 +121,7 @@ export default function UpdateAvatar() {
               />
             ) : (
               <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-sm font-medium lg:text-xl">
-                {account?.username?.slice(0, 2)}
+                {account?.username?.slice(0, 3)}
               </p>
             )}
           </div>

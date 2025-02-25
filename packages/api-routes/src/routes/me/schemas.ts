@@ -5,10 +5,10 @@ export const updateSchema = () =>
     profilePictureKey: z.string().nullish(),
     username: z.string().optional(),
     isCathub: z.boolean().optional(),
-    sex: z.enum(["MALE", "FEMALE"]).optional(),
-    description: z.string().optional(),
-    price: z.coerce.number().optional(),
-    age: z.coerce.number().int().optional(),
+    sex: z.enum(["MALE", "FEMALE"]).nullish(),
+    description: z.string().nullish(),
+    price: z.coerce.number().nullish(),
+    age: z.coerce.number().int().nullish(),
   })
 
 export const updateResponseSchema = () =>
