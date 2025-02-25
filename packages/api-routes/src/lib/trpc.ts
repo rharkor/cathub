@@ -7,7 +7,10 @@ import * as trpcExpress from "@trpc/server/adapters/express"
 import { parseJwt } from "./jwt"
 import { Session, sessionSchema } from "./types"
 
-export const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => {
+export const createContext = (opts: trpcExpress.CreateExpressContextOptions | undefined) => {
+  const req = opts?.req
+  const res = opts?.res
+
   return {
     session: null as Session | null,
     req,
@@ -24,7 +27,7 @@ export const router = t.router
 export const publicProcedure = t.procedure
 
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
-  const token = ctx.req.headers.cookie
+  const token = ctx.req?.headers.cookie
     ?.split("; ")
     .find((row) => row.startsWith("token="))
     ?.split("=")[1]
@@ -40,7 +43,7 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   }
 
   if (!ctx.session) {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" })
   }
   return next()
 })

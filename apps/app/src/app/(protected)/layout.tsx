@@ -13,9 +13,9 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <>
+    <main className="container mx-auto px-3 pb-6 pt-12">
       <Header />
       {children}
-    </>
+    </main>
   )
 }
