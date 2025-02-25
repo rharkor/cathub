@@ -69,7 +69,6 @@ export async function signIn({ input }: apiInputFromSchema<typeof signInSchema>)
 export async function signUp({ input }: apiInputFromSchema<typeof signUpSchema>) {
   try {
     const { email, password, username } = input
-
     // Check if a user with the given email already exists
     const existingUser = await prisma.user.findUnique({ where: { email } })
     if (existingUser) {

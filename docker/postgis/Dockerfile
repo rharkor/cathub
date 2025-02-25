@@ -1,4 +1,4 @@
-FROM postgres:latest
+FROM postgres:17
 
 RUN apt-get update && \ 
     apt-get upgrade -y && \

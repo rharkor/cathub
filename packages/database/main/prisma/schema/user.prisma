@@ -28,4 +28,9 @@ model User {
     price       Int?
     age         Int?
     location    Unsupported("geography(Point, 4326)")?
+
+    posts        Post[]
+    postLikes    PostLike[]
+    postDislikes PostDislike[]
+    postComments PostComment[]
 }
