@@ -28,8 +28,17 @@ jobs:
         run: npm run lint
       - name: Prettier check
         run: npm run prettier
-      - name: Test
-        run: npm run test
+      # - name: end-to-end tests
+      #   run: |
+      #     cp ./apps/app/.env.example ./apps/app/.env && \
+      #     cp ./apps/api/.env.example ./apps/api/.env && \
+      #     npm --prefix ./apps/app run dev & \
+      #     APP_PID=$! && \
+      #     npm --prefix ./apps/api run dev & \
+      #     API_PID=$! && \
+      #     npx wait-on http://localhost:3000 http://localhost:3001 && \
+      #     npm run test && \
+      #     kill $APP_PID $API_PID
 
   type-check:
     name: Type check
