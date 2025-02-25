@@ -1,9 +1,10 @@
 import { z } from "zod"
 
-import { prisma } from "@/lib/prisma"
-import { apiInputFromSchema, ensureLoggedIn } from "@/lib/types"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
+
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
 
 import {
   createPostResponseSchema,
