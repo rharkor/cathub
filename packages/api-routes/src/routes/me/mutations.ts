@@ -7,13 +7,13 @@ import { prisma } from "../../lib/prisma"
 import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
 import { getImageUploading } from "../../lib/uploads"
 
-import { updateResponseSchema, updateSchema } from "./schemas"
+import { deleteMeResponseSchema, deleteMeSchema, updateResponseSchema, updateSchema } from "./schemas"
 
 export async function update({ input, ctx: { session } }: apiInputFromSchema<typeof updateSchema>) {
   try {
     ensureLoggedIn(session)
 
-    const { profilePictureKey } = input
+    const { profilePictureKey, username, email, isCathub, sex, description, price, age, image } = input
 
     const user = await prisma.user.findUnique({
       where: {
@@ -48,6 +48,14 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
     await prisma.user.update({
       where: { id: session.userId },
       data: {
+        username,
+        email,
+        isCathub,
+        sex,
+        description,
+        price,
+        age,
+        image,
         profilePicture:
           profilePicture !== undefined && profilePicture !== null
             ? {
@@ -71,5 +79,24 @@ export async function update({ input, ctx: { session } }: apiInputFromSchema<typ
     }
     logger.error("Error updating user", error)
     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to update user" })
+  }
+}
+
+export async function deleteMe({ input, ctx: { session } }: apiInputFromSchema<typeof deleteMeSchema>) {
+  try {
+    ensureLoggedIn(session)
+
+    const { userId } = input
+
+    await prisma.user.delete({ where: { id: userId } })
+
+    const data: z.infer<ReturnType<typeof deleteMeResponseSchema>> = { success: true }
+    return data
+  } catch (error) {
+    if (error instanceof TRPCError) {
+      throw error
+    }
+    logger.error("Error deleting user", error)
+    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to delete user" })
   }
 }
