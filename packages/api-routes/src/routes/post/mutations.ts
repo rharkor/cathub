@@ -1,21 +1,22 @@
 import { z } from "zod"
 
-import { prisma } from "@/lib/prisma"
-import { apiInputFromSchema, ensureLoggedIn } from "@/lib/types"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
+
 import {
   createPostResponseSchema,
+  createPostSchema,
   deletePostResponseSchema,
   deletePostSchema,
   getPostByIdResponseSchema,
   getPostByIdSchema,
   getPostsResponseSchema,
-  postSchema,
 } from "./schemas"
 
-export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof postSchema>) {
+export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof createPostSchema>) {
   try {
     ensureLoggedIn(session)
 
