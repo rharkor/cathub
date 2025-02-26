@@ -124,27 +124,57 @@ const WithPasswordStrengthPopover = <
             />
             <ul className="flex flex-col">
               <li>
-                <Checkbox isSelected={passwordValue.length >= 8} isDisabled color="success" size="sm">
+                <Checkbox
+                  isSelected={passwordValue.length >= 8}
+                  isDisabled
+                  color="success"
+                  size="sm"
+                  data-testid="min-character"
+                >
                   Min 8 caractères
                 </Checkbox>
               </li>
               <li>
-                <Checkbox isSelected={numberRegex.test(passwordValue)} isDisabled color="success" size="sm">
+                <Checkbox
+                  isSelected={numberRegex.test(passwordValue)}
+                  isDisabled
+                  color="success"
+                  size="sm"
+                  data-testid="contain-number"
+                >
                   Contient un chiffre
                 </Checkbox>
               </li>
               <li>
-                <Checkbox isSelected={lowercaseRegex.test(passwordValue)} isDisabled color="success" size="sm">
+                <Checkbox
+                  isSelected={lowercaseRegex.test(passwordValue)}
+                  isDisabled
+                  color="success"
+                  size="sm"
+                  data-testid="contain-lowercase"
+                >
                   Contient une lettre minuscule
                 </Checkbox>
               </li>
               <li>
-                <Checkbox isSelected={uppercaseRegex.test(passwordValue)} isDisabled color="success" size="sm">
+                <Checkbox
+                  isSelected={uppercaseRegex.test(passwordValue)}
+                  isDisabled
+                  color="success"
+                  size="sm"
+                  data-testid="contain-uppercase"
+                >
                   Contient une lettre majuscule
                 </Checkbox>
               </li>
               <li>
-                <Checkbox isSelected={specialRegex.test(passwordValue)} isDisabled color="success" size="sm">
+                <Checkbox
+                  isSelected={specialRegex.test(passwordValue)}
+                  isDisabled
+                  color="success"
+                  size="sm"
+                  data-testid="contain-special-character"
+                >
                   Contient un caractère spécial
                 </Checkbox>
               </li>
