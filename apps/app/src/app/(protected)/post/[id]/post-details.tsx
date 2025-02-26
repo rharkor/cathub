@@ -102,7 +102,7 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
               </div>
               <Button
                 as={Link}
-                href={`/profile/${post.user?.id}`}
+                href={`/creators/${post.user?.id}`}
                 color="primary"
                 variant="flat"
                 size="sm"

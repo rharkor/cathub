@@ -1,10 +1,11 @@
 "use client"
 
+import { creatorSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Skeleton } from "@heroui/react"
-import { File, User } from "@prisma/client"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { z } from "zod"
 
 import { trpc } from "@/lib/trpc/client"
 import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
@@ -18,11 +19,7 @@ export default function ProfileBasicInfos({
   isLoading,
   isMyProfile,
 }: {
-  user:
-    | (User & {
-        profilePicture: File | null
-      })
-    | undefined
+  user: z.infer<ReturnType<typeof creatorSchemas.getCreatorResponseSchema>> | undefined
   onEditProfile: () => void
   isLoading: boolean
   isMyProfile?: boolean
