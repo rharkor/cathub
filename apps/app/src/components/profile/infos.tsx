@@ -156,28 +156,30 @@ export default function ProfileBasicInfos({
               {getPostsQuery.data.posts
                 .filter((post) => post.userId === user?.id)
                 .map((post) => (
-                  <Card key={post.id} className="overflow-hidden">
-                    {post.image && (
-                      <CardHeader className="p-0">
-                        <Image
-                          src={getImageUrl(post.image) ?? ""}
-                          alt={post.text}
-                          width={400}
-                          height={300}
-                          className="aspect-video w-full object-cover"
-                        />
-                      </CardHeader>
-                    )}
-                    <CardBody className="p-4">
-                      <p className="line-clamp-3">{post.text}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {post.category.map((cat) => (
-                          <Chip key={cat} variant="flat" size="sm">
-                            {getCategoryLabel(cat)}
-                          </Chip>
-                        ))}
-                      </div>
-                    </CardBody>
+                  <Card key={post.id} className="overflow-hidden transition-shadow hover:shadow-lg">
+                    <Link href={`/post/${post.id}`} className="cursor-pointer">
+                      {post.image && (
+                        <CardHeader className="p-0">
+                          <Image
+                            src={getImageUrl(post.image) ?? ""}
+                            alt={post.text}
+                            width={400}
+                            height={300}
+                            className="aspect-video w-full object-cover"
+                          />
+                        </CardHeader>
+                      )}
+                      <CardBody className="p-4">
+                        <p className="line-clamp-3">{post.text}</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {post.category.map((cat) => (
+                            <Chip key={cat} variant="flat" size="sm">
+                              {getCategoryLabel(cat)}
+                            </Chip>
+                          ))}
+                        </div>
+                      </CardBody>
+                    </Link>
                     <CardFooter className="flex justify-between">
                       <div className="flex items-center gap-2">
                         <Button isIconOnly variant="light" size="sm">

@@ -31,7 +31,17 @@ export async function getAllPosts({ input }: apiInputFromSchema<typeof getPostsR
 export async function getPostById({ input }: apiInputFromSchema<typeof getPostByIdSchema>) {
   try {
     const { id } = input
-    const post = await prisma.post.findUnique({ where: { id }, include: { image: true } })
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        image: true,
+        user: {
+          include: {
+            profilePicture: true,
+          },
+        },
+      },
+    })
 
     if (!post) {
       throw new TRPCError({ code: "NOT_FOUND", message: "Post not found" })

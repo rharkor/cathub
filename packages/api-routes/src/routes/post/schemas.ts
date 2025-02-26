@@ -2,16 +2,18 @@ import { z } from "zod"
 
 import { Category } from "@prisma/client"
 
-import { fileMinimalSchema } from "../me/schemas"
+import { fileMinimalSchema, userSchema } from "../me/schemas"
 
 export const postSchema = () =>
   z.object({
     id: z.string(),
+    imageId: z.string().nullable(),
     image: fileMinimalSchema().nullable(),
     text: z.string(),
     createdAt: z.date(),
     category: z.array(z.nativeEnum(Category)),
     userId: z.string(),
+    user: userSchema().optional(),
   })
 
 export const createPostSchema = () =>
@@ -31,7 +33,9 @@ export const createPostResponseSchema = () =>
 
 export const getPostByIdResponseSchema = () =>
   z.object({
-    post: postSchema(),
+    post: postSchema().extend({
+      user: userSchema(),
+    }),
   })
 
 export const getPostsRequestSchema = () =>

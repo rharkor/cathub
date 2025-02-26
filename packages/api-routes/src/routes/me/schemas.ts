@@ -1,5 +1,22 @@
 import { z } from "zod"
 
+import { Sex } from "@prisma/client"
+
+export const userSchema = () =>
+  z.object({
+    id: z.string(),
+    username: z.string(),
+    email: z.string(),
+    profilePicture: fileMinimalSchema().nullable(),
+    isCathub: z.boolean(),
+    sex: z.nativeEnum(Sex).nullable(),
+    description: z.string().nullable(),
+    price: z.number().nullable(),
+    age: z.number().nullable(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+  })
+
 export const fileMinimalSchema = () =>
   z.object({
     id: z.string(),
