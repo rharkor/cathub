@@ -1,5 +1,7 @@
 import { Page } from "@playwright/test"
 
+import { REGISTER_PAGE_URL } from "@/lib/constants.tests"
+
 class RegisterPage {
   readonly page: Page
 
@@ -8,7 +10,7 @@ class RegisterPage {
   }
 
   get pageUrl() {
-    return "http://localhost:3000/register"
+    return REGISTER_PAGE_URL
   }
 
   get usernameInput() {
