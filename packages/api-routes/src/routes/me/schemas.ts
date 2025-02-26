@@ -1,5 +1,17 @@
 import { z } from "zod"
 
+export const fileMinimalSchema = () =>
+  z.object({
+    id: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+    key: z.string(),
+    filetype: z.string(),
+    bucket: z.string(),
+    endpoint: z.string(),
+    fileUploadingId: z.string().nullable(),
+  })
+
 export const updateSchema = () =>
   z.object({
     profilePictureKey: z.string().nullish(),

@@ -8,7 +8,8 @@ enum Category {
 
 model Post {
     id        String     @id @default(cuid())
-    image     String
+    imageId   String?    @unique
+    image     File?      @relation(fields: [imageId], references: [id])
     text      String
     createdAt DateTime   @default(now())
     category  Category[]

@@ -8,6 +8,7 @@ model File {
     updatedAt DateTime @updatedAt
 
     userProfilePicture User?
+    postImage          Post?
 
     fileUploadingId String?        @unique
     fileUploading   FileUploading? @relation(fields: [fileUploadingId], references: [id], onDelete: SetNull)

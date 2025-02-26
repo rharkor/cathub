@@ -2,10 +2,12 @@ import { z } from "zod"
 
 import { Category } from "@prisma/client"
 
+import { fileMinimalSchema } from "../me/schemas"
+
 export const postSchema = () =>
   z.object({
     id: z.string(),
-    image: z.string(),
+    image: fileMinimalSchema().nullable(),
     text: z.string(),
     createdAt: z.date(),
     category: z.array(z.nativeEnum(Category)),
@@ -13,11 +15,14 @@ export const postSchema = () =>
   })
 
 export const createPostSchema = () =>
-  postSchema().pick({
-    image: true,
-    text: true,
-    category: true,
-  })
+  postSchema()
+    .pick({
+      text: true,
+      category: true,
+    })
+    .extend({
+      image: z.string().nullable(),
+    })
 
 export const createPostResponseSchema = () =>
   z.object({

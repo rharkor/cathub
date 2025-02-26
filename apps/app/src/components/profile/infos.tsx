@@ -1,13 +1,13 @@
 "use client"
 
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Skeleton } from "@heroui/react"
-import { Category, File, User } from "@prisma/client"
+import { File, User } from "@prisma/client"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
 import { trpc } from "@/lib/trpc/client"
-import { cn, getImageUrl } from "@/lib/utils"
+import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
 
 import KibbleIcon from "../icons/kibble"
 import UpdateAvatar from "./update-avatar"
@@ -160,7 +160,7 @@ export default function ProfileBasicInfos({
                     {post.image && (
                       <CardHeader className="p-0">
                         <Image
-                          src={post.image}
+                          src={getImageUrl(post.image) ?? ""}
                           alt={post.text}
                           width={400}
                           height={300}
@@ -171,9 +171,9 @@ export default function ProfileBasicInfos({
                     <CardBody className="p-4">
                       <p className="line-clamp-3">{post.text}</p>
                       <div className="mt-2 flex flex-wrap gap-2">
-                        {post.category.map((cat: Category) => (
+                        {post.category.map((cat) => (
                           <Chip key={cat} variant="flat" size="sm">
-                            {cat}
+                            {getCategoryLabel(cat)}
                           </Chip>
                         ))}
                       </div>
