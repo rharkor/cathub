@@ -5,7 +5,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Input } from "@he
 import { Heart, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { z } from "zod"
 
 import KibbleIcon from "@/components/icons/kibble"
@@ -23,13 +23,24 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
   const { session } = useSession()
 
   // Fetch creators from API
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [page, setPage] = useState(0)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  const [limit, setLimit] = useState(20)
+  const limit = 20
+  const [search, setSearch] = useState("")
+  const [debouncedSearch, setDebouncedSearch] = useState("")
+
+  // Debounce search updates
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [search])
+
   const creatorsQuery = trpc.creator.getCreators.useQuery(
     {
       page,
+      search: debouncedSearch,
       limit,
     },
     {
@@ -37,14 +48,30 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
     }
   )
 
-  // Filter creators based on search query
-  const filteredCreators = (creatorsQuery.data || []).filter((creator) => {
-    if (!searchQuery) return true
-    return (
-      creator.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      creator.description?.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  })
+  // Handle search
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+    setSearch(e.target.value)
+    setPage(0) // Reset to first page when searching
+  }
+
+  // Calculate pagination values
+  const totalCreators = creatorsQuery.data?.total || 0
+  const totalPages = Math.ceil(totalCreators / limit)
+  const hasNextPage = creatorsQuery.data?.hasMore || false
+  const hasPrevPage = page > 0
+
+  // Handle pagination
+  const handleNextPage = () => {
+    if (hasNextPage) setPage(page + 1)
+  }
+
+  const handlePrevPage = () => {
+    if (hasPrevPage) setPage(page - 1)
+  }
+
+  // Get current page creators
+  const currentPageCreators = creatorsQuery.data?.creators || []
 
   return (
     <div className="container mx-auto py-8">
@@ -60,85 +87,102 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
         <Input
           placeholder="Rechercher un créateur..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearch}
           startContent={<Search size={18} />}
           className="max-w-md"
         />
       </div>
 
       {/* Creators grid */}
-      {filteredCreators.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredCreators.map((creator) => (
-            <Card key={creator.id} className="overflow-hidden transition-all hover:shadow-lg">
-              <CardHeader className="p-0">
-                <div className="relative aspect-square w-full overflow-hidden bg-content2">
-                  {creator.profilePicture ? (
-                    <Image
-                      src={getImageUrl(creator.profilePicture) || ""}
-                      alt={creator.username || ""}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-content3">
-                      <span className="text-3xl font-bold">{creator.username?.slice(0, 2) || "?"}</span>
-                    </div>
-                  )}
-                </div>
-              </CardHeader>
-              <CardBody className="p-4">
-                <h3 className="mb-2 text-xl font-semibold">{creator.username}</h3>
-                <p className="mb-4 line-clamp-2 text-sm text-default-500">
-                  {creator.description || "Pas de description"}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {creator.sex && (
-                    <Chip variant="flat" size="sm">
-                      {creator.sex === "FEMALE" ? "Femme" : creator.sex === "MALE" ? "Homme" : "Autre"}
-                    </Chip>
-                  )}
-                  {creator.age && (
-                    <Chip variant="flat" size="sm">
-                      {creator.age} ans
-                    </Chip>
-                  )}
-                  {creator.price && (
-                    <Chip
-                      color="success"
-                      variant="flat"
-                      size="sm"
-                      classNames={{
-                        content: "flex items-center gap-1",
-                      }}
-                    >
-                      <KibbleIcon className="size-3" />
-                      <span>{creator.price}</span>
-                    </Chip>
-                  )}
-                </div>
-              </CardBody>
-              <CardFooter className="flex justify-between gap-2 border-t border-divider p-4">
-                <Button
-                  as={Link}
-                  href={`/creators/${creator.id}`}
-                  color="primary"
-                  variant="flat"
-                  size="sm"
-                  className="flex-1"
-                >
-                  Voir profil
-                </Button>
-                {session && session.userId !== creator.id && (
-                  <Button isIconOnly variant="light" size="sm" className="text-danger">
-                    <Heart size={18} />
+      {currentPageCreators.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {currentPageCreators.map((creator) => (
+              <Card key={creator.id} className="overflow-hidden transition-all hover:shadow-lg">
+                <CardHeader className="p-0">
+                  <div className="relative aspect-square w-full overflow-hidden bg-content2">
+                    {creator.profilePicture ? (
+                      <Image
+                        src={getImageUrl(creator.profilePicture) || ""}
+                        alt={creator.username || ""}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-content3">
+                        <span className="text-3xl font-bold">{creator.username?.slice(0, 2) || "?"}</span>
+                      </div>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardBody className="p-4">
+                  <h3 className="mb-2 text-xl font-semibold">{creator.username}</h3>
+                  <p className="mb-4 line-clamp-2 text-sm text-default-500">
+                    {creator.description || "Pas de description"}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {creator.sex && (
+                      <Chip variant="flat" size="sm">
+                        {creator.sex === "FEMALE" ? "Femme" : creator.sex === "MALE" ? "Homme" : "Autre"}
+                      </Chip>
+                    )}
+                    {creator.age && (
+                      <Chip variant="flat" size="sm">
+                        {creator.age} ans
+                      </Chip>
+                    )}
+                    {creator.price && (
+                      <Chip
+                        color="success"
+                        variant="flat"
+                        size="sm"
+                        classNames={{
+                          content: "flex items-center gap-1",
+                        }}
+                      >
+                        <KibbleIcon className="size-3" />
+                        <span>{creator.price}</span>
+                      </Chip>
+                    )}
+                  </div>
+                </CardBody>
+                <CardFooter className="flex justify-between gap-2 border-t border-divider p-4">
+                  <Button
+                    as={Link}
+                    href={`/creators/${creator.id}`}
+                    color="primary"
+                    variant="flat"
+                    size="sm"
+                    className="flex-1"
+                  >
+                    Voir profil
                   </Button>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                  {session && session.userId !== creator.id && (
+                    <Button isIconOnly variant="light" size="sm" className="text-danger">
+                      <Heart size={18} />
+                    </Button>
+                  )}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+
+          {/* Pagination controls */}
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <Button variant="flat" isDisabled={!hasPrevPage} onClick={handlePrevPage}>
+                Précédent
+              </Button>
+              <div className="text-default-500">
+                Page {page + 1} sur {totalPages}
+              </div>
+              <Button variant="flat" isDisabled={!hasNextPage} onClick={handleNextPage}>
+                Suivant
+              </Button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="rounded-lg bg-content2 p-8 text-center">
           <p className="text-lg font-medium">Aucun créateur trouvé</p>
