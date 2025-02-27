@@ -38,8 +38,8 @@ const Header = () => {
           {!!session ? (
             <Dropdown>
               <DropdownTrigger>
-                <div className="size-10 cursor-pointer overflow-hidden rounded-full bg-default-100">
-                  {userQuery.data?.profilePicture && (
+                <div className="relative size-10 cursor-pointer overflow-hidden rounded-full bg-default-100">
+                  {userQuery.data?.profilePicture ? (
                     <Image
                       src={getImageUrl(userQuery.data.profilePicture) ?? ""}
                       className="size-full object-cover"
@@ -47,6 +47,10 @@ const Header = () => {
                       width={60}
                       height={60}
                     />
+                  ) : (
+                    <div className="flex size-full items-center justify-center text-foreground">
+                      {userQuery.data?.username?.slice(0, 2)}
+                    </div>
                   )}
                 </div>
               </DropdownTrigger>

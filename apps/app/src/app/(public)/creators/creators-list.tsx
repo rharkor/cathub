@@ -2,7 +2,6 @@
 
 import { creatorSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Input } from "@heroui/react"
-import { User } from "@prisma/client"
 import { Heart, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -10,19 +9,23 @@ import { useState } from "react"
 import { z } from "zod"
 
 import KibbleIcon from "@/components/icons/kibble"
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { getImageUrl } from "@/lib/utils"
 
 interface CreatorsListProps {
   creators: z.infer<ReturnType<typeof creatorSchemas.getCreatorsResponseSchema>>
-  currentUser: User | null
 }
 
-export default function CreatorsList({ creators, currentUser }: CreatorsListProps) {
+export default function CreatorsList({ creators }: CreatorsListProps) {
   const [searchQuery, setSearchQuery] = useState("")
 
+  const { session } = useSession()
+
   // Fetch creators from API
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [page, setPage] = useState(0)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [limit, setLimit] = useState(20)
   const creatorsQuery = trpc.creator.getCreators.useQuery(
     {
@@ -127,7 +130,7 @@ export default function CreatorsList({ creators, currentUser }: CreatorsListProp
                 >
                   Voir profil
                 </Button>
-                {currentUser && currentUser.id !== creator.id && (
+                {session && session.userId !== creator.id && (
                   <Button isIconOnly variant="light" size="sm" className="text-danger">
                     <Heart size={18} />
                   </Button>
