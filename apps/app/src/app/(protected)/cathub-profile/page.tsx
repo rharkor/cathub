@@ -1,13 +1,16 @@
-import BasicInfos from "./basic-infos"
-import UpdateAvatar from "./update-avatar"
+import { cookies } from "next/headers"
 
-export default function CathubProfilePage() {
+import { serverTrpc } from "@/lib/trpc/server"
+
+import BasicInfos from "./basic-infos"
+
+export default async function CathubProfilePage() {
+  const cookiesStore = await cookies()
+  const ssrUser = await serverTrpc(cookiesStore).me.get()
+
   return (
     <section className="flex flex-1 flex-col items-center gap-4">
-      <div className="flex flex-col items-center gap-4">
-        <UpdateAvatar />
-        <BasicInfos />
-      </div>
+      <BasicInfos ssrUser={ssrUser} />
     </section>
   )
 }

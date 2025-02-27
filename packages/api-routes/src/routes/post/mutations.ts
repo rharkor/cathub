@@ -1,31 +1,40 @@
 import { z } from "zod"
 
-import { prisma } from "@/lib/prisma"
-import { apiInputFromSchema, ensureLoggedIn } from "@/lib/types"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
-import {
-  createPostResponseSchema,
-  deletePostResponseSchema,
-  deletePostSchema,
-  getPostByIdResponseSchema,
-  getPostByIdSchema,
-  getPostsResponseSchema,
-  postSchema,
-} from "./schemas"
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
+import { getImageUploading } from "../../lib/uploads"
 
-export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof postSchema>) {
+import { createPostResponseSchema, createPostSchema, deletePostResponseSchema, deletePostSchema } from "./schemas"
+
+export async function createPost({ input, ctx: { session } }: apiInputFromSchema<typeof createPostSchema>) {
   try {
     ensureLoggedIn(session)
 
     const { image, text, category } = input
+
+    const fullImage = image === null || image === undefined ? image : await getImageUploading(image)
+
     await prisma.post.create({
       data: {
-        image,
+        image:
+          fullImage !== undefined && fullImage !== null
+            ? {
+                connectOrCreate: {
+                  where: { key: fullImage.key },
+                  create: fullImage,
+                },
+              }
+            : undefined,
         text,
         category,
-        userId: session.userId,
+        user: {
+          connect: {
+            id: session.userId,
+          },
+        },
       },
     })
     const data: z.infer<ReturnType<typeof createPostResponseSchema>> = {
@@ -49,39 +58,5 @@ export async function deletePost({ input }: apiInputFromSchema<typeof deletePost
   } catch (error) {
     logger.error("Error deleting post", error)
     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to delete post" })
-  }
-}
-
-export async function getAllPosts() {
-  try {
-    const posts = await prisma.post.findMany()
-    const data: z.infer<ReturnType<typeof getPostsResponseSchema>> = {
-      posts,
-    }
-    return data
-  } catch (error) {
-    logger.error("Error getting all posts", error)
-    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to get all posts" })
-  }
-}
-
-export async function getPostById({ input }: apiInputFromSchema<typeof getPostByIdSchema>) {
-  try {
-    const { id } = input
-    const post = await prisma.post.findUnique({ where: { id } })
-    const data: z.infer<ReturnType<typeof getPostByIdResponseSchema>> = {
-      post: post ?? {
-        id: "",
-        image: "",
-        text: "",
-        createdAt: new Date(),
-        category: [],
-        userId: "",
-      },
-    }
-    return data
-  } catch (error) {
-    logger.error("Error getting post by id", error)
-    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to get post by id" })
   }
 }

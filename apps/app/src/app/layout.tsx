@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { cookies } from "next/headers"
 import { ToastContainer } from "react-toastify"
 
+import EasterEgg from "@/components/easter-egg"
 import { SessionProvider } from "@/contexts/use-session"
 import { parseJwt } from "@/lib/jwt"
 import TrpcProvider from "@/lib/trpc/provider"
@@ -45,6 +46,7 @@ export default async function RootLayout({
               {children}
               {/* <Footer /> */}
               <ToastContainer theme="dark" />
+              <EasterEgg />
             </RootNextUIProvider>
           </SessionProvider>
         </TrpcProvider>
