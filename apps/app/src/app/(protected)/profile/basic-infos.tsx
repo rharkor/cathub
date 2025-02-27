@@ -44,12 +44,17 @@ export default function BasicInfos() {
   }
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md" data-testid="profile-basicinfos">
       <div className="mb-6 rounded-lg bg-content1 p-6 shadow-sm">
         <h2 className="mb-4 text-xl font-semibold">Account Information</h2>
         <form onSubmit={form.handleSubmit(handleSaveChanges)} className="flex flex-col gap-4">
           <div className="flex flex-col gap-3">
-            <Input label="Email" isDisabled value={getAccountQuery.data?.email} />
+            <Input
+              label="Email"
+              isDisabled
+              value={getAccountQuery.data?.email}
+              data-testid="profile-basicinfos-email"
+            />
             <FormField
               form={form}
               name="username"
@@ -85,7 +90,7 @@ export default function BasicInfos() {
         </form>
       </div>
 
-      <div className="rounded-lg bg-content1 p-6 shadow-sm">
+      <div className="rounded-lg bg-content1 p-6 shadow-sm" data-testid="profile-creator-profile">
         <h2 className="mb-4 text-xl font-semibold">Creator Profile</h2>
         <p className="mb-4 text-sm text-default-500">
           Access your creator profile to manage your content and settings.

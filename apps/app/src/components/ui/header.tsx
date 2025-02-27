@@ -20,7 +20,10 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed left-0 right-0 top-0 z-50 h-[55px] border-b border-default-100 bg-background px-4 py-2">
+      <nav
+        className="fixed left-0 right-0 top-0 z-50 h-[55px] border-b border-default-100 bg-background px-4 py-2"
+        data-testid="navbar-header"
+      >
         <div className="mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center">

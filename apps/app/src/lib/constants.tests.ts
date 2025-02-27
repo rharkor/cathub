@@ -2,6 +2,8 @@
 export const HOME_PAGE_URL = "http://localhost:3000/"
 export const REGISTER_PAGE_URL = "http://localhost:3000/register"
 export const LOGIN_PAGE_URL = "http://localhost:3000/login"
+export const PROFILE_PAGE_URL = "http://localhost:3000/profile"
+export const CATHUB_PROFILE_PAGE_URL = "http://localhost:3000/cathub-profile"
 
 // LOGIN AND REGISTER DATA
 export const USER_EMAIL = "hellokitty@gmail.com"
