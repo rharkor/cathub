@@ -105,7 +105,7 @@ export default function UpdateAvatar() {
 
   return (
     <>
-      <div className={cn("group relative size-20 rounded-full lg:size-32")}>
+      <div className={cn("group relative size-20 rounded-full lg:size-32")} data-testid="profile-avatar">
         <Skeleton isLoaded={!isAccountLoading} className={cn("rounded-full")}>
           <div
             className="relative !size-20 overflow-hidden rounded-full bg-content3 text-large lg:!size-32"

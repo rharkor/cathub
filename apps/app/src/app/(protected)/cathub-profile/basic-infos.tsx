@@ -93,9 +93,10 @@ export default function BasicInfos({
         onOpenChange={setIsOpen}
         isDismissable={isDisimissable}
         hideCloseButton={!isDisimissable}
+        data-testid="cathub-profile-modal"
       >
         <ModalContent>
-          <ModalHeader>Profile</ModalHeader>
+          <ModalHeader>Profil</ModalHeader>
           <ModalBody>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-2">
               <div className="grid w-full grid-cols-2 gap-2">
@@ -120,9 +121,10 @@ export default function BasicInfos({
                           field.onChange((currentKey as Sex) || null)
                         }}
                         isDisabled={updateUserMutation.isPending}
+                        data-testid="cathub-profile-sex"
                       >
                         {Object.values(Sex).map((sexValue) => (
-                          <SelectItem key={sexValue} value={sexValue}>
+                          <SelectItem key={sexValue} value={sexValue} data-testid={`cathub-profile-sex-value`}>
                             {sexValue === "FEMALE" ? "Female" : sexValue === "MALE" ? "Male" : "Other"}
                           </SelectItem>
                         ))}
@@ -165,7 +167,7 @@ export default function BasicInfos({
                     onValueChange={(isSelected) => field.onChange(isSelected)}
                     isDisabled={updateUserMutation.isPending}
                   >
-                    Enable profile discovery
+                    Activer la recherche de profil
                   </Checkbox>
                 )}
               />
