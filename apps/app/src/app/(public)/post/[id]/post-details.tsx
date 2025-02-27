@@ -1,16 +1,16 @@
 "use client"
 
 import { meSchemas } from "@cathub/api-routes/schemas"
-import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, User } from "@heroui/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider } from "@heroui/react"
 import { Category, File, Post, User as UserModel } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2, Trash } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { z } from "zod"
 
+import UserProfile from "@/components/profile/user-header-profile-post"
 import { trpc } from "@/lib/trpc/client"
 import { getCategoryLabel, getImageUrl } from "@/lib/utils"
 
@@ -58,13 +58,7 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="mb-6 flex items-center">
-        <Button
-          as={Link}
-          href="/cathub-profile"
-          variant="light"
-          className="mr-2"
-          startContent={<ArrowLeft size={18} />}
-        >
+        <Button variant="light" onPress={() => router.back()} className="mr-2" startContent={<ArrowLeft size={18} />}>
           Retour
         </Button>
         <h1 className="text-2xl font-bold">Détails du post</h1>
@@ -76,40 +70,22 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
           <CardBody className="p-4">
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               {/* User info section */}
-              <div className="flex flex-grow items-center gap-3">
-                <User
+              <div className="flex w-full flex-col">
+                <UserProfile
                   name={post.user?.username}
                   description={post.user?.description || "Pas de description"}
                   avatarProps={{
                     src: post.user?.profilePicture ? getImageUrl(post.user.profilePicture) || "" : undefined,
                     showFallback: true,
                     fallback: post.user?.username?.slice(0, 3) || "?",
-                    size: "md",
+                    size: "sm",
                   }}
+                  currentUser={currentUser}
+                  userId={post.user?.id}
+                  price={post.user?.price ?? undefined}
+                  age={post.user?.age ?? undefined}
                 />
-                <div className="flex flex-wrap justify-end gap-2">
-                  {post.user?.price && (
-                    <Chip color="success" variant="flat">
-                      {post.user?.price} Kibbles
-                    </Chip>
-                  )}
-                  {post.user?.age && (
-                    <Chip variant="flat" size="sm">
-                      {post.user?.age} ans
-                    </Chip>
-                  )}
-                </div>
               </div>
-              <Button
-                as={Link}
-                href={`/creators/${post.user?.id}`}
-                color="primary"
-                variant="flat"
-                size="sm"
-                className="mt-1"
-              >
-                Voir profil
-              </Button>
             </div>
           </CardBody>
         </Card>
@@ -142,7 +118,7 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
             Publié le {new Date(post.createdAt).toLocaleDateString()} à {new Date(post.createdAt).toLocaleTimeString()}
           </div>
         </CardBody>
-        <CardFooter className="flex justify-between border-t border-divider px-6 py-4">
+        <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
             <Button variant="light" startContent={<Heart size={18} />}>
               J&apos;aime
