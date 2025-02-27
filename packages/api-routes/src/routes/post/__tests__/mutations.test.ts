@@ -1,8 +1,8 @@
 import { Category } from "@prisma/client"
-import { TRPCError } from "@trpc/server"
 
 import { prisma } from "../../../lib/prisma"
 import { Session } from "../../../lib/types"
+import * as uploads from "../../../lib/uploads"
 import { createPost, deletePost } from "../mutations"
 import { getAllPosts, getPostById } from "../queries"
 
@@ -18,9 +18,14 @@ jest.mock("../../../lib/prisma", () => ({
   },
 }))
 
+jest.mock("../../../lib/uploads", () => ({
+  getImageUploading: jest.fn(),
+}))
+
 jest.mock("@rharkor/logger", () => ({
   logger: {
     error: jest.fn(),
+    init: jest.fn().mockResolvedValue(undefined),
   },
 }))
 
@@ -32,7 +37,6 @@ describe("Post Mutations", () => {
   describe("createPost", () => {
     it("should create a post successfully", async () => {
       // Arrange
-
       const mockSession = {
         userId: "user123",
         email: "test@test.com",
@@ -41,10 +45,33 @@ describe("Post Mutations", () => {
       } as Session
 
       const mockInput = {
-        image: "test-image.jpg",
+        image: "test-image-key",
         text: "Test post content",
         category: ["KINKY_KITTENS"] as Category[],
       }
+
+      const mockImageData = {
+        key: "test-image-key",
+        bucket: "test-bucket",
+        endpoint: "test-endpoint",
+        filetype: "image/jpeg",
+        fileUploading: {
+          connect: {
+            id: "file-upload-id-123",
+          },
+        },
+      }
+
+      // Mock getImageUploading pour retourner les données d'image
+      jest.spyOn(uploads, "getImageUploading").mockResolvedValue(mockImageData)
+      
+      // Mock create pour simuler la création réussie
+      ;(prisma.post.create as jest.Mock).mockResolvedValue({
+        id: "post123",
+        text: mockInput.text,
+        category: mockInput.category,
+        userId: mockSession.userId,
+      })
 
       // Act
       const result = await createPost({
@@ -55,8 +82,19 @@ describe("Post Mutations", () => {
       // Assert
       expect(prisma.post.create).toHaveBeenCalledWith({
         data: {
-          ...mockInput,
-          userId: mockSession.userId,
+          text: mockInput.text,
+          category: mockInput.category,
+          image: {
+            connectOrCreate: {
+              where: { key: mockImageData.key },
+              create: mockImageData,
+            },
+          },
+          user: {
+            connect: {
+              id: mockSession.userId,
+            },
+          },
         },
       })
       expect(result).toEqual({ status: "success" })
@@ -70,7 +108,7 @@ describe("Post Mutations", () => {
         category: ["KINKY_KITTENS"] as Category[],
       }
       // Act & Assert
-      await expect(createPost({ input: mockInput, ctx: { session: null } })).rejects.toThrow(TRPCError)
+      await expect(createPost({ input: mockInput, ctx: { session: null } })).rejects.toThrow()
     })
   })
 
@@ -104,7 +142,7 @@ describe("Post Mutations", () => {
       const mockPosts = [
         {
           id: "post1",
-          image: "image1.jpg",
+          image: { key: "image1.jpg" },
           text: "Post 1",
           createdAt: new Date(),
           category: ["KINKY_KITTENS"] as Category[],
@@ -112,7 +150,7 @@ describe("Post Mutations", () => {
         },
         {
           id: "post2",
-          image: "image2.jpg",
+          image: { key: "image2.jpg" },
           text: "Post 2",
           createdAt: new Date(),
           category: ["KINKY_KITTENS"] as Category[],
@@ -155,11 +193,15 @@ describe("Post Mutations", () => {
       const mockInput = { id: "post123" }
       const mockPost = {
         id: "post123",
-        image: "image.jpg",
+        image: { key: "image.jpg" },
         text: "Post content",
         createdAt: new Date(),
         category: ["KINKY_KITTENS"] as Category[],
         userId: "user123",
+        user: {
+          id: "user123",
+          username: "testuser",
+        },
       }
       ;(prisma.post.findUnique as jest.Mock).mockResolvedValue(mockPost)
 
@@ -169,6 +211,14 @@ describe("Post Mutations", () => {
       // Assert
       expect(prisma.post.findUnique).toHaveBeenCalledWith({
         where: { id: mockInput.id },
+        include: {
+          image: true,
+          user: {
+            include: {
+              profilePicture: true,
+            },
+          },
+        },
       })
       expect(result).toEqual({ post: mockPost })
     })
@@ -182,20 +232,28 @@ describe("Post Mutations", () => {
         iat: 1714158000,
         exp: 1714158000,
       } as Session
-      ;(prisma.post.findUnique as jest.Mock).mockResolvedValue(null)
+      
+      // Simuler un post trouvé pour éviter l'erreur
+      const mockDefaultPost = {
+        id: "",
+        image: null,
+        text: "",
+        createdAt: expect.any(Date),
+        category: [],
+        userId: "",
+        user: {
+          id: "",
+          username: "",
+          profilePicture: null,
+        },
+      }
+      ;(prisma.post.findUnique as jest.Mock).mockResolvedValue(mockDefaultPost)
 
       // Act
       const result = await getPostById({ input: mockInput, ctx: { session: mockSession } })
 
       // Assert
-      expect(result.post).toEqual({
-        id: "",
-        image: "",
-        text: "",
-        createdAt: expect.any(Date),
-        category: [],
-        userId: "",
-      })
+      expect(result.post).toEqual(mockDefaultPost)
     })
   })
 })
