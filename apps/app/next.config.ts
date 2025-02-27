@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "cathub.s3.fr-par.scw.cloud",
       },
+      {
+        hostname: "media2.giphy.com",
+      },
     ],
   },
 }
