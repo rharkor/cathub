@@ -223,4 +223,4 @@ describe("Post Queries", () => {
       ).rejects.toThrow(TRPCError)
     })
   })
-}) 
+})

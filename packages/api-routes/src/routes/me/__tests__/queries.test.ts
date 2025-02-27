@@ -74,4 +74,4 @@ describe("Me Queries", () => {
       await expect(getMe({ input: undefined, ctx: { session: null } })).rejects.toThrow()
     })
   })
-}) 
+})

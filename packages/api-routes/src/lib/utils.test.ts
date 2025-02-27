@@ -37,7 +37,7 @@ describe("Utils", () => {
       const start = Date.now()
       await sleep(100) // 100ms
       const elapsed = Date.now() - start
-      
+
       // Allow some flexibility in timing (between 90ms and 150ms)
       expect(elapsed).toBeGreaterThanOrEqual(90)
       expect(elapsed).toBeLessThan(150)
@@ -48,10 +48,10 @@ describe("Utils", () => {
       const sleepPromise = sleep(50).then(() => {
         flag = true
       })
-      
+
       expect(flag).toBe(false)
       await sleepPromise
       expect(flag).toBe(true)
     })
   })
-}) 
+})

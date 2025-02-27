@@ -64,7 +64,7 @@ describe("Post Mutations", () => {
 
       // Mock getImageUploading pour retourner les données d'image
       jest.spyOn(uploads, "getImageUploading").mockResolvedValue(mockImageData)
-      
+
       // Mock create pour simuler la création réussie
       ;(prisma.post.create as jest.Mock).mockResolvedValue({
         id: "post123",
@@ -232,7 +232,7 @@ describe("Post Mutations", () => {
         iat: 1714158000,
         exp: 1714158000,
       } as Session
-      
+
       // Simuler un post trouvé pour éviter l'erreur
       const mockDefaultPost = {
         id: "",
