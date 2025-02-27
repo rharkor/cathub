@@ -10,8 +10,13 @@ import { trpc } from "@/lib/trpc/client"
 import { getImageUrl } from "@/lib/utils"
 
 const Header = () => {
-  const userQuery = trpc.me.get.useQuery()
-  const { signOut } = useSession()
+  const { signOut, session } = useSession()
+  const userQuery = trpc.me.get.useQuery(undefined, {
+    meta: {
+      noDefaultErrorHandling: true,
+    },
+    enabled: !!session,
+  })
 
   return (
     <>
@@ -27,32 +32,38 @@ const Header = () => {
               </Button>
             </div>
           </div>
-          <Dropdown>
-            <DropdownTrigger>
-              <div className="size-10 cursor-pointer overflow-hidden rounded-full bg-default-100">
-                {userQuery.data?.profilePicture && (
-                  <Image
-                    src={getImageUrl(userQuery.data.profilePicture) ?? ""}
-                    className="size-full object-cover"
-                    alt="Profile picture"
-                    width={60}
-                    height={60}
-                  />
-                )}
-              </div>
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownItem key="profile" as={Link} href="/profile">
-                Profil
-              </DropdownItem>
-              <DropdownItem key="creators" as={Link} href="/creators">
-                Créateurs
-              </DropdownItem>
-              <DropdownItem key="sign-out" onPress={signOut} color="danger" className="text-danger">
-                Se déconnecter
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          {!!session ? (
+            <Dropdown>
+              <DropdownTrigger>
+                <div className="size-10 cursor-pointer overflow-hidden rounded-full bg-default-100">
+                  {userQuery.data?.profilePicture && (
+                    <Image
+                      src={getImageUrl(userQuery.data.profilePicture) ?? ""}
+                      className="size-full object-cover"
+                      alt="Profile picture"
+                      width={60}
+                      height={60}
+                    />
+                  )}
+                </div>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem key="profile" as={Link} href="/profile">
+                  Profil
+                </DropdownItem>
+                <DropdownItem key="creators" as={Link} href="/creators">
+                  Créateurs
+                </DropdownItem>
+                <DropdownItem key="sign-out" onPress={signOut} color="danger" className="text-danger">
+                  Se déconnecter
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          ) : (
+            <Button as={Link} href="/login">
+              Se connecter
+            </Button>
+          )}
         </div>
       </nav>
     </>
