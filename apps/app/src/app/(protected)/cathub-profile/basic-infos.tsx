@@ -95,7 +95,7 @@ export default function BasicInfos({
         hideCloseButton={!isDisimissable}
       >
         <ModalContent>
-          <ModalHeader>Profile</ModalHeader>
+          <ModalHeader>Profil</ModalHeader>
           <ModalBody>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-2">
               <div className="grid w-full grid-cols-2 gap-2">
@@ -165,7 +165,7 @@ export default function BasicInfos({
                     onValueChange={(isSelected) => field.onChange(isSelected)}
                     isDisabled={updateUserMutation.isPending}
                   >
-                    Enable profile discovery
+                    Activer la recherche de profil
                   </Checkbox>
                 )}
               />
