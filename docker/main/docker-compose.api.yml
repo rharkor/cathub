@@ -9,7 +9,7 @@ services:
       options:
         max-size: "50m"
     network_mode: "host"
-    env:
+    enviroment:
       PORT: 10098
 
   db:
