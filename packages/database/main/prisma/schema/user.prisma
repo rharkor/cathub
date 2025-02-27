@@ -33,4 +33,17 @@ model User {
     postLikes    PostLike[]
     postDislikes PostDislike[]
     postComments PostComment[]
+    likes        UserProfileLike[] @relation("user")
+    likedUsers   UserProfileLike[] @relation("likedUser")
+}
+
+model UserProfileLike {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, name: "user")
+    userId String
+
+    likedUser   User   @relation(fields: [likedUserId], references: [id], onDelete: Cascade, name: "likedUser")
+    likedUserId String
 }
