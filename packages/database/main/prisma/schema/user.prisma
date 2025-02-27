@@ -1,0 +1,36 @@
+enum Sex {
+    MALE
+    FEMALE
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+model User {
+    id               String  @id @default(cuid())
+    username         String
+    email            String  @unique
+    password         String
+    profilePictureId String? @unique
+    profilePicture   File?   @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
+    role             Role    @default(USER)
+
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    FileUploading FileUploading[]
+
+    //* Cathub
+    isCathub    Boolean                                @default(false)
+    sex         Sex?
+    description String?
+    price       Int?
+    age         Int?
+    location    Unsupported("geography(Point, 4326)")?
+
+    posts        Post[]
+    postLikes    PostLike[]
+    postDislikes PostDislike[]
+    postComments PostComment[]
+}

@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "@/lib/trpc"
+import { publicProcedure, router } from "../../lib/trpc"
 
 import { signIn, signUp } from "./mutations"
 import { signInResponseSchema, signInSchema, signUpResponseSchema, signUpSchema } from "./schemas"

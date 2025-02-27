@@ -9,7 +9,12 @@ import { env } from "./lib/env"
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+)
 
 app.use((req, _res, next) => {
   // request logger

@@ -1,0 +1,63 @@
+enum Category {
+    KINKY_KITTENS // Chatons coquins
+    TABBY_TEASES // Taquineries tigrées
+    FELINE_FETISH // Fétichisme félin
+    SULTRY_STRAYS // Chats errants sensuels
+    WHISKER_WONDERS // Merveilles à moustaches
+}
+
+model Post {
+    id        String     @id @default(cuid())
+    imageId   String?    @unique
+    image     File?      @relation(fields: [imageId], references: [id])
+    text      String
+    createdAt DateTime   @default(now())
+    category  Category[]
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    likes    PostLike[]
+    dislikes PostDislike[]
+    comments PostComment[]
+}
+
+// a user can like a post only once
+model PostLike {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+}
+
+// a user can dislike a post only once
+model PostDislike {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+
+    @@unique([userId, postId])
+}
+
+// a user can comment a post many times
+model PostComment {
+    id        String   @id @default(cuid())
+    text      String
+    createdAt DateTime @default(now())
+    isDeleted Boolean  @default(false)
+
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+}

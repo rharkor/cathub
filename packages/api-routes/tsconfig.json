@@ -13,12 +13,11 @@
     "jsx": "preserve",
     "declaration": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "sourceMap": true,
     "declarationMap": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "paths": {}
   },
-  "include": ["**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
