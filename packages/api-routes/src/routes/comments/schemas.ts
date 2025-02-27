@@ -7,6 +7,7 @@ export const commentSchema = () =>
     createdAt: z.date(),
     postId: z.string(),
     userId: z.string(),
+    isDeleted: z.boolean(),
   })
 
 export const postCommentSchema = () =>
@@ -21,8 +22,9 @@ export const postCommentResponseSchema = () =>
   })
 
 export const updateCommentSchema = () =>
-  commentSchema().pick({
-    id: true,
+  z.object({
+    id: z.string(),
+    isDeleted: z.boolean(),
   })
 
 export const updateCommentResponseSchema = () =>

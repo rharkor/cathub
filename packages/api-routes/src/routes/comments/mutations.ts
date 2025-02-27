@@ -55,9 +55,24 @@ export async function updateComment({ input, ctx: { session } }: apiInputFromSch
 
     const { id } = input
 
+    // First check if comment exists and belongs to user
+    const comment = await prisma.postComment.findUnique({
+      where: { id },
+    })
+
+    if (!comment) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "Comment not found" })
+    }
+
+    if (comment.userId !== session.userId) {
+      throw new TRPCError({ code: "FORBIDDEN", message: "You can only modify your own comments" })
+    }
+
     await prisma.postComment.update({
       where: { id },
-      data: { text: "Ce commentaire a été supprimé" },
+      data: {
+        isDeleted: true,
+      },
     })
 
     const data: z.infer<ReturnType<typeof updateCommentResponseSchema>> = {
@@ -66,6 +81,7 @@ export async function updateComment({ input, ctx: { session } }: apiInputFromSch
     return data
   } catch (error) {
     logger.error("Error updating comment", error)
+    if (error instanceof TRPCError) throw error
     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to update comment" })
   }
 }
