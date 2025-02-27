@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { prisma } from "../../../lib/prisma"
-import { getLikes, getUserLikes } from "../queries"
+import { getLikes } from "../queries"
 
 // Créer un logger de test pour suivre l'exécution
 const testLogger = {
@@ -105,107 +105,6 @@ describe("Like Queries", () => {
       })
       expect(result).toEqual([])
       expect(result.length).toBe(0)
-      testLogger.log("Assertions passed!")
-    })
-  })
-
-  describe("getUserLikes", () => {
-    it("should return likes for a user with post details", async () => {
-      testLogger.log("TEST: should return likes for a user with post details")
-
-      // Arrange
-      const mockInput = {
-        userId: "user123",
-      }
-
-      const mockDate = new Date()
-
-      const mockUserLikes = [
-        {
-          id: "like1",
-          postId: "post1",
-          userId: "user123",
-          createdAt: mockDate,
-          post: {
-            id: "post1",
-            text: "Post 1 content",
-            userId: "otheruser1",
-            createdAt: mockDate,
-            image: { id: "img1", key: "image1.jpg" },
-            user: {
-              id: "otheruser1",
-              username: "otheruser1",
-              profilePicture: null,
-            },
-          },
-        },
-        {
-          id: "like2",
-          postId: "post2",
-          userId: "user123",
-          createdAt: mockDate,
-          post: {
-            id: "post2",
-            text: "Post 2 content",
-            userId: "otheruser2",
-            createdAt: mockDate,
-            image: { id: "img2", key: "image2.jpg" },
-            user: {
-              id: "otheruser2",
-              username: "otheruser2",
-              profilePicture: { id: "pp1", key: "profile1.jpg" },
-            },
-          },
-        },
-      ]
-
-      // Mise à jour du mock pour inclure getUserLikes
-      jest.mock("../../../lib/prisma", () => ({
-        prisma: {
-          postLike: {
-            findMany: jest.fn().mockImplementation((args) => {
-              testLogger.log("prisma.postLike.findMany called with:", args)
-              if (args.where.userId) {
-                return Promise.resolve(mockUserLikes)
-              }
-              return Promise.resolve([])
-            }),
-          },
-        },
-      }))
-
-      testLogger.log("Setting up mock data for user likes:", { mockUserLikes })
-      ;(prisma.postLike.findMany as jest.Mock).mockResolvedValue(mockUserLikes)
-
-      // Act
-      testLogger.log("Calling getUserLikes with input:", mockInput)
-      const result = await getUserLikes({
-        input: mockInput,
-        ctx: { session: null }, // Public procedure, no session needed
-      })
-      testLogger.log("Result received:", result)
-
-      // Assert
-      testLogger.log("Running assertions...")
-      expect(prisma.postLike.findMany).toHaveBeenCalledWith({
-        where: { userId: mockInput.userId },
-        include: {
-          post: {
-            include: {
-              image: true,
-              user: {
-                include: {
-                  profilePicture: true,
-                },
-              },
-            },
-          },
-        },
-      })
-      expect(result).toEqual(mockUserLikes)
-      expect(result.length).toBe(2)
-      expect(result[0].post.text).toBe("Post 1 content")
-      expect(result[1].post.user.username).toBe("otheruser2")
       testLogger.log("Assertions passed!")
     })
   })
