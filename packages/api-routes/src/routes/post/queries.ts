@@ -79,6 +79,11 @@ export async function getRecommendedPosts({ input }: apiInputFromSchema<typeof g
           contains: input.search,
         },
       }),
+      ...(input.selectedCategory && {
+        category: {
+          has: input.selectedCategory,
+        },
+      }),
     }
 
     // Get total count for pagination

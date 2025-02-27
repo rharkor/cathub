@@ -68,6 +68,7 @@ export const getRecommendedPostsSchema = () =>
     limit: z.number().min(1).max(100),
     page: z.number().min(0),
     search: z.string().optional(),
+    selectedCategory: z.nativeEnum(Category).optional(),
   })
 
 export const getRecommendedPostsResponseSchema = () =>

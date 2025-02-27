@@ -19,6 +19,7 @@ interface PostsListProps {
 export default function PostsList({ posts }: PostsListProps) {
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState<Category | undefined>(undefined)
 
   // Debounce search updates
   useEffect(() => {
@@ -28,13 +29,12 @@ export default function PostsList({ posts }: PostsListProps) {
 
     return () => clearTimeout(timer)
   }, [search])
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
   const [page, setPage] = useState(0)
   const limit = 20
 
   // Get all posts from API
   const postsQuery = trpc.post.getRecommendedPosts.useQuery(
-    { limit, page, search: debouncedSearch },
+    { limit, page, search: debouncedSearch, selectedCategory },
     {
       placeholderData: posts,
     }
@@ -42,7 +42,7 @@ export default function PostsList({ posts }: PostsListProps) {
 
   // Handle category filter
   const handleCategoryFilter = (category: Category) => {
-    setSelectedCategory(selectedCategory === category ? null : category)
+    setSelectedCategory(selectedCategory === category ? undefined : category)
   }
 
   // Calculate pagination values
