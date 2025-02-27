@@ -1,5 +1,6 @@
 import { z } from "zod"
 
+import { Prisma } from "@prisma/client"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
@@ -36,10 +37,21 @@ export async function getCreator({ input }: apiInputFromSchema<typeof getCreator
 
 export async function getCreators({ input }: apiInputFromSchema<typeof getCreatorsSchema>) {
   try {
+    const where: Prisma.UserWhereInput = {
+      isCathub: true, // Only return users who have enabled profile discovery
+      ...(input.search && {
+        username: {
+          contains: input.search,
+          mode: "insensitive",
+        },
+      }),
+    }
+
+    // Get total count for pagination
+    const total = await prisma.user.count({ where })
+
     const creators = await prisma.user.findMany({
-      where: {
-        isCathub: true, // Only return users who have enabled profile discovery
-      },
+      where,
       include: {
         profilePicture: true,
       },
@@ -50,7 +62,14 @@ export async function getCreators({ input }: apiInputFromSchema<typeof getCreato
       skip: (input.page ?? 0) * (input.limit ?? 20),
     })
 
-    const data: z.infer<ReturnType<typeof getCreatorsResponseSchema>> = creators
+    // Calculate if there are more results
+    const hasMore = total > (input.page ?? 0 + 1) * (input.limit ?? 20)
+
+    const data: z.infer<ReturnType<typeof getCreatorsResponseSchema>> = {
+      creators,
+      total,
+      hasMore,
+    }
 
     return data
   } catch (error) {
