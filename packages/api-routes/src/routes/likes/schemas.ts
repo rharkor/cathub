@@ -1,12 +1,13 @@
-import { z } from "zod";
+import { z } from "zod"
 
-export const likePostSchema = () => z.object({
-  id: z.string(),
-  postId: z.string(),
-  userId: z.string(),
-  createdAt: z.date(),
-  state: z.enum(["like", "unlike"]),
-})
+export const likePostSchema = () =>
+  z.object({
+    id: z.string(),
+    postId: z.string(),
+    userId: z.string(),
+    createdAt: z.date(),
+    state: z.enum(["like", "unlike"]),
+  })
 
 export const postLikeSchema = () =>
   likePostSchema().pick({
@@ -15,26 +16,31 @@ export const postLikeSchema = () =>
     userId: true,
   })
 
-export const postLikeResponseSchema = () => z.object({
-  status: z.string(),
-})
+export const postLikeResponseSchema = () =>
+  z.object({
+    status: z.string(),
+  })
 
-export const getLikesSchema = () => z.object({
-  postId: z.string(),
-})
+export const getLikesSchema = () =>
+  z.object({
+    postId: z.string(),
+  })
 
-export const userLikeSchema = () => z.object({
-  userId: z.string(),
-  state: z.enum(["like", "unlike"]),
-})
+export const userLikeSchema = () =>
+  z.object({
+    userId: z.string(),
+    state: z.enum(["like", "unlike"]),
+  })
 
-export const userLikeResponseSchema = () => z.object({
-  status: z.string(),
-})
+export const userLikeResponseSchema = () =>
+  z.object({
+    status: z.string(),
+  })
 
-export const getUserLikesSchema = () => z.object({
-  userId: z.string(),
-})
+export const getUserLikesSchema = () =>
+  z.object({
+    userId: z.string(),
+  })
 
 export const userProfileLikeSchema = () =>
   z.object({

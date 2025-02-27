@@ -419,4 +419,4 @@ describe("Like Mutations", () => {
       expect(result).toEqual({ status: "success" })
     })
   })
-}) 
+})

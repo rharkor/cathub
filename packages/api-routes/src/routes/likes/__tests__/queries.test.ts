@@ -10,7 +10,7 @@ const testLogger = {
   },
   error: (message: string, ...args: any[]) => {
     console.error(`[TEST ERROR] ${message}`, ...args)
-  }
+  },
 }
 
 // Mock des dépendances
@@ -38,7 +38,7 @@ describe("Like Queries", () => {
   describe("getLikes", () => {
     it("should return likes for a post", async () => {
       testLogger.log("TEST: should return likes for a post")
-      
+
       // Arrange
       const mockInput = {
         postId: "post123",
@@ -81,7 +81,7 @@ describe("Like Queries", () => {
 
     it("should handle empty results", async () => {
       testLogger.log("TEST: should handle empty results")
-      
+
       // Arrange
       const mockInput = {
         postId: "post-with-no-likes",
@@ -112,14 +112,14 @@ describe("Like Queries", () => {
   describe("getUserLikes", () => {
     it("should return likes for a user with post details", async () => {
       testLogger.log("TEST: should return likes for a user with post details")
-      
+
       // Arrange
       const mockInput = {
         userId: "user123",
       }
 
       const mockDate = new Date()
-      
+
       const mockUserLikes = [
         {
           id: "like1",
@@ -209,4 +209,4 @@ describe("Like Queries", () => {
       testLogger.log("Assertions passed!")
     })
   })
-}) 
+})

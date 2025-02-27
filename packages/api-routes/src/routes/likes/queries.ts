@@ -1,7 +1,7 @@
-import { prisma } from "../../lib/prisma";
-import { apiInputFromSchema } from "../../lib/types";
+import { prisma } from "../../lib/prisma"
+import { apiInputFromSchema } from "../../lib/types"
 
-import { getLikesSchema, getUserLikesSchema } from "./schemas";
+import { getLikesSchema, getUserLikesSchema } from "./schemas"
 
 export function getLikes({ input }: apiInputFromSchema<typeof getLikesSchema>) {
   return prisma.postLike.findMany({
@@ -9,7 +9,7 @@ export function getLikes({ input }: apiInputFromSchema<typeof getLikesSchema>) {
       postId: input.postId,
     },
   })
-};
+}
 
 export function getUserLikes({ input }: apiInputFromSchema<typeof getUserLikesSchema>) {
   return prisma.postLike.findMany({
@@ -30,4 +30,3 @@ export function getUserLikes({ input }: apiInputFromSchema<typeof getUserLikesSc
     },
   })
 }
-

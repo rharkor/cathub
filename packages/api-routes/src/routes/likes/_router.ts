@@ -2,7 +2,13 @@ import { protectedProcedure, publicProcedure, router } from "../../lib/trpc"
 
 import { likePost, likeUserProfile } from "./mutations"
 import { getLikes, getUserLikes } from "./queries"
-import { getLikesSchema, getUserLikesSchema, postLikeResponseSchema, postLikeSchema, userProfileLikeSchema } from "./schemas"
+import {
+  getLikesSchema,
+  getUserLikesSchema,
+  postLikeResponseSchema,
+  postLikeSchema,
+  userProfileLikeSchema,
+} from "./schemas"
 
 /**
  * Comment router
