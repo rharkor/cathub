@@ -20,3 +20,18 @@ export const postCommentResponseSchema = () =>
   z.object({
     status: z.string(),
   })
+
+export const updateCommentSchema = () =>
+  commentSchema().pick({
+    id: true,
+  })
+
+export const updateCommentResponseSchema = () =>
+  z.object({
+    status: z.string(),
+  })
+
+export const getCommentsPostSchema = () =>
+  z.object({
+    postId: z.string(),
+  })
