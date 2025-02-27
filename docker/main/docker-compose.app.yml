@@ -9,4 +9,4 @@ services:
       options:
         max-size: "50m"
     ports:
-      - "10100:3000"
+      - "10105:3000"
