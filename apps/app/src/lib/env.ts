@@ -14,7 +14,7 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_ENV: z.enum(["development", "staging", "preproduction", "production"]).optional(),
     NEXT_PUBLIC_API_URL: z.string().url(),
-    NEXT_PUBLIC_DOMAIN_COOKIES: z.string().url(),
+    NEXT_PUBLIC_DOMAIN_COOKIES: z.string(),
   },
   runtimeEnv: {
     ENV: process.env.ENV,
