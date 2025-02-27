@@ -36,6 +36,7 @@ export function EasterEgg() {
             alt="Oups la boulette"
             className="w-full max-w-md rounded-md"
             width={500}
+            unoptimized
             height={375}
           />
         </ModalBody>
