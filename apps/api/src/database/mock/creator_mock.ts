@@ -7,7 +7,7 @@ const creatorsMock = [
     email: "duchesse@example.com",
     password: "hashed_password_2",
     profilePicture: {
-      key: "/seed/e4f.jpg",
+      key: "seed/e4f.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -28,7 +28,7 @@ const creatorsMock = [
     email: "hello.kitty@example.com",
     password: "hashed_password_3",
     profilePicture: {
-      key: "/seed/4sb.jpg",
+      key: "seed/4sb.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -49,7 +49,7 @@ const creatorsMock = [
     email: "garfield@example.com",
     password: "hashed_password_4",
     profilePicture: {
-      key: "/seed/9u8.jpg",
+      key: "seed/9u8.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -70,7 +70,7 @@ const creatorsMock = [
     email: "marie@example.com",
     password: "hashed_password_6",
     profilePicture: {
-      key: "/seed/au3.jpg",
+      key: "seed/au3.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -91,7 +91,7 @@ const creatorsMock = [
     email: "cheshire@example.com",
     password: "hashed_password_8",
     profilePicture: {
-      key: "/seed/bgf.png",
+      key: "seed/bgf.png",
       filetype: "image/png",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -112,7 +112,7 @@ const creatorsMock = [
     email: "salem@example.com",
     password: "hashed_password_10",
     profilePicture: {
-      key: "/seed/bjf.jpg",
+      key: "seed/bjf.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -133,7 +133,7 @@ const creatorsMock = [
     email: "felix@example.com",
     password: "hashed_password_11",
     profilePicture: {
-      key: "/seed/MTY1NDA3OA.jpg",
+      key: "seed/MTY1NDA3OA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -154,7 +154,7 @@ const creatorsMock = [
     email: "sylvestre@example.com",
     password: "hashed_password_12",
     profilePicture: {
-      key: "/seed/MTcxNjAxOA.jpg",
+      key: "seed/MTcxNjAxOA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -175,7 +175,7 @@ const creatorsMock = [
     email: "tom@example.com",
     password: "hashed_password_13",
     profilePicture: {
-      key: "/seed/MTc1MDUwMg.gif",
+      key: "seed/MTc1MDUwMg.gif",
       filetype: "image/gif",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -196,7 +196,7 @@ const creatorsMock = [
     email: "chat.potte@example.com",
     password: "hashed_password_14",
     profilePicture: {
-      key: "/seed/r0.jpg",
+      key: "seed/r0.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -217,7 +217,7 @@ const postsMock = [
   {
     id: "p1-2",
     image: {
-      key: "/seed/MjAwMjk5MQ.jpg",
+      key: "seed/MjAwMjk5MQ.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -230,7 +230,7 @@ const postsMock = [
   {
     id: "p2-2",
     image: {
-      key: "/seed/d3j.jpg",
+      key: "seed/d3j.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -243,7 +243,7 @@ const postsMock = [
   {
     id: "p3-2",
     image: {
-      key: "/seed/ebv.jpg",
+      key: "seed/ebv.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -256,7 +256,7 @@ const postsMock = [
   {
     id: "p4-2",
     image: {
-      key: "/seed/5ek.jpg",
+      key: "seed/5ek.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -269,7 +269,7 @@ const postsMock = [
   {
     id: "p5-2",
     image: {
-      key: "/seed/6r4.jpg",
+      key: "seed/6r4.jpg",
       filetype: "image/ ",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -282,7 +282,7 @@ const postsMock = [
   {
     id: "p6-2",
     image: {
-      key: "/seed/d90.jpg",
+      key: "seed/d90.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -295,7 +295,7 @@ const postsMock = [
   {
     id: "p1-3",
     image: {
-      key: "/seed/aap.jpg",
+      key: "seed/aap.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -308,7 +308,7 @@ const postsMock = [
   {
     id: "p2-3",
     image: {
-      key: "/seed/s_SbQ3Xju.jpg",
+      key: "seed/s_SbQ3Xju.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -321,7 +321,7 @@ const postsMock = [
   {
     id: "p3-3",
     image: {
-      key: "/seed/8fb.jpg",
+      key: "seed/8fb.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -334,7 +334,7 @@ const postsMock = [
   {
     id: "p4-3",
     image: {
-      key: "/seed/abg.jpg",
+      key: "seed/abg.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -347,7 +347,7 @@ const postsMock = [
   {
     id: "p5-3",
     image: {
-      key: "/seed/acd.jpg",
+      key: "seed/acd.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -360,7 +360,7 @@ const postsMock = [
   {
     id: "p6-3",
     image: {
-      key: "/seed/a47.jpg",
+      key: "seed/a47.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -373,7 +373,7 @@ const postsMock = [
   {
     id: "p1-4",
     image: {
-      key: "/seed/c31.jpg",
+      key: "seed/c31.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -386,7 +386,7 @@ const postsMock = [
   {
     id: "p2-4",
     image: {
-      key: "/seed/dbl.jpg",
+      key: "seed/dbl.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -399,7 +399,7 @@ const postsMock = [
   {
     id: "p3-4",
     image: {
-      key: "/seed/e4f.jpg",
+      key: "seed/e4f.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -412,7 +412,7 @@ const postsMock = [
   {
     id: "p4-4",
     image: {
-      key: "/seed/bua.jpg",
+      key: "seed/bua.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -425,7 +425,7 @@ const postsMock = [
   {
     id: "p5-4",
     image: {
-      key: "/seed/c6q.jpg",
+      key: "seed/c6q.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -438,7 +438,7 @@ const postsMock = [
   {
     id: "p6-4",
     image: {
-      key: "/seed/dkn.jpg",
+      key: "seed/dkn.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -452,7 +452,7 @@ const postsMock = [
   {
     id: "p1-6",
     image: {
-      key: "/seed/cs_LyHtif.jpg",
+      key: "seed/cs_LyHtif.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -465,7 +465,7 @@ const postsMock = [
   {
     id: "p2-6",
     image: {
-      key: "/seed/78d.jpg",
+      key: "seed/78d.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -478,7 +478,7 @@ const postsMock = [
   {
     id: "p3-6",
     image: {
-      key: "/seed/ziBew-QH2.jpg",
+      key: "seed/ziBew-QH2.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -491,7 +491,7 @@ const postsMock = [
   {
     id: "p4-6",
     image: {
-      key: "/seed/28j.jpg",
+      key: "seed/28j.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -504,7 +504,7 @@ const postsMock = [
   {
     id: "p5-6",
     image: {
-      key: "/seed/2bs.jpg",
+      key: "seed/2bs.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -517,7 +517,7 @@ const postsMock = [
   {
     id: "p6-6",
     image: {
-      key: "/seed/dh5.jpg",
+      key: "seed/dh5.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -531,7 +531,7 @@ const postsMock = [
   {
     id: "p1-8",
     image: {
-      key: "/seed/IMG_3753.jpg%3Fex%3D67c1759d%26is%3D67c0241d%26hm%3D1b04e2f49c1da91d963ecd0eaa41705d12110e245419f2177bc6ca16499264b9%26",
+      key: "seed/IMG_3753.jpg%3Fex%3D67c1759d%26is%3D67c0241d%26hm%3D1b04e2f49c1da91d963ecd0eaa41705d12110e245419f2177bc6ca16499264b9%26",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -544,7 +544,7 @@ const postsMock = [
   {
     id: "p2-8",
     image: {
-      key: "/seed/ehu.jpg",
+      key: "seed/ehu.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -557,7 +557,7 @@ const postsMock = [
   {
     id: "p3-8",
     image: {
-      key: "/seed/8ik.jpg",
+      key: "seed/8ik.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -570,7 +570,7 @@ const postsMock = [
   {
     id: "p4-8",
     image: {
-      key: "/seed/717.jpg",
+      key: "seed/717.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -583,7 +583,7 @@ const postsMock = [
   {
     id: "p5-8",
     image: {
-      key: "/seed/cem.jpg",
+      key: "seed/cem.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -596,7 +596,7 @@ const postsMock = [
   {
     id: "p6-8",
     image: {
-      key: "/seed/bsp.jpg",
+      key: "seed/bsp.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -610,7 +610,7 @@ const postsMock = [
   {
     id: "p1-10",
     image: {
-      key: "/seed/1oe.jpg",
+      key: "seed/1oe.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -623,7 +623,7 @@ const postsMock = [
   {
     id: "p2-10",
     image: {
-      key: "/seed/MTc0NDc0OA.jpg",
+      key: "seed/MTc0NDc0OA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -636,7 +636,7 @@ const postsMock = [
   {
     id: "p3-10",
     image: {
-      key: "/seed/cim.jpg",
+      key: "seed/cim.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -649,7 +649,7 @@ const postsMock = [
   {
     id: "p4-10",
     image: {
-      key: "/seed/abm.jpg",
+      key: "seed/abm.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -662,7 +662,7 @@ const postsMock = [
   {
     id: "p5-10",
     image: {
-      key: "/seed/adc.jpg",
+      key: "seed/adc.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -675,7 +675,7 @@ const postsMock = [
   {
     id: "p6-10",
     image: {
-      key: "/seed/3vl.jpg",
+      key: "seed/3vl.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -689,7 +689,7 @@ const postsMock = [
   {
     id: "p1-11",
     image: {
-      key: "/seed/d7f.jpg",
+      key: "seed/d7f.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -702,7 +702,7 @@ const postsMock = [
   {
     id: "p2-11",
     image: {
-      key: "/seed/abr.jpg",
+      key: "seed/abr.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -715,7 +715,7 @@ const postsMock = [
   {
     id: "p3-11",
     image: {
-      key: "/seed/cua.jpg",
+      key: "seed/cua.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -728,7 +728,7 @@ const postsMock = [
   {
     id: "p4-11",
     image: {
-      key: "/seed/bis.jpg",
+      key: "seed/bis.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -741,7 +741,7 @@ const postsMock = [
   {
     id: "p5-11",
     image: {
-      key: "/seed/bi9.jpg",
+      key: "seed/bi9.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -754,7 +754,7 @@ const postsMock = [
   {
     id: "p6-11",
     image: {
-      key: "/seed/bnb.jpg",
+      key: "seed/bnb.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -768,7 +768,7 @@ const postsMock = [
   {
     id: "p1-12",
     image: {
-      key: "/seed/MTUzOTY3NQ.jpg",
+      key: "seed/MTUzOTY3NQ.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -781,7 +781,7 @@ const postsMock = [
   {
     id: "p2-12",
     image: {
-      key: "/seed/1tj.jpg",
+      key: "seed/1tj.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -794,7 +794,7 @@ const postsMock = [
   {
     id: "p3-12",
     image: {
-      key: "/seed/b19.jpg",
+      key: "seed/b19.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -807,7 +807,7 @@ const postsMock = [
   {
     id: "p4-12",
     image: {
-      key: "/seed/9no.jpg",
+      key: "seed/9no.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -820,7 +820,7 @@ const postsMock = [
   {
     id: "p5-12",
     image: {
-      key: "/seed/9u7.jpg",
+      key: "seed/9u7.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -833,7 +833,7 @@ const postsMock = [
   {
     id: "p6-12",
     image: {
-      key: "/seed/c98.jpg",
+      key: "seed/c98.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -847,7 +847,7 @@ const postsMock = [
   {
     id: "p1-13",
     image: {
-      key: "/seed/95g.jpg",
+      key: "seed/95g.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -860,7 +860,7 @@ const postsMock = [
   {
     id: "p2-13",
     image: {
-      key: "/seed/43a.jpg",
+      key: "seed/43a.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -873,7 +873,7 @@ const postsMock = [
   {
     id: "p3-13",
     image: {
-      key: "/seed/a3d.jpg",
+      key: "seed/a3d.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -886,7 +886,7 @@ const postsMock = [
   {
     id: "p4-13",
     image: {
-      key: "/seed/MTgwODA3MA.jpg",
+      key: "seed/MTgwODA3MA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -899,7 +899,7 @@ const postsMock = [
   {
     id: "p5-13",
     image: {
-      key: "/seed/MTU2ODk0NA.jpg",
+      key: "seed/MTU2ODk0NA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -912,7 +912,7 @@ const postsMock = [
   {
     id: "p6-13",
     image: {
-      key: "/seed/MTYyNTc1MA.jpg",
+      key: "seed/MTYyNTc1MA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -926,7 +926,7 @@ const postsMock = [
   {
     id: "p1-14",
     image: {
-      key: "/seed/4bp.gif",
+      key: "seed/4bp.gif",
       filetype: "image/gif",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -939,7 +939,7 @@ const postsMock = [
   {
     id: "p2-14",
     image: {
-      key: "/seed/bbi.jpg",
+      key: "seed/bbi.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -952,7 +952,7 @@ const postsMock = [
   {
     id: "p3-14",
     image: {
-      key: "/seed/4g4.gif",
+      key: "seed/4g4.gif",
       filetype: "image/gif",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -965,7 +965,7 @@ const postsMock = [
   {
     id: "p4-14",
     image: {
-      key: "/seed/MTc4NTcxMg.gif",
+      key: "seed/MTc4NTcxMg.gif",
       filetype: "image/gif",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -978,7 +978,7 @@ const postsMock = [
   {
     id: "p5-14",
     image: {
-      key: "/seed/7iq.jpg",
+      key: "seed/7iq.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -991,7 +991,7 @@ const postsMock = [
   {
     id: "p6-14",
     image: {
-      key: "/seed/91i.jpg",
+      key: "seed/91i.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",

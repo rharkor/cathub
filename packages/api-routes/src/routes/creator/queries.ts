@@ -4,14 +4,12 @@ import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
 import { prisma } from "../../lib/prisma"
-import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
+import { apiInputFromSchema } from "../../lib/types"
 
 import { getCreatorSchema, getCreatorsResponseSchema, getCreatorsSchema } from "./schemas"
 
-export async function getCreator({ input, ctx: { session } }: apiInputFromSchema<typeof getCreatorSchema>) {
+export async function getCreator({ input }: apiInputFromSchema<typeof getCreatorSchema>) {
   try {
-    ensureLoggedIn(session)
-
     const creator = await prisma.user.findUnique({
       where: {
         id: input.id,
@@ -36,10 +34,8 @@ export async function getCreator({ input, ctx: { session } }: apiInputFromSchema
   }
 }
 
-export async function getCreators({ ctx: { session }, input }: apiInputFromSchema<typeof getCreatorsSchema>) {
+export async function getCreators({ input }: apiInputFromSchema<typeof getCreatorsSchema>) {
   try {
-    ensureLoggedIn(session)
-
     const creators = await prisma.user.findMany({
       where: {
         isCathub: true, // Only return users who have enabled profile discovery
