@@ -78,7 +78,7 @@ export default function BasicInfos() {
               </>
             ) : (
               <Button key="edit" color="primary" onPress={() => setIsEditing(true)} type="button">
-                Edit Profile
+                Mettre à jour
               </Button>
             )}
           </div>
