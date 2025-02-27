@@ -36,7 +36,7 @@ const LoginForm = () => {
       maxAge: 365 * 24 * 60 * 60,
       path: "/",
       sameSite: "lax",
-      secure: env.ENV === "production",
+      secure: env.NEXT_PUBLIC_ENV === "production",
     })
     setToken(token)
     router.push("/") // Redirect to home or dashboard as appropriate
