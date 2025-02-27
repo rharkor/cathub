@@ -93,6 +93,7 @@ export default function BasicInfos({
         onOpenChange={setIsOpen}
         isDismissable={isDisimissable}
         hideCloseButton={!isDisimissable}
+        data-testid="cathub-profile-modal"
       >
         <ModalContent>
           <ModalHeader>Profil</ModalHeader>
@@ -120,9 +121,10 @@ export default function BasicInfos({
                           field.onChange((currentKey as Sex) || null)
                         }}
                         isDisabled={updateUserMutation.isPending}
+                        data-testid="cathub-profile-sex"
                       >
                         {Object.values(Sex).map((sexValue) => (
-                          <SelectItem key={sexValue} value={sexValue}>
+                          <SelectItem key={sexValue} value={sexValue} data-testid={`cathub-profile-sex-value`}>
                             {sexValue === "FEMALE" ? "Female" : sexValue === "MALE" ? "Male" : "Other"}
                           </SelectItem>
                         ))}
