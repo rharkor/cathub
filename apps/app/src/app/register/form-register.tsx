@@ -38,6 +38,7 @@ const RegisterForm = () => {
       path: "/",
       sameSite: "lax",
       secure: env.NEXT_PUBLIC_ENV === "production",
+      domain: env.NEXT_PUBLIC_DOMAIN_COOKIES,
     })
     setToken(token)
     router.push("/") // Redirect to home or dashboard as needed

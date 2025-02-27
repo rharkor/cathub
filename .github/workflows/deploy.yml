@@ -198,6 +198,7 @@ jobs:
           echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> apps/app/.env
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> apps/app/.env
           echo "DATABASE_PRISMA_URL=${{ secrets.DATABASE_PRISMA_URL }}" >> apps/app/.env
+          echo "NEXT_PUBLIC_DOMAIN_COOKIES=.cathub.huort.com" >> apps/app/.env
 
       - name: Login to docker
         uses: docker/login-action@v3
