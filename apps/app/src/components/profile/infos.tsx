@@ -1,12 +1,14 @@
 "use client"
 
+import { creatorSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Skeleton } from "@heroui/react"
-import { Category, File, User } from "@prisma/client"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
+import { z } from "zod"
 
 import { trpc } from "@/lib/trpc/client"
-import { cn, getImageUrl } from "@/lib/utils"
+import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
 
 import KibbleIcon from "../icons/kibble"
 import UpdateAvatar from "./update-avatar"
@@ -17,11 +19,7 @@ export default function ProfileBasicInfos({
   isLoading,
   isMyProfile,
 }: {
-  user:
-    | (User & {
-        profilePicture: File | null
-      })
-    | undefined
+  user: z.infer<ReturnType<typeof creatorSchemas.getCreatorResponseSchema>> | undefined
   onEditProfile: () => void
   isLoading: boolean
   isMyProfile?: boolean
@@ -135,7 +133,14 @@ export default function ProfileBasicInfos({
 
         {/* Posts Section */}
         <div className="mt-8">
-          <h2 className="mb-4 text-2xl font-bold">Posts récents</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Posts récents</h2>
+            {isMyProfile && (
+              <Link href="/cathub-profile/create-post">
+                <Button color="primary">Créer un post</Button>
+              </Link>
+            )}
+          </div>
 
           {getPostsQuery.isPending ? (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -148,28 +153,30 @@ export default function ProfileBasicInfos({
               {getPostsQuery.data.posts
                 .filter((post) => post.userId === user?.id)
                 .map((post) => (
-                  <Card key={post.id} className="overflow-hidden">
-                    {post.image && (
-                      <CardHeader className="p-0">
-                        <Image
-                          src={post.image}
-                          alt={post.text}
-                          width={400}
-                          height={300}
-                          className="aspect-video w-full object-cover"
-                        />
-                      </CardHeader>
-                    )}
-                    <CardBody className="p-4">
-                      <p className="line-clamp-3">{post.text}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {post.category.map((cat: Category) => (
-                          <Chip key={cat} variant="flat" size="sm">
-                            {cat}
-                          </Chip>
-                        ))}
-                      </div>
-                    </CardBody>
+                  <Card key={post.id} className="overflow-hidden transition-shadow hover:shadow-lg">
+                    <Link href={`/post/${post.id}`} className="cursor-pointer">
+                      {post.image && (
+                        <CardHeader className="p-0">
+                          <Image
+                            src={getImageUrl(post.image) ?? ""}
+                            alt={post.text}
+                            width={400}
+                            height={300}
+                            className="aspect-video w-full object-cover"
+                          />
+                        </CardHeader>
+                      )}
+                      <CardBody className="p-4">
+                        <p className="line-clamp-3">{post.text}</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {post.category.map((cat) => (
+                            <Chip key={cat} variant="flat" size="sm">
+                              {getCategoryLabel(cat)}
+                            </Chip>
+                          ))}
+                        </div>
+                      </CardBody>
+                    </Link>
                     <CardFooter className="flex justify-between">
                       <div className="flex items-center gap-2">
                         <Button isIconOnly variant="light" size="sm">
@@ -187,7 +194,14 @@ export default function ProfileBasicInfos({
           ) : (
             <div className="rounded-lg bg-content2 p-8 text-center">
               <p className="mb-4 text-lg font-medium">Pas encore de posts</p>
-              {isMyProfile && <p className="text-content3-foreground">Les posts que vous créez apparaîtront ici</p>}
+              {isMyProfile && (
+                <>
+                  <p className="mb-4 text-content3-foreground">Les posts que vous créez apparaîtront ici</p>
+                  <Link href="/cathub-profile/create-post">
+                    <Button color="primary">Créer mon premier post</Button>
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>

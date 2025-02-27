@@ -3,7 +3,8 @@ import { TRPCError } from "@trpc/server"
 
 import { prisma } from "../../../lib/prisma"
 import { Session } from "../../../lib/types"
-import { createPost, deletePost, getAllPosts, getPostById } from "../mutations"
+import { createPost, deletePost } from "../mutations"
+import { getAllPosts, getPostById } from "../queries"
 
 // Mock des dépendances
 jest.mock("../../../lib/prisma", () => ({
