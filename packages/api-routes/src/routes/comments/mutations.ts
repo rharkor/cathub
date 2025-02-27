@@ -6,7 +6,12 @@ import { TRPCError } from "@trpc/server"
 import { prisma } from "../../lib/prisma"
 import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
 
-import { postCommentResponseSchema, postCommentSchema, updateCommentResponseSchema, updateCommentSchema } from "./schemas"
+import {
+  postCommentResponseSchema,
+  postCommentSchema,
+  updateCommentResponseSchema,
+  updateCommentSchema,
+} from "./schemas"
 
 /**
  * Post a comment
@@ -50,9 +55,9 @@ export async function updateComment({ input, ctx: { session } }: apiInputFromSch
 
     const { id } = input
 
-    await prisma.postComment.update({ 
-      where: { id }, 
-      data: { text: "Ce commentaire a été supprimé" } 
+    await prisma.postComment.update({
+      where: { id },
+      data: { text: "Ce commentaire a été supprimé" },
     })
 
     const data: z.infer<ReturnType<typeof updateCommentResponseSchema>> = {

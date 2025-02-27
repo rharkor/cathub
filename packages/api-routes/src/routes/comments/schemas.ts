@@ -1,13 +1,12 @@
 import { z } from "zod"
 
-
 export const commentSchema = () =>
   z.object({
     id: z.string(),
     text: z.string(),
     createdAt: z.date(),
     postId: z.string(),
-    userId: z.string()
+    userId: z.string(),
   })
 
 export const postCommentSchema = () =>
