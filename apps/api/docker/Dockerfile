@@ -49,4 +49,4 @@ COPY --from=builder /usr/src/app .
 WORKDIR /usr/src/app/apps/api
 
 # Run database migrations and start the server
-CMD prisma migrate deploy && npm start
+CMD prisma migrate deploy && npm run seed && npm start
