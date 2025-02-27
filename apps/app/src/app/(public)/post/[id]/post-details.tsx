@@ -1,30 +1,25 @@
 "use client"
 
-import { meSchemas } from "@cathub/api-routes/schemas"
-import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, User } from "@heroui/react"
-import { Category, File, Post, User as UserModel } from "@prisma/client"
+import { postSchemas } from "@cathub/api-routes/schemas"
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider } from "@heroui/react"
+import { Category } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2, Trash } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { z } from "zod"
 
+import UserProfile from "@/components/profile/user-header-profile-post"
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { getCategoryLabel, getImageUrl } from "@/lib/utils"
 
-type PostWithImageAndUser = Post & {
-  image: File | null
-  user?: z.infer<ReturnType<typeof meSchemas.userSchema>>
-}
-
 interface PostDetailsProps {
-  post: PostWithImageAndUser
-  currentUser: UserModel
+  post: z.infer<ReturnType<typeof postSchemas.getPostByIdResponseSchema>>
 }
 
-export default function PostDetails({ post, currentUser }: PostDetailsProps) {
+export default function PostDetails({ post }: PostDetailsProps) {
   const router = useRouter()
   const utils = trpc.useUtils()
   const [isDeleting, setIsDeleting] = useState(false)
@@ -45,7 +40,7 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
     if (confirm("Êtes-vous sûr de vouloir supprimer ce post ?")) {
       setIsDeleting(true)
       try {
-        await deletePostMutation.mutateAsync({ id: post.id })
+        await deletePostMutation.mutateAsync({ id: post.post.id })
       } catch (error) {
         console.error("Error deleting post:", error)
         setIsDeleting(false)
@@ -53,77 +48,61 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
     }
   }
 
-  const isOwner = post.userId === currentUser.id
+  const { session } = useSession()
+
+  const isOwner = post.post.userId === session?.userId
 
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="mb-6 flex items-center">
-        <Button
-          as={Link}
-          href="/cathub-profile"
-          variant="light"
-          className="mr-2"
-          startContent={<ArrowLeft size={18} />}
-        >
+        <Button variant="light" onPress={() => router.back()} className="mr-2" startContent={<ArrowLeft size={18} />}>
           Retour
         </Button>
         <h1 className="text-2xl font-bold">Détails du post</h1>
       </div>
 
       {/* Creator Profile Card */}
-      {post.user && (
+      {post.post.user && (
         <Card className="mb-6 w-full">
           <CardBody className="p-4">
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               {/* User info section */}
-              <div className="flex flex-grow items-center gap-3">
-                <User
-                  name={post.user?.username}
-                  description={post.user?.description || "Pas de description"}
+              <div className="flex w-full flex-col">
+                <UserProfile
+                  name={post.post.user?.username}
+                  description={post.post.user?.description || "Pas de description"}
                   avatarProps={{
-                    src: post.user?.profilePicture ? getImageUrl(post.user.profilePicture) || "" : undefined,
+                    src: post.post.user?.profilePicture ? getImageUrl(post.post.user.profilePicture) || "" : undefined,
                     showFallback: true,
-                    fallback: post.user?.username?.slice(0, 3) || "?",
-                    size: "md",
+                    fallback: post.post.user?.username?.slice(0, 3) || "?",
+                    size: "sm",
                   }}
+                  userId={post.post.user?.id}
+                  price={post.post.user?.price ?? undefined}
+                  age={post.post.user?.age ?? undefined}
                 />
-                <div className="flex flex-wrap justify-end gap-2">
-                  {post.user?.price && (
-                    <Chip color="success" variant="flat">
-                      {post.user?.price} Kibbles
-                    </Chip>
-                  )}
-                  {post.user?.age && (
-                    <Chip variant="flat" size="sm">
-                      {post.user?.age} ans
-                    </Chip>
-                  )}
-                </div>
               </div>
-              <Button
-                as={Link}
-                href={`/creators/${post.user?.id}`}
-                color="primary"
-                variant="flat"
-                size="sm"
-                className="mt-1"
-              >
-                Voir profil
-              </Button>
             </div>
           </CardBody>
         </Card>
       )}
 
       <Card className="w-full">
-        {post.image && (
+        {post.post.image && (
           <CardHeader className="p-0">
             <div className="relative aspect-video w-full">
               <Image
-                src={getImageUrl(post.image) ?? ""}
-                alt={post.text}
+                src={getImageUrl(post.post.image) ?? ""}
+                alt={post.post.text}
                 fill
-                className="object-cover"
+                className="z-10 object-contain"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+              <Image
+                src={getImageUrl(post.post.image) ?? ""}
+                alt={post.post.text}
+                fill
+                className="object-cover blur-md"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
@@ -131,18 +110,19 @@ export default function PostDetails({ post, currentUser }: PostDetailsProps) {
         )}
         <CardBody className="p-6">
           <div className="mb-4 flex flex-wrap gap-2">
-            {post.category.map((cat: Category) => (
+            {post.post.category.map((cat: Category) => (
               <Chip key={cat} variant="flat">
                 {getCategoryLabel(cat)}
               </Chip>
             ))}
           </div>
-          <p className="whitespace-pre-wrap text-lg">{post.text}</p>
+          <p className="whitespace-pre-wrap text-lg">{post.post.text}</p>
           <div className="mt-4 text-sm text-default-400">
-            Publié le {new Date(post.createdAt).toLocaleDateString()} à {new Date(post.createdAt).toLocaleTimeString()}
+            Publié le {new Date(post.post.createdAt).toLocaleDateString()} à{" "}
+            {new Date(post.post.createdAt).toLocaleTimeString()}
           </div>
         </CardBody>
-        <CardFooter className="flex justify-between border-t border-divider px-6 py-4">
+        <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
             <Button variant="light" startContent={<Heart size={18} />}>
               J&apos;aime

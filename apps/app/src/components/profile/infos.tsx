@@ -110,7 +110,7 @@ export default function ProfileBasicInfos({
 
             <Divider className="my-2" />
 
-            <Skeleton isLoaded={!isLoading} className="h-24 w-full">
+            <Skeleton isLoaded={!isLoading} className="h-full w-full">
               <div className="rounded-lg bg-content2 p-4">
                 <h3 className="mb-2 text-lg font-semibold">À propos {isMyProfile && "de moi"}</h3>
                 <p className="text-content3-foreground">{user?.description || "Aucune description fournie."}</p>

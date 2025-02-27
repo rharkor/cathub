@@ -13,6 +13,12 @@ export const getCreatorsSchema = () =>
   z.object({
     page: z.number().min(0).optional(),
     limit: z.number().min(1).max(100).optional(),
+    search: z.string().optional(),
   })
 
-export const getCreatorsResponseSchema = () => z.array(userSchema())
+export const getCreatorsResponseSchema = () =>
+  z.object({
+    creators: z.array(userSchema()),
+    total: z.number(),
+    hasMore: z.boolean(),
+  })
