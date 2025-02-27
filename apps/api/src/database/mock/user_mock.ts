@@ -5,7 +5,7 @@ const usersMock = [
     email: "john.doe@example.com",
     password: "hashed_password_1",
     profilePicture: {
-      key: "/seed/dj.jpg",
+      key: "seed/dj.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -25,7 +25,7 @@ const usersMock = [
     email: "charlie.brown@example.com",
     password: "hashed_password_5",
     profilePicture: {
-      key: "/seed/200.jpg",
+      key: "seed/200.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -45,7 +45,7 @@ const usersMock = [
     email: "ethan.hunt@example.com",
     password: "hashed_password_7",
     profilePicture: {
-      key: "/seed/8to.jpg",
+      key: "seed/8to.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -65,7 +65,7 @@ const usersMock = [
     email: "george.miller@example.com",
     password: "hashed_password_9",
     profilePicture: {
-      key: "/seed/9sf.jpg",
+      key: "seed/9sf.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -85,7 +85,7 @@ const usersMock = [
     email: "alice.wonder@example.com",
     password: "hashed_password_10",
     profilePicture: {
-      key: "/seed/a6p.jpg",
+      key: "seed/a6p.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -105,7 +105,7 @@ const usersMock = [
     email: "bob.builder@example.com",
     password: "hashed_password_11",
     profilePicture: {
-      key: "/seed/MTQ5OTU5Nw.jpg",
+      key: "seed/MTQ5OTU5Nw.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -125,7 +125,7 @@ const usersMock = [
     email: "clara.oswald@example.com",
     password: "hashed_password_12",
     profilePicture: {
-      key: "/seed/e2k.jpg",
+      key: "seed/e2k.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -145,7 +145,7 @@ const usersMock = [
     email: "david.tennant@example.com",
     password: "hashed_password_13",
     profilePicture: {
-      key: "/seed/MjAxMjkwMg.jpg",
+      key: "seed/MjAxMjkwMg.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -165,7 +165,7 @@ const usersMock = [
     email: "eva.green@example.com",
     password: "hashed_password_14",
     profilePicture: {
-      key: "/seed/MTcxMjM2Mg.gif",
+      key: "seed/MTcxMjM2Mg.gif",
       filetype: "image/gif",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",
@@ -185,7 +185,7 @@ const usersMock = [
     email: "frank.underwood@example.com",
     password: "hashed_password_15",
     profilePicture: {
-      key: "/seed/MjA2NDc4OA.jpg",
+      key: "seed/MjA2NDc4OA.jpg",
       filetype: "image/jpg",
       bucket: "cathub",
       endpoint: "s3.fr-par.scw.cloud",

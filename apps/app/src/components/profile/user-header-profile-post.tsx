@@ -1,5 +1,4 @@
 import { Button, Chip } from "@heroui/react"
-import { User } from "@prisma/client"
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
@@ -21,7 +20,6 @@ export default function UserProfile({
     fallback?: string
     size?: "sm" | "md" | "lg"
   }
-  currentUser?: User | null
   userId?: string
   price?: number
   age?: number
