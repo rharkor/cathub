@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "node dist/app.js",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "type-check": "tsc --noEmit",
     "lint": "eslint",
     "lint-report": "eslint . -f ../../node_modules/eslint-detailed-reporter/lib/detailed.js -o ../../report/report-api.html",
@@ -31,6 +31,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "express": "^4.21.2",
+    "tsc-alias": "^1.8.11",
     "tsx": "^4.19.2",
     "typescript-eslint": "^8.22.0",
     "zod": "^3.24.1"
@@ -42,5 +43,8 @@
     "eslint": "^9.18.0",
     "nodemon": "^3.1.9",
     "typescript": "^5.7.3"
+  },
+  "prisma": {
+    "schema": "../../packages/database/main/prisma/schema"
   }
 }

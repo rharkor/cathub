@@ -166,7 +166,7 @@ const main = async () => {
       data: {
         email: env.ADMIN_EMAIL,
         username: "admin",
-        password: env.ADMIN_PASSWORD,
+        password: hashSync(env.ADMIN_PASSWORD, 10),
         role: "ADMIN",
       },
     })

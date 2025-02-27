@@ -1,0 +1,13 @@
+name: cathub-app
+services:
+  app:
+    image: "rg.fr-par.scw.cloud/cathub/app:latest"
+    container_name: cathub-app
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+    network_mode: "host"
+    env:
+      PORT: 10105

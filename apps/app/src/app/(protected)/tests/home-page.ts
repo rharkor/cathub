@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test"
+import { Locator, Page } from "@playwright/test"
 
 import { HOME_PAGE_URL } from "@/lib/constants.tests"
 
@@ -9,8 +9,12 @@ class HomePage {
     this.page = page
   }
 
-  get pageUrl() {
+  get pageUrl(): string {
     return HOME_PAGE_URL
+  }
+
+  get navbarHeader(): Locator {
+    return this.page.getByTestId("navbar-header")
   }
 }
 

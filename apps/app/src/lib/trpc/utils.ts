@@ -40,23 +40,24 @@ export const handleMutationError = <T extends TRPCClientErrorLike<AppRouter>>(
 
 export const handleApiError = <T extends TRPCClientErrorLike<AppRouter>>(error: T, router: AppRouterInstance): T => {
   try {
-    if (typeof error.message === "string") {
-      return {
-        ...error,
-        message: error.message,
-      }
-    }
-    const parsedError = JSON.parse(error.message)
-    const translatedError = parsedError.message
-    const avoidRedirect = parsedError.extra && "redirect" in parsedError.extra && parsedError.extra.redirect === false
-    if (error.data?.code === "UNAUTHORIZED" && !avoidRedirect) {
+    if (error.data?.code === "UNAUTHORIZED") {
       router.push("/login")
     }
-
     return {
       ...error,
-      message: translatedError,
+      message: error.message,
     }
+    // const parsedError = JSON.parse(error.message)
+    // const translatedError = parsedError.message
+    // const avoidRedirect = parsedError.extra && "redirect" in parsedError.extra && parsedError.extra.redirect === false
+    // if (error.data?.code === "UNAUTHORIZED" && !avoidRedirect) {
+    //   router.push("/login")
+    // }
+
+    // return {
+    //   ...error,
+    //   message: translatedError,
+    // }
   } catch {
     return {
       ...error,
