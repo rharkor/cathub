@@ -1,7 +1,7 @@
-import { protectedProcedure, router } from "../../lib/trpc"
+import { protectedProcedure, publicProcedure, router } from "../../lib/trpc"
 
 import { createPost, deletePost } from "./mutations"
-import { getAllPosts, getPostById } from "./queries"
+import { getAllPosts, getPostById, getRecommendedPosts } from "./queries"
 import {
   createPostResponseSchema,
   createPostSchema,
@@ -11,11 +11,17 @@ import {
   getPostByIdSchema,
   getPostsRequestSchema,
   getPostsResponseSchema,
+  getRecommendedPostsResponseSchema,
+  getRecommendedPostsSchema,
 } from "./schemas"
 
 export const postRouter = router({
   createPost: protectedProcedure.input(createPostSchema()).output(createPostResponseSchema()).mutation(createPost),
   deletePost: protectedProcedure.input(deletePostSchema()).output(deletePostResponseSchema()).mutation(deletePost),
-  getPostById: protectedProcedure.input(getPostByIdSchema()).output(getPostByIdResponseSchema()).query(getPostById),
-  getPosts: protectedProcedure.input(getPostsRequestSchema()).output(getPostsResponseSchema()).query(getAllPosts),
+  getPostById: publicProcedure.input(getPostByIdSchema()).output(getPostByIdResponseSchema()).query(getPostById),
+  getPosts: publicProcedure.input(getPostsRequestSchema()).output(getPostsResponseSchema()).query(getAllPosts),
+  getRecommendedPosts: publicProcedure
+    .input(getRecommendedPostsSchema())
+    .output(getRecommendedPostsResponseSchema())
+    .query(getRecommendedPosts),
 })

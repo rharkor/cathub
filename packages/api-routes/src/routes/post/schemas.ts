@@ -62,3 +62,17 @@ export const deletePostResponseSchema = () =>
   z.object({
     status: z.string(),
   })
+
+export const getRecommendedPostsSchema = () =>
+  z.object({
+    limit: z.number().min(1).max(100),
+    page: z.number().min(0),
+    search: z.string().optional(),
+  })
+
+export const getRecommendedPostsResponseSchema = () =>
+  z.object({
+    posts: z.array(postSchema()),
+    total: z.number(),
+    hasMore: z.boolean(),
+  })
