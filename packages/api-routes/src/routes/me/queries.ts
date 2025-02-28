@@ -18,6 +18,8 @@ export async function getMe({ ctx: { session } }: apiInputFromSchema<typeof unde
       },
       include: {
         profilePicture: true,
+        likedUsers: true,
+        postLikes: true,
         _count: {
           select: {
             likes: true,

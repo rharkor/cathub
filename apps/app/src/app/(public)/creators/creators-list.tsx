@@ -70,6 +70,33 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
     if (hasPrevPage) setPage(page - 1)
   }
 
+  const utils = trpc.useUtils()
+
+  const followMutation = trpc.like.likeUserProfile.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.creator.invalidate()
+    },
+  })
+
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+
+  const handeChangeFollow = async (userId: string) => {
+    const isFollowing = currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === userId)
+    if (!session) return
+    if (isFollowing) {
+      await followMutation.mutateAsync({ userId: userId, state: "unlike" })
+    } else {
+      await followMutation.mutateAsync({ userId: userId, state: "like" })
+    }
+  }
+
+  const isFollowing = (userId: string) => {
+    return currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === userId)
+  }
+
   // Get current page creators
   const currentPageCreators = creatorsQuery.data?.creators || []
 
@@ -145,22 +172,43 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
                         <span>{creator.price}</span>
                       </Chip>
                     )}
+                    <Chip
+                      color="primary"
+                      variant="flat"
+                      size="sm"
+                      classNames={{
+                        content: "flex items-center gap-1",
+                      }}
+                    >
+                      <Heart size={14} />
+                      <span>{creator._count?.likes || 0} Abonnés</span>
+                    </Chip>
                   </div>
                 </CardBody>
                 <CardFooter className="flex justify-between gap-2 border-t border-divider p-4">
                   <Button
                     as={Link}
                     href={`/creators/${creator.id}`}
-                    color="primary"
+                    className="flex-1 bg-primary text-black"
                     variant="flat"
                     size="sm"
-                    className="flex-1"
                   >
                     Voir profil
                   </Button>
                   {session && session.userId !== creator.id && (
-                    <Button isIconOnly variant="light" size="sm" className="text-danger">
-                      <Heart size={18} />
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      className="text-primary"
+                      onPress={() => handeChangeFollow(creator.id)}
+                    >
+                      <Heart
+                        size={18}
+                        style={{
+                          fill: isFollowing(creator.id) ? "currentColor" : "none",
+                        }}
+                      />
                     </Button>
                   )}
                 </CardFooter>

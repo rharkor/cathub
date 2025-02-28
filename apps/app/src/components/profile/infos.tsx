@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { z } from "zod"
 
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
 
@@ -30,6 +31,54 @@ export default function ProfileBasicInfos({
       enabled: !!user,
     }
   )
+
+  const utils = trpc.useUtils()
+
+  const followMutation = trpc.like.likeUserProfile.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.creator.invalidate()
+    },
+  })
+
+  const { session } = useSession()
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+  const isFollowing = currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === user?.id)
+
+  const handeChangeFollow = async () => {
+    if (!session) return
+    if (isFollowing) {
+      await followMutation.mutateAsync({ userId: user?.id ?? "", state: "unlike" })
+    } else {
+      await followMutation.mutateAsync({ userId: user?.id ?? "", state: "like" })
+    }
+  }
+
+  const isLiked = (postId: string) => {
+    return currentUser.data?.user.postLikes?.some((like) => like.postId === postId)
+  }
+  // Like post mutation
+  const likeMutation = trpc.like.likePost.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.post.invalidate()
+    },
+  })
+
+  const handleLikePost = async (postId: string) => {
+    if (!session) {
+      // Redirect to login or show login modal
+      return
+    }
+
+    await likeMutation.mutateAsync({
+      postId: postId,
+      state: isLiked(postId) ? "unlike" : "like",
+      userId: session.userId,
+    })
+  }
 
   return (
     <>
@@ -106,6 +155,24 @@ export default function ProfileBasicInfos({
                   </Chip>
                 </Skeleton>
               )}
+
+              <Skeleton isLoaded={!isLoading} className="rounded-medium">
+                <Chip
+                  color="secondary"
+                  classNames={{
+                    content: "flex gap-2 items-center",
+                  }}
+                  variant="flat"
+                >
+                  <Heart
+                    className="size-4"
+                    style={{
+                      fill: isFollowing ? "currentColor" : "none",
+                    }}
+                  />
+                  <p>{user?._count?.likes || 0} Abonnés</p>
+                </Chip>
+              </Skeleton>
             </div>
 
             <Divider className="my-2" />
@@ -117,13 +184,22 @@ export default function ProfileBasicInfos({
               </div>
             </Skeleton>
 
-            <div className="mt-4 flex flex-wrap gap-4">
-              <Button color="primary" variant="flat" startContent={<Heart size={18} />}>
-                Suivre
-              </Button>
-              <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
-                Message
-              </Button>
+            <div className="flex gap-2">
+              {!isMyProfile && (
+                <>
+                  <Button
+                    color={isFollowing ? "default" : "primary"}
+                    variant={isFollowing ? "flat" : "solid"}
+                    onPress={handeChangeFollow}
+                    startContent={<Heart size={18} style={{ fill: isFollowing ? "currentColor" : "none" }} />}
+                  >
+                    {isFollowing ? "Ne plus suivre" : "Suivre"}
+                  </Button>
+                  <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
+                    Message
+                  </Button>
+                </>
+              )}
               <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
                 Partager
               </Button>
@@ -170,7 +246,7 @@ export default function ProfileBasicInfos({
                         <p className="line-clamp-3">{post.text}</p>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {post.category.map((cat) => (
-                            <Chip key={cat} variant="flat" size="sm">
+                            <Chip key={cat} variant="flat" size="sm" className="bg-primary text-black">
                               {getCategoryLabel(cat)}
                             </Chip>
                           ))}
@@ -179,8 +255,14 @@ export default function ProfileBasicInfos({
                     </Link>
                     <CardFooter className="flex justify-between">
                       <div className="flex items-center gap-2">
-                        <Button isIconOnly variant="light" size="sm">
-                          <Heart size={16} />
+                        <Button
+                          isIconOnly
+                          variant="light"
+                          size="sm"
+                          className="text-primary"
+                          onPress={() => handleLikePost(post.id)}
+                        >
+                          <Heart size={16} style={{ fill: isLiked(post.id) ? "currentColor" : "none" }} />
                         </Button>
                         <Button isIconOnly variant="light" size="sm">
                           <MessageCircle size={16} />

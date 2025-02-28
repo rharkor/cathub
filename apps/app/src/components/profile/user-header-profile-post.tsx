@@ -68,10 +68,9 @@ export default function UserProfile({
           <Button
             as={Link}
             href={`/creators/${userId}`}
-            color="primary"
             variant="flat"
             size="sm"
-            className="mt-2 self-end sm:mt-0 sm:self-center"
+            className="mt-2 self-end bg-primary text-black sm:mt-0 sm:self-center"
           >
             Voir profil
           </Button>

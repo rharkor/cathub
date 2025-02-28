@@ -9,14 +9,17 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { z } from "zod"
 
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
-import { getCategoryLabel, getImageUrl } from "@/lib/utils"
+import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
 
 interface PostsListProps {
   posts: z.infer<ReturnType<typeof postSchemas.getRecommendedPostsResponseSchema>>
 }
 
 export default function PostsList({ posts }: PostsListProps) {
+  const { session } = useSession()
+  const utils = trpc.useUtils()
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<Category | undefined>(undefined)
@@ -40,6 +43,19 @@ export default function PostsList({ posts }: PostsListProps) {
     }
   )
 
+  // Get current user data to check liked posts
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+
+  // Like post mutation
+  const likeMutation = trpc.like.likePost.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.post.invalidate()
+    },
+  })
+
   // Handle category filter
   const handleCategoryFilter = (category: Category) => {
     setSelectedCategory(selectedCategory === category ? undefined : category)
@@ -62,6 +78,27 @@ export default function PostsList({ posts }: PostsListProps) {
 
   // Get all available categories
   const allCategories = Object.values(Category)
+
+  // Handle like post
+  const handleLikePost = async (postId: string) => {
+    if (!session) {
+      // Redirect to login or show login modal
+      return
+    }
+
+    const isLiked = currentUser.data?.user.postLikes?.some((like) => like.postId === postId)
+
+    await likeMutation.mutateAsync({
+      postId,
+      state: isLiked ? "unlike" : "like",
+      userId: session.userId,
+    })
+  }
+
+  // Check if post is liked by current user
+  const isPostLiked = (postId: string) => {
+    return currentUser.data?.user.postLikes?.some((like) => like.postId === postId) || false
+  }
 
   return (
     <div className="container mx-auto py-8">
@@ -87,8 +124,8 @@ export default function PostsList({ posts }: PostsListProps) {
               key={category}
               variant={selectedCategory === category ? "solid" : "flat"}
               color={selectedCategory === category ? "primary" : "default"}
+              className={cn(selectedCategory === category ? "cursor-pointer bg-primary text-black" : "cursor-pointer")}
               onClick={() => handleCategoryFilter(category)}
-              className="cursor-pointer"
             >
               {getCategoryLabel(category)}
             </Chip>
@@ -118,15 +155,15 @@ export default function PostsList({ posts }: PostsListProps) {
                 <CardBody className="p-4">
                   <div className="mb-2 flex flex-wrap gap-1">
                     {post.category.map((cat) => (
-                      <Chip key={cat} variant="flat" size="sm">
+                      <Chip key={cat} variant="flat" size="sm" className="bg-primary text-black">
                         {getCategoryLabel(cat)}
                       </Chip>
                     ))}
                   </div>
-                  <p className="mb-4 line-clamp-3 text-sm">{post.text}</p>
+                  <p className="my-4 line-clamp-3 text-sm">{post.text}</p>
                   {post.user && (
                     <div className="flex items-center gap-2">
-                      <div className="relative h-8 w-8 overflow-hidden rounded-full bg-content3">
+                      <div className="relative mt-4 h-8 w-8 overflow-hidden rounded-full bg-content3">
                         {post.user.profilePicture ? (
                           <Image
                             src={getImageUrl(post.user.profilePicture) || ""}
@@ -136,18 +173,25 @@ export default function PostsList({ posts }: PostsListProps) {
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center">
-                            <span className="text-xs font-bold">{post.user.username?.slice(0, 2) || "?"}</span>
+                            <span className="text-lg font-extrabold">{post.user.username?.slice(0, 2) || "?"}</span>
                           </div>
                         )}
                       </div>
-                      <span className="text-sm font-medium">{post.user.username}</span>
+                      <span className="mt-4 text-base font-extrabold">{post.user.username}</span>
                     </div>
                   )}
                 </CardBody>
                 <CardFooter className="flex justify-between border-t border-divider p-4">
                   <div className="flex gap-2">
-                    <Button isIconOnly variant="light" size="sm">
-                      <Heart size={16} />
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      color="primary"
+                      onPress={() => handleLikePost(post.id)}
+                      className={isPostLiked(post.id) ? "text-primary" : ""}
+                    >
+                      <Heart size={16} fill={isPostLiked(post.id) ? "currentColor" : "none"} />
                     </Button>
                     <Button isIconOnly variant="light" size="sm">
                       <MessageCircle size={16} />
@@ -156,7 +200,13 @@ export default function PostsList({ posts }: PostsListProps) {
                       <Share2 size={16} />
                     </Button>
                   </div>
-                  <Button as={Link} href={`/post/${post.id}`} color="primary" variant="flat" size="sm">
+                  <Button
+                    as={Link}
+                    href={`/post/${post.id}`}
+                    className="bg-primary text-black"
+                    variant="flat"
+                    size="sm"
+                  >
                     Voir détails
                   </Button>
                 </CardFooter>
