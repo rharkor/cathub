@@ -101,7 +101,7 @@ export default function UpdateAvatar() {
     _setShowModal(show)
   }
 
-  const profilePicutreUrl = getImageUrl(account?.profilePicture)
+  const profilePicutreUrl = getImageUrl(account?.user.profilePicture)
 
   return (
     <>
@@ -121,13 +121,13 @@ export default function UpdateAvatar() {
               <Image
                 className="size-full object-cover"
                 src={profilePicutreUrl || ""}
-                alt={account?.username || ""}
+                alt={account?.user.username || ""}
                 width={512}
                 height={512}
               />
             ) : (
               <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-sm font-medium lg:text-xl">
-                {account?.username?.slice(0, 3)}
+                {account?.user.username?.slice(0, 3)}
               </p>
             )}
           </div>
@@ -149,7 +149,7 @@ export default function UpdateAvatar() {
           className={cn(
             "absolute right-0 top-0 h-[unset] min-w-0 rounded-full p-1.5 opacity-0 transition-all duration-200 focus:opacity-100 group-hover:opacity-100 group-focus:opacity-100",
             {
-              hidden: isAccountLoading || !account?.profilePicture,
+              hidden: isAccountLoading || !account?.user.profilePicture,
             }
           )}
           onPress={() => handleDelete()}

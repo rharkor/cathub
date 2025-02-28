@@ -27,7 +27,7 @@ export default function BasicInfos() {
   const form = useForm<z.infer<ReturnType<typeof meSchemas.updateSchema>>>({
     resolver: zodResolver(meSchemas.updateSchema()),
     values: {
-      username: getAccountQuery.data?.username || "",
+      username: getAccountQuery.data?.user.username || "",
     },
   })
 
@@ -38,7 +38,7 @@ export default function BasicInfos() {
 
   const handleCancel = () => {
     form.reset({
-      username: getAccountQuery.data?.username || "",
+      username: getAccountQuery.data?.user.username || "",
     })
     setIsEditing(false)
   }
@@ -52,7 +52,7 @@ export default function BasicInfos() {
             <Input
               label="Email"
               isDisabled
-              value={getAccountQuery.data?.email}
+              value={getAccountQuery.data?.user.email}
               data-testid="profile-basicinfos-email"
             />
             <FormField

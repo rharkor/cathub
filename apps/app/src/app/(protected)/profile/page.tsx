@@ -11,7 +11,7 @@ export default async function ProfilePage() {
   const user = await serverTrpc(cookiesStore).me.get()
 
   // If the user has a sex then it means the user has already completed the advanced profile
-  if (!!user.sex) {
+  if (!!user.user.sex) {
     redirect("/cathub-profile")
   }
 

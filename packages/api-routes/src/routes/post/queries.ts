@@ -24,6 +24,11 @@ export async function getAllPosts({ input }: apiInputFromSchema<typeof getPostsR
       },
       include: {
         image: true,
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
       },
     })
     const data: z.infer<ReturnType<typeof getPostsResponseSchema>> = {
@@ -46,6 +51,16 @@ export async function getPostById({ input }: apiInputFromSchema<typeof getPostBy
         user: {
           include: {
             profilePicture: true,
+            _count: {
+              select: {
+                likes: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
           },
         },
       },
@@ -102,6 +117,16 @@ export async function getRecommendedPosts({ input }: apiInputFromSchema<typeof g
         user: {
           include: {
             profilePicture: true,
+            _count: {
+              select: {
+                likes: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
           },
         },
       },

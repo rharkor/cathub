@@ -34,7 +34,7 @@ export async function likePost({ input, ctx: { session } }: apiInputFromSchema<t
       data: { postId, userId: session.userId },
     })
   } else {
-    await prisma.postLike.delete({
+    await prisma.postLike.deleteMany({
       where: { id: post.id, userId: session.userId },
     })
   }
@@ -47,13 +47,6 @@ export async function likeUserProfile({ input, ctx: { session } }: apiInputFromS
 
   const { userId, state } = input
 
-  if (userId === session.userId) {
-    throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: "You cannot like your own profile",
-    })
-  }
-
   const user = await prisma.user.findUnique({
     where: { id: userId },
   })
@@ -63,22 +56,24 @@ export async function likeUserProfile({ input, ctx: { session } }: apiInputFromS
   }
 
   if (state === "like") {
-    await prisma.userProfileLike.create({
-      data: { userId: session.userId, likedUserId: userId },
-    })
-  } else {
-    const like = await prisma.userProfileLike.findFirst({
+    const existingLike = await prisma.userProfileLike.findFirst({
       where: {
         userId: session.userId,
         likedUserId: userId,
       },
     })
 
-    if (like) {
-      await prisma.userProfileLike.delete({
-        where: { id: like.id },
-      })
+    if (existingLike) {
+      return { status: "success" }
     }
+
+    await prisma.userProfileLike.create({
+      data: { userId: session.userId, likedUserId: userId },
+    })
+  } else {
+    await prisma.userProfileLike.deleteMany({
+      where: { userId: session.userId, likedUserId: userId },
+    })
   }
 
   return { status: "success" }
