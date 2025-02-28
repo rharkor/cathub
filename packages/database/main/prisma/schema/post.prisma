@@ -4,6 +4,11 @@ enum Category {
     FELINE_FETISH // Fétichisme félin
     SULTRY_STRAYS // Chats errants sensuels
     WHISKER_WONDERS // Merveilles à moustaches
+    GANG_BANG // Gangbang
+    PURRING_PLEASURE // Plaisir ronronnant
+    NAUGHTY_PAWS // Pattes coquines
+    MIDNIGHT_MEOWS // Miaulements de minuit
+    FLUFFY_FANTASIES // Fantasmes duveteux
 }
 
 model Post {
