@@ -14,7 +14,7 @@ import {
   Textarea,
 } from "@heroui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { File, Sex, User } from "@prisma/client"
+import { Sex } from "@prisma/client"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -29,9 +29,7 @@ import { trpc } from "@/lib/trpc/client"
 export default function BasicInfos({
   ssrUser,
 }: {
-  ssrUser: User & {
-    profilePicture: File | null
-  }
+  ssrUser: z.infer<ReturnType<typeof meSchemas.getMeResponseSchema>>
 }) {
   const utils = trpc.useUtils()
   const [isOpen, setIsOpen] = useState(false)
@@ -42,12 +40,12 @@ export default function BasicInfos({
   const form = useForm<z.infer<ReturnType<typeof meSchemas.updateSchema>>>({
     resolver: zodResolver(meSchemas.updateSchema()),
     values: {
-      username: getAccountQuery.data?.username,
-      sex: getAccountQuery.data?.sex,
-      age: getAccountQuery.data?.age,
-      price: getAccountQuery.data?.price,
-      description: getAccountQuery.data?.description,
-      isCathub: getAccountQuery.data?.isCathub,
+      username: getAccountQuery.data?.user.username,
+      sex: getAccountQuery.data?.user.sex,
+      age: getAccountQuery.data?.user.age,
+      price: getAccountQuery.data?.user.price,
+      description: getAccountQuery.data?.user.description,
+      isCathub: getAccountQuery.data?.user.isCathub,
     },
   })
 
@@ -65,12 +63,12 @@ export default function BasicInfos({
   //* Auto display the modal if the user doesnt have a gender
   // If the sex is defined then it means the user has already completed the profile
   useEffect(() => {
-    if (!getAccountQuery.isLoading && !getAccountQuery.data?.sex) {
+    if (!getAccountQuery.isLoading && !getAccountQuery.data?.user.sex) {
       setIsOpen(true)
     }
-  }, [getAccountQuery.isLoading, getAccountQuery.data?.sex])
+  }, [getAccountQuery.isLoading, getAccountQuery.data?.user.sex])
 
-  const isDisimissable = getAccountQuery.data?.sex !== null
+  const isDisimissable = getAccountQuery.data?.user.sex !== null
 
   const handleSubmit = async (formData: z.infer<ReturnType<typeof meSchemas.updateSchema>>) => {
     await updateUserMutation.mutateAsync(formData)
@@ -83,7 +81,7 @@ export default function BasicInfos({
         onEditProfile={() => {
           setIsOpen(true)
         }}
-        user={getAccountQuery.data}
+        user={getAccountQuery.data?.user}
         isMyProfile
       />
       {/* Edit Profile Modal */}
@@ -100,7 +98,7 @@ export default function BasicInfos({
           <ModalBody>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-2">
               <div className="grid w-full grid-cols-2 gap-2">
-                <Input label="Email" isDisabled value={getAccountQuery.data?.email} />
+                <Input label="Email" isDisabled value={getAccountQuery.data?.user.email} />
                 <FormField
                   form={form}
                   name="username"

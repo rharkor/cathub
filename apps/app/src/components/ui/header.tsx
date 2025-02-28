@@ -39,9 +39,9 @@ const Header = () => {
             <Dropdown>
               <DropdownTrigger>
                 <div className="relative size-10 cursor-pointer overflow-hidden rounded-full bg-default-100">
-                  {userQuery.data?.profilePicture ? (
+                  {userQuery.data?.user.profilePicture ? (
                     <Image
-                      src={getImageUrl(userQuery.data.profilePicture) ?? ""}
+                      src={getImageUrl(userQuery.data.user.profilePicture) ?? ""}
                       className="size-full object-cover"
                       alt="Profile picture"
                       width={60}
@@ -49,7 +49,7 @@ const Header = () => {
                     />
                   ) : (
                     <div className="flex size-full items-center justify-center text-foreground">
-                      {userQuery.data?.username?.slice(0, 2)}
+                      {userQuery.data?.user.username?.slice(0, 2)}
                     </div>
                   )}
                 </div>

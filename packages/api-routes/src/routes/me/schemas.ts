@@ -52,3 +52,8 @@ export const deleteMeResponseSchema = () =>
   z.object({
     status: z.string(),
   })
+
+export const getMeResponseSchema = () =>
+  z.object({
+    user: userSchema(),
+  })

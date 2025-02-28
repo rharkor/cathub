@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/rharkor/cathub#readme",
   "dependencies": {
-    "turbo": "^2.3.3"
+    "turbo": "^2.4.4"
   },
   "devDependencies": {
     "eslint-detailed-reporter": "^0.9.0"
