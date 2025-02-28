@@ -1,6 +1,3 @@
--- AlterTable
-ALTER TABLE "PostComment" ADD COLUMN     "isDeleted" BOOLEAN NOT NULL DEFAULT false;
-
 -- CreateTable
 CREATE TABLE "UserProfileLike" (
     "id" TEXT NOT NULL,
