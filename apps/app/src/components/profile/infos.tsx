@@ -246,7 +246,7 @@ export default function ProfileBasicInfos({
                         <p className="line-clamp-3">{post.text}</p>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {post.category.map((cat) => (
-                            <Chip key={cat} variant="flat" size="sm">
+                            <Chip key={cat} variant="flat" size="sm" className="bg-primary text-black">
                               {getCategoryLabel(cat)}
                             </Chip>
                           ))}
@@ -259,7 +259,7 @@ export default function ProfileBasicInfos({
                           isIconOnly
                           variant="light"
                           size="sm"
-                          className="text-danger"
+                          className="text-primary"
                           onPress={() => handleLikePost(post.id)}
                         >
                           <Heart size={16} style={{ fill: isLiked(post.id) ? "currentColor" : "none" }} />

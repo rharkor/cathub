@@ -89,32 +89,6 @@ export default function PostDetails({ post }: PostDetailsProps) {
         <h1 className="text-2xl font-bold">Détails du post</h1>
       </div>
 
-      {/* Creator Profile Card */}
-      {post.post.user && (
-        <Card className="mb-6 w-full">
-          <CardBody className="p-4">
-            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              {/* User info section */}
-              <div className="flex w-full flex-col">
-                <UserProfile
-                  name={post.post.user?.username}
-                  description={post.post.user?.description || "Pas de description"}
-                  avatarProps={{
-                    src: post.post.user?.profilePicture ? getImageUrl(post.post.user.profilePicture) || "" : undefined,
-                    showFallback: true,
-                    fallback: post.post.user?.username?.slice(0, 3) || "?",
-                    size: "sm",
-                  }}
-                  userId={post.post.user?.id}
-                  price={post.post.user?.price ?? undefined}
-                  age={post.post.user?.age ?? undefined}
-                />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      )}
-
       <Card className="w-full">
         {post.post.image && (
           <CardHeader className="p-0">
@@ -139,7 +113,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
         <CardBody className="p-6">
           <div className="mb-4 flex flex-wrap gap-2">
             {post.post.category.map((cat: Category) => (
-              <Chip key={cat} variant="flat">
+              <Chip key={cat} variant="flat" className="bg-primary text-black">
                 {getCategoryLabel(cat)}
               </Chip>
             ))}
@@ -152,7 +126,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardBody>
         <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <Button variant="light" className="text-danger" isIconOnly onPress={handleLikePost}>
+            <Button variant="light" className="text-primary" isIconOnly onPress={handleLikePost}>
               <Heart size={18} style={{ fill: isLiked ? "currentColor" : "none" }} />
             </Button>
             <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
@@ -175,6 +149,32 @@ export default function PostDetails({ post }: PostDetailsProps) {
           )}
         </CardFooter>
       </Card>
+
+      {/* Creator Profile Card */}
+      {post.post.user && (
+        <Card className="mt-6 w-full">
+          <CardBody className="p-4">
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              {/* User info section */}
+              <div className="flex w-full flex-col">
+                <UserProfile
+                  name={post.post.user?.username}
+                  description={post.post.user?.description || "Pas de description"}
+                  avatarProps={{
+                    src: post.post.user?.profilePicture ? getImageUrl(post.post.user.profilePicture) || "" : undefined,
+                    showFallback: true,
+                    fallback: post.post.user?.username?.slice(0, 3) || "?",
+                    size: "sm",
+                  }}
+                  userId={post.post.user?.id}
+                  price={post.post.user?.price ?? undefined}
+                  age={post.post.user?.age ?? undefined}
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+      )}
 
       {/* Future Comment Section */}
       <Card className="mt-6 w-full">
