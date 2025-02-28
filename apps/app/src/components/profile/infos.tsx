@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { z } from "zod"
 
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
 
@@ -31,6 +32,29 @@ export default function ProfileBasicInfos({
     }
   )
 
+  const utils = trpc.useUtils()
+
+  const followMutation = trpc.like.likeUserProfile.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.creator.invalidate()
+    },
+  })
+
+  const { session } = useSession()
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+  const isFollowing = currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === user?.id)
+
+  const handeChangeFollow = async () => {
+    if (!user) return
+    if (isFollowing) {
+      await followMutation.mutateAsync({ userId: user.id, state: "unlike" })
+    } else {
+      await followMutation.mutateAsync({ userId: user.id, state: "like" })
+    }
+  }
   return (
     <>
       <div className="container mx-auto p-4">
@@ -130,13 +154,22 @@ export default function ProfileBasicInfos({
               </div>
             </Skeleton>
 
-            <div className="mt-4 flex flex-wrap gap-4">
-              <Button color="primary" variant="flat" startContent={<Heart size={18} />}>
-                Suivre
-              </Button>
-              <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
-                Message
-              </Button>
+            <div className="flex gap-2">
+              {!isMyProfile && (
+                <>
+                  <Button
+                    color={isFollowing ? "default" : "primary"}
+                    variant={isFollowing ? "flat" : "solid"}
+                    onPress={handeChangeFollow}
+                    startContent={<Heart size={18} />}
+                  >
+                    {isFollowing ? "Ne plus suivre" : "Suivre"}
+                  </Button>
+                  <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
+                    Message
+                  </Button>
+                </>
+              )}
               <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
                 Partager
               </Button>
