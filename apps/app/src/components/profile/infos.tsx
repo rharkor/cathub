@@ -106,6 +106,19 @@ export default function ProfileBasicInfos({
                   </Chip>
                 </Skeleton>
               )}
+
+              <Skeleton isLoaded={!isLoading} className="rounded-medium">
+                <Chip
+                  color="secondary"
+                  classNames={{
+                    content: "flex gap-2 items-center",
+                  }}
+                  variant="flat"
+                >
+                  <Heart className="size-4" />
+                  <p>{user?._count?.likes || 0} Abonnés</p>
+                </Chip>
+              </Skeleton>
             </div>
 
             <Divider className="my-2" />

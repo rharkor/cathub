@@ -66,7 +66,7 @@ export default function CreatorProfile({ creator }: CreatorProfileProps) {
         <Divider />
         <CardBody className="grid grid-cols-1 gap-4 p-6 md:grid-cols-3">
           <div className="flex flex-col items-center rounded-lg bg-content2 p-4">
-            <span className="text-2xl font-bold">0</span>
+            <span className="text-2xl font-bold">{creatorQuery.data?._count?.likes || 0}</span>
             <span className="text-sm text-default-500">Abonnés</span>
           </div>
           <div className="flex flex-col items-center rounded-lg bg-content2 p-4">

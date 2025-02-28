@@ -145,6 +145,17 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
                         <span>{creator.price}</span>
                       </Chip>
                     )}
+                    <Chip
+                      color="primary"
+                      variant="flat"
+                      size="sm"
+                      classNames={{
+                        content: "flex items-center gap-1",
+                      }}
+                    >
+                      <Heart size={14} />
+                      <span>{creator._count?.likes || 0} Abonnés</span>
+                    </Chip>
                   </div>
                 </CardBody>
                 <CardFooter className="flex justify-between gap-2 border-t border-divider p-4">
