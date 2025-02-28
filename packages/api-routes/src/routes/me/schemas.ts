@@ -15,6 +15,9 @@ export const userSchema = () =>
     age: z.number().nullable(),
     createdAt: z.date(),
     updatedAt: z.date(),
+    _count: z.object({
+      likes: z.number(),
+    }),
   })
 
 export const fileMinimalSchema = () =>
@@ -48,4 +51,26 @@ export const updateResponseSchema = () =>
 export const deleteMeResponseSchema = () =>
   z.object({
     status: z.string(),
+  })
+
+export const getMeResponseSchema = () =>
+  z.object({
+    user: userSchema().extend({
+      likedUsers: z.array(
+        z.object({
+          id: z.string(),
+          userId: z.string(),
+          likedUserId: z.string(),
+          createdAt: z.date(),
+        })
+      ),
+      postLikes: z.array(
+        z.object({
+          id: z.string(),
+          postId: z.string(),
+          userId: z.string(),
+          createdAt: z.date(),
+        })
+      ),
+    }),
   })

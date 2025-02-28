@@ -18,6 +18,11 @@ export async function getCreator({ input }: apiInputFromSchema<typeof getCreator
       },
       include: {
         profilePicture: true,
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
       },
     })
 
@@ -54,6 +59,11 @@ export async function getCreators({ input }: apiInputFromSchema<typeof getCreato
       where,
       include: {
         profilePicture: true,
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",

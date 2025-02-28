@@ -14,6 +14,9 @@ export const postSchema = () =>
     category: z.array(z.nativeEnum(Category)),
     userId: z.string(),
     user: userSchema().optional(),
+    _count: z.object({
+      likes: z.number(),
+    }),
   })
 
 export const createPostSchema = () =>

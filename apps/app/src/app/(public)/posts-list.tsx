@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { z } from "zod"
 
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { getCategoryLabel, getImageUrl } from "@/lib/utils"
 
@@ -17,6 +18,8 @@ interface PostsListProps {
 }
 
 export default function PostsList({ posts }: PostsListProps) {
+  const { session } = useSession()
+  const utils = trpc.useUtils()
   const [search, setSearch] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<Category | undefined>(undefined)
@@ -40,6 +43,19 @@ export default function PostsList({ posts }: PostsListProps) {
     }
   )
 
+  // Get current user data to check liked posts
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+
+  // Like post mutation
+  const likeMutation = trpc.like.likePost.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.post.invalidate()
+    },
+  })
+
   // Handle category filter
   const handleCategoryFilter = (category: Category) => {
     setSelectedCategory(selectedCategory === category ? undefined : category)
@@ -62,6 +78,27 @@ export default function PostsList({ posts }: PostsListProps) {
 
   // Get all available categories
   const allCategories = Object.values(Category)
+
+  // Handle like post
+  const handleLikePost = async (postId: string) => {
+    if (!session) {
+      // Redirect to login or show login modal
+      return
+    }
+
+    const isLiked = currentUser.data?.user.postLikes?.some((like) => like.postId === postId)
+
+    await likeMutation.mutateAsync({
+      postId,
+      state: isLiked ? "unlike" : "like",
+      userId: session.userId,
+    })
+  }
+
+  // Check if post is liked by current user
+  const isPostLiked = (postId: string) => {
+    return currentUser.data?.user.postLikes?.some((like) => like.postId === postId) || false
+  }
 
   return (
     <div className="container mx-auto py-8">
@@ -146,8 +183,14 @@ export default function PostsList({ posts }: PostsListProps) {
                 </CardBody>
                 <CardFooter className="flex justify-between border-t border-divider p-4">
                   <div className="flex gap-2">
-                    <Button isIconOnly variant="light" size="sm">
-                      <Heart size={16} />
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      onPress={() => handleLikePost(post.id)}
+                      className={isPostLiked(post.id) ? "text-danger" : ""}
+                    >
+                      <Heart size={16} fill={isPostLiked(post.id) ? "currentColor" : "none"} />
                     </Button>
                     <Button isIconOnly variant="light" size="sm">
                       <MessageCircle size={16} />

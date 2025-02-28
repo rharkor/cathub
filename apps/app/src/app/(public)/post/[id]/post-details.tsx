@@ -52,6 +52,34 @@ export default function PostDetails({ post }: PostDetailsProps) {
 
   const isOwner = post.post.userId === session?.userId
 
+  // Get current user data to check liked posts
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+
+  // Like post mutation
+  const likeMutation = trpc.like.likePost.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.post.invalidate()
+    },
+  })
+
+  const isLiked = currentUser.data?.user.postLikes?.some((like) => like.postId === post.post.id)
+
+  const handleLikePost = async () => {
+    if (!session) {
+      // Redirect to login or show login modal
+      return
+    }
+
+    await likeMutation.mutateAsync({
+      postId: post.post.id,
+      state: isLiked ? "unlike" : "like",
+      userId: session.userId,
+    })
+  }
+
   return (
     <div className="container mx-auto max-w-4xl py-8">
       <div className="mb-6 flex items-center">
@@ -124,13 +152,13 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardBody>
         <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <Button variant="light" startContent={<Heart size={18} />}>
-              J&apos;aime
+            <Button variant="light" className="text-danger" isIconOnly onPress={handleLikePost}>
+              <Heart size={18} style={{ fill: isLiked ? "currentColor" : "none" }} />
             </Button>
-            <Button variant="light" startContent={<MessageCircle size={18} />}>
+            <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
               Commenter
             </Button>
-            <Button variant="light" startContent={<Share2 size={18} />}>
+            <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
               Partager
             </Button>
           </div>
