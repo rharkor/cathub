@@ -1,9 +1,11 @@
 "use client"
 
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
+import { logger } from "@rharkor/logger"
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
+import { toast } from "react-toastify"
 
 import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
@@ -17,6 +19,16 @@ const Header = () => {
     },
     enabled: !!session,
   })
+
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      toast.success("Déconnexion réussie")
+    } catch(error) {
+      toast.error("Erreur lors de la déconnexion")
+      logger.error(error)
+    }
+  }
 
   return (
     <>
@@ -61,7 +73,7 @@ const Header = () => {
                 <DropdownItem key="creators" as={Link} href="/creators">
                   Créateurs
                 </DropdownItem>
-                <DropdownItem key="sign-out" onPress={signOut} color="danger" className="text-danger">
+                <DropdownItem key="sign-out" onPress={handleLogout} color="danger" className="text-danger">
                   Se déconnecter
                 </DropdownItem>
               </DropdownMenu>
