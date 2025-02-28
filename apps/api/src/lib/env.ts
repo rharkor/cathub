@@ -9,7 +9,7 @@ config()
 export const env = createEnv({
   server: {
     ENV: z.enum(["development", "staging", "preproduction", "production"]),
-    PORT: z.number().optional(),
+    PORT: z.coerce.number().optional(),
     DATABASE_PRISMA_URL: z.string().min(1),
     DATABASE_URL_NON_POOLING: z.string().optional(),
     ADMIN_EMAIL: z.string().min(1),

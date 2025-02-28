@@ -9,7 +9,6 @@ config()
 export const env = createEnv({
   server: {
     ENV: z.enum(["development", "staging", "preproduction", "production"]),
-    DATABASE_PRISMA_URL: z.string().min(1),
     DATABASE_URL_NON_POOLING: z.string().optional(),
     S3_REGION: z.string(),
     S3_ENDPOINT: z.string(),

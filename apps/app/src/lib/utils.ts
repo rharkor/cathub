@@ -28,6 +28,11 @@ export function getCategoryLabel(category: Category): string {
     [Category.FELINE_FETISH]: "Fétichisme félin",
     [Category.SULTRY_STRAYS]: "Chats errants sensuels",
     [Category.WHISKER_WONDERS]: "Merveilles à moustaches",
+    [Category.GANG_BANG]: "Gangbang",
+    [Category.PURRING_PLEASURE]: "Plaisir ronronnant",
+    [Category.NAUGHTY_PAWS]: "Pattes coquines",
+    [Category.MIDNIGHT_MEOWS]: "Miaulements de minuit",
+    [Category.FLUFFY_FANTASIES]: "Fantasmes duveteux",
   }
   return labels[category] || category
 }

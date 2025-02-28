@@ -284,6 +284,7 @@ export default function FormField<FormValues extends FieldValues, Name extends P
             ) : undefined)
           }
           onChange={type === "slug" ? (e) => field.onChange(stringToSlug(e.target.value)) : field.onChange}
+          data-testid={`input-${field.name}`}
         />
       )}
     />

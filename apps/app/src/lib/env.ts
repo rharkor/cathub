@@ -14,11 +14,13 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_ENV: z.enum(["development", "staging", "preproduction", "production"]).optional(),
     NEXT_PUBLIC_API_URL: z.string().url(),
+    NEXT_PUBLIC_DOMAIN_COOKIES: z.string().optional(),
   },
   runtimeEnv: {
     ENV: process.env.ENV,
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_DOMAIN_COOKIES: process.env.NEXT_PUBLIC_DOMAIN_COOKIES,
   },
   onValidationError: (error) => {
     console.error(error)

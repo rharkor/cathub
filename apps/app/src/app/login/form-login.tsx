@@ -12,6 +12,7 @@ import { z } from "zod"
 
 import FormField from "@/components/ui/form"
 import { useSession } from "@/contexts/use-session"
+import { env } from "@/lib/env"
 import { trpc } from "@/lib/trpc/client"
 
 const LoginForm = () => {
@@ -31,7 +32,13 @@ const LoginForm = () => {
   const handleSubmit = async (data: z.infer<ReturnType<typeof authSchemas.signInSchema>>) => {
     const { token } = await signInMutation.mutateAsync(data)
     // Store the token in a cookie (expires in 365 days)
-    setCookie("token", token, { maxAge: 365 * 24 * 60 * 60, path: "/" })
+    setCookie("token", token, {
+      maxAge: 365 * 24 * 60 * 60,
+      path: "/",
+      sameSite: "lax",
+      secure: env.NEXT_PUBLIC_ENV === "production",
+      domain: env.NEXT_PUBLIC_DOMAIN_COOKIES,
+    })
     setToken(token)
     router.push("/") // Redirect to home or dashboard as appropriate
   }

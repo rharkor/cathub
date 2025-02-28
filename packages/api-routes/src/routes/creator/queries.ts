@@ -1,17 +1,16 @@
 import { z } from "zod"
 
+import { Prisma } from "@prisma/client"
 import { logger } from "@rharkor/logger"
 import { TRPCError } from "@trpc/server"
 
 import { prisma } from "../../lib/prisma"
-import { apiInputFromSchema, ensureLoggedIn } from "../../lib/types"
+import { apiInputFromSchema } from "../../lib/types"
 
 import { getCreatorSchema, getCreatorsResponseSchema, getCreatorsSchema } from "./schemas"
 
-export async function getCreator({ input, ctx: { session } }: apiInputFromSchema<typeof getCreatorSchema>) {
+export async function getCreator({ input }: apiInputFromSchema<typeof getCreatorSchema>) {
   try {
-    ensureLoggedIn(session)
-
     const creator = await prisma.user.findUnique({
       where: {
         id: input.id,
@@ -41,14 +40,23 @@ export async function getCreator({ input, ctx: { session } }: apiInputFromSchema
   }
 }
 
-export async function getCreators({ ctx: { session }, input }: apiInputFromSchema<typeof getCreatorsSchema>) {
+export async function getCreators({ input }: apiInputFromSchema<typeof getCreatorsSchema>) {
   try {
-    ensureLoggedIn(session)
+    const where: Prisma.UserWhereInput = {
+      isCathub: true, // Only return users who have enabled profile discovery
+      ...(input.search && {
+        username: {
+          contains: input.search,
+          mode: "insensitive",
+        },
+      }),
+    }
+
+    // Get total count for pagination
+    const total = await prisma.user.count({ where })
 
     const creators = await prisma.user.findMany({
-      where: {
-        isCathub: true, // Only return users who have enabled profile discovery
-      },
+      where,
       include: {
         profilePicture: true,
         _count: {
@@ -64,7 +72,14 @@ export async function getCreators({ ctx: { session }, input }: apiInputFromSchem
       skip: (input.page ?? 0) * (input.limit ?? 20),
     })
 
-    const data: z.infer<ReturnType<typeof getCreatorsResponseSchema>> = creators
+    // Calculate if there are more results
+    const hasMore = total > (input.page ?? 0 + 1) * (input.limit ?? 20)
+
+    const data: z.infer<ReturnType<typeof getCreatorsResponseSchema>> = {
+      creators,
+      total,
+      hasMore,
+    }
 
     return data
   } catch (error) {
