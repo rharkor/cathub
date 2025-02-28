@@ -19,6 +19,11 @@ export async function getCreator({ input, ctx: { session } }: apiInputFromSchema
       },
       include: {
         profilePicture: true,
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
       },
     })
 
@@ -46,6 +51,11 @@ export async function getCreators({ ctx: { session }, input }: apiInputFromSchem
       },
       include: {
         profilePicture: true,
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",

@@ -1,10 +1,7 @@
-import { protectedProcedure, publicProcedure, router } from "../../lib/trpc"
+import { protectedProcedure, router } from "../../lib/trpc"
 
 import { likePost, likeUserProfile } from "./mutations"
-import { getLikes, getUserLikes } from "./queries"
 import {
-  getLikesSchema,
-  getUserLikesSchema,
   postLikeResponseSchema,
   postLikeSchema,
   userProfileLikeSchema,
@@ -19,6 +16,4 @@ export const likeRouter = router({
     .input(userProfileLikeSchema())
     .output(postLikeResponseSchema())
     .mutation(likeUserProfile),
-  getLikes: publicProcedure.input(getLikesSchema()).query(getLikes),
-  getUserLikes: publicProcedure.input(getUserLikesSchema()).query(getUserLikes),
 })

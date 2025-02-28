@@ -15,6 +15,9 @@ export const userSchema = () =>
     age: z.number().nullable(),
     createdAt: z.date(),
     updatedAt: z.date(),
+    _count: z.object({
+      likes: z.number(),
+    }),
   })
 
 export const fileMinimalSchema = () =>
