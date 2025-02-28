@@ -35,7 +35,7 @@ export async function likePost({ input, ctx: { session } }: apiInputFromSchema<t
     })
   } else {
     await prisma.postLike.deleteMany({
-      where: { id: post.id, userId: session.userId },
+      where: { postId: post.id, userId: session.userId },
     })
   }
 
@@ -58,8 +58,8 @@ export async function likeUserProfile({ input, ctx: { session } }: apiInputFromS
   if (state === "like") {
     const existingLike = await prisma.userProfileLike.findFirst({
       where: {
-        userId: session.userId,
-        likedUserId: userId,
+        userId: userId,
+        likedUserId: session.userId,
       },
     })
 
@@ -68,11 +68,11 @@ export async function likeUserProfile({ input, ctx: { session } }: apiInputFromS
     }
 
     await prisma.userProfileLike.create({
-      data: { userId: session.userId, likedUserId: userId },
+      data: { userId: userId, likedUserId: session.userId },
     })
   } else {
     await prisma.userProfileLike.deleteMany({
-      where: { userId: session.userId, likedUserId: userId },
+      where: { userId: userId, likedUserId: session.userId },
     })
   }
 

@@ -55,5 +55,22 @@ export const deleteMeResponseSchema = () =>
 
 export const getMeResponseSchema = () =>
   z.object({
-    user: userSchema(),
+    user: userSchema().extend({
+      likedUsers: z.array(
+        z.object({
+          id: z.string(),
+          userId: z.string(),
+          likedUserId: z.string(),
+          createdAt: z.date(),
+        })
+      ),
+      postLikes: z.array(
+        z.object({
+          id: z.string(),
+          postId: z.string(),
+          userId: z.string(),
+          createdAt: z.date(),
+        })
+      ),
+    }),
   })
