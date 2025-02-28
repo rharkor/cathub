@@ -48,13 +48,38 @@ export default function ProfileBasicInfos({
   const isFollowing = currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === user?.id)
 
   const handeChangeFollow = async () => {
-    if (!user) return
+    if (!session) return
     if (isFollowing) {
-      await followMutation.mutateAsync({ userId: user.id, state: "unlike" })
+      await followMutation.mutateAsync({ userId: user?.id ?? "", state: "unlike" })
     } else {
-      await followMutation.mutateAsync({ userId: user.id, state: "like" })
+      await followMutation.mutateAsync({ userId: user?.id ?? "", state: "like" })
     }
   }
+
+  const isLiked = (postId: string) => {
+    return currentUser.data?.user.postLikes?.some((like) => like.postId === postId)
+  }
+  // Like post mutation
+  const likeMutation = trpc.like.likePost.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.post.invalidate()
+    },
+  })
+
+  const handleLikePost = async (postId: string) => {
+    if (!session) {
+      // Redirect to login or show login modal
+      return
+    }
+
+    await likeMutation.mutateAsync({
+      postId: postId,
+      state: isLiked(postId) ? "unlike" : "like",
+      userId: session.userId,
+    })
+  }
+
   return (
     <>
       <div className="container mx-auto p-4">
@@ -139,7 +164,12 @@ export default function ProfileBasicInfos({
                   }}
                   variant="flat"
                 >
-                  <Heart className="size-4" />
+                  <Heart
+                    className="size-4"
+                    style={{
+                      fill: isFollowing ? "currentColor" : "none",
+                    }}
+                  />
                   <p>{user?._count?.likes || 0} Abonnés</p>
                 </Chip>
               </Skeleton>
@@ -161,7 +191,7 @@ export default function ProfileBasicInfos({
                     color={isFollowing ? "default" : "primary"}
                     variant={isFollowing ? "flat" : "solid"}
                     onPress={handeChangeFollow}
-                    startContent={<Heart size={18} />}
+                    startContent={<Heart size={18} style={{ fill: isFollowing ? "currentColor" : "none" }} />}
                   >
                     {isFollowing ? "Ne plus suivre" : "Suivre"}
                   </Button>
@@ -225,8 +255,14 @@ export default function ProfileBasicInfos({
                     </Link>
                     <CardFooter className="flex justify-between">
                       <div className="flex items-center gap-2">
-                        <Button isIconOnly variant="light" size="sm">
-                          <Heart size={16} />
+                        <Button
+                          isIconOnly
+                          variant="light"
+                          size="sm"
+                          className="text-danger"
+                          onPress={() => handleLikePost(post.id)}
+                        >
+                          <Heart size={16} style={{ fill: isLiked(post.id) ? "currentColor" : "none" }} />
                         </Button>
                         <Button isIconOnly variant="light" size="sm">
                           <MessageCircle size={16} />

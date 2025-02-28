@@ -70,6 +70,33 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
     if (hasPrevPage) setPage(page - 1)
   }
 
+  const utils = trpc.useUtils()
+
+  const followMutation = trpc.like.likeUserProfile.useMutation({
+    onSuccess: async () => {
+      await utils.me.get.invalidate()
+      await utils.creator.invalidate()
+    },
+  })
+
+  const currentUser = trpc.me.get.useQuery(undefined, {
+    enabled: !!session,
+  })
+
+  const handeChangeFollow = async (userId: string) => {
+    const isFollowing = currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === userId)
+    if (!session) return
+    if (isFollowing) {
+      await followMutation.mutateAsync({ userId: userId, state: "unlike" })
+    } else {
+      await followMutation.mutateAsync({ userId: userId, state: "like" })
+    }
+  }
+
+  const isFollowing = (userId: string) => {
+    return currentUser.data?.user.likedUsers.some((likedUser) => likedUser.userId === userId)
+  }
+
   // Get current page creators
   const currentPageCreators = creatorsQuery.data?.creators || []
 
@@ -170,8 +197,19 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
                     Voir profil
                   </Button>
                   {session && session.userId !== creator.id && (
-                    <Button isIconOnly variant="light" size="sm" className="text-danger">
-                      <Heart size={18} />
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      className="text-danger"
+                      onPress={() => handeChangeFollow(creator.id)}
+                    >
+                      <Heart
+                        size={18}
+                        style={{
+                          fill: isFollowing(creator.id) ? "currentColor" : "none",
+                        }}
+                      />
                     </Button>
                   )}
                 </CardFooter>

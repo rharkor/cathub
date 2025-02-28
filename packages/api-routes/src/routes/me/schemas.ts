@@ -64,5 +64,13 @@ export const getMeResponseSchema = () =>
           createdAt: z.date(),
         })
       ),
+      postLikes: z.array(
+        z.object({
+          id: z.string(),
+          postId: z.string(),
+          userId: z.string(),
+          createdAt: z.date(),
+        })
+      ),
     }),
   })

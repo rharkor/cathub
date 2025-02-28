@@ -35,7 +35,7 @@ export async function likePost({ input, ctx: { session } }: apiInputFromSchema<t
     })
   } else {
     await prisma.postLike.deleteMany({
-      where: { id: post.id, userId: session.userId },
+      where: { postId: post.id, userId: session.userId },
     })
   }
 
