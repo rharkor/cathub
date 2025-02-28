@@ -10,7 +10,6 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
   const { id } = await params
 
   const creator = await serverTrpc(cookiesStore).creator.getCreator({ id })
-  const currentUser = await serverTrpc(cookiesStore).me.get()
 
-  return <CreatorProfile creator={creator} currentUser={currentUser} />
+  return <CreatorProfile creator={creator} />
 }

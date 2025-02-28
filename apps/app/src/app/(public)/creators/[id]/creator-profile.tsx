@@ -2,7 +2,6 @@
 
 import { creatorSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Divider } from "@heroui/react"
-import { User } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
@@ -11,15 +10,17 @@ import { z } from "zod"
 
 import KibbleIcon from "@/components/icons/kibble"
 import ProfileBasicInfos from "@/components/profile/infos"
+import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 
 interface CreatorProfileProps {
   creator: z.infer<ReturnType<typeof creatorSchemas.getCreatorResponseSchema>>
-  currentUser: User
 }
 
-export default function CreatorProfile({ creator, currentUser }: CreatorProfileProps) {
+export default function CreatorProfile({ creator }: CreatorProfileProps) {
   const [isFollowing, setIsFollowing] = useState(false)
+
+  const { session } = useSession()
 
   // This would be replaced with an actual follow mutation
   const handleFollow = () => {
@@ -27,7 +28,7 @@ export default function CreatorProfile({ creator, currentUser }: CreatorProfileP
     toast.success(isFollowing ? "Vous ne suivez plus ce créateur" : "Vous suivez maintenant ce créateur")
   }
 
-  const isMyProfile = creator.id === currentUser.id
+  const isMyProfile = creator.id === session?.userId
 
   // Fetch creator data from API
   const creatorQuery = trpc.creator.getCreator.useQuery(
