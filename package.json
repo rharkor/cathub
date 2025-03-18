@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/rharkor/cathub#readme",
   "dependencies": {
+    "@esbuild/linux-x64": "^0.25.0",
     "turbo": "^2.4.4"
   },
   "devDependencies": {
