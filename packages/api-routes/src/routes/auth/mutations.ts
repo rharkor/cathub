@@ -25,7 +25,10 @@ export async function signIn({ input }: apiInputFromSchema<typeof signInSchema>)
     const { email, password } = input
 
     // Look up the user by email
-    const user = await prisma.user.findUnique({ where: { email }, select: { password: true, id: true, email: true } })
+    const user = await prisma.user.findUnique({
+      where: { email  },
+      select: { password: true, id: true, email: true },
+    })
     if (!user) {
       logger.warn(`Sign in attempt with non-existing email: ${email}`)
       throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid credentials" })
