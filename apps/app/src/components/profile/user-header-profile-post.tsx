@@ -45,36 +45,37 @@ export default function UserProfile({
             ) : null}
           </div>
           <div className="flex-1">
-            <h3 className="mb-1 text-lg font-bold">{name}</h3>
-            <p className="text-sm text-gray-300">{description}</p>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {price !== undefined && (
-                <Chip color="success" variant="flat" className="text-xs">
-                  {price} Kibbles
-                </Chip>
-              )}
-              {age !== undefined && (
-                <Chip variant="flat" size="sm" className="text-xs">
-                  {age} ans
-                </Chip>
-              )}
+            <div className="mb-1 flex items-center gap-2">
+              <h3 className="text-lg font-bold">{name}</h3>
+              <div className="flex flex-wrap gap-2">
+                {price !== undefined && (
+                  <Chip color="success" variant="flat" className="text-xs">
+                    {price} Kibbles
+                  </Chip>
+                )}
+                {age !== undefined && (
+                  <Chip variant="flat" size="sm" className="text-xs">
+                    {age} ans
+                  </Chip>
+                )}
+              </div>
             </div>
+            <p className="text-sm text-gray-300">{description}</p>
           </div>
         </div>
-      </div>
-      <div className="flex items-end justify-end">
-        {showActionButton && userId && (
-          <Button
-            as={Link}
-            href={`/creators/${userId}`}
-            variant="flat"
-            size="sm"
-            className="mt-2 self-end bg-primary text-black sm:mt-0 sm:self-center"
-          >
-            Voir profil
-          </Button>
-        )}
+        <div className="flex items-end justify-end">
+          {showActionButton && userId && (
+            <Button
+              as={Link}
+              href={`/creators/${userId}`}
+              variant="flat"
+              size="sm"
+              className="mt-2 self-end bg-primary text-black sm:mt-0 sm:self-center"
+            >
+              Voir profil
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   )
