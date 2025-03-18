@@ -3,15 +3,16 @@
 import { postSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Input } from "@heroui/react"
 import { Category } from "@prisma/client"
-import { Heart, MessageCircle, Search, Share2 } from "lucide-react"
+import { Heart, Search, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 import { z } from "zod"
 
 import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
-import { getCategoryLabel, getImageUrl } from "@/lib/utils"
+import { cn, getCategoryLabel, getImageUrl } from "@/lib/utils"
 
 interface PostsListProps {
   posts: z.infer<ReturnType<typeof postSchemas.getRecommendedPostsResponseSchema>>
@@ -83,6 +84,7 @@ export default function PostsList({ posts }: PostsListProps) {
   const handleLikePost = async (postId: string) => {
     if (!session) {
       // Redirect to login or show login modal
+      toast.error("Vous devez être connecté pour liker un post")
       return
     }
 
@@ -124,8 +126,8 @@ export default function PostsList({ posts }: PostsListProps) {
               key={category}
               variant={selectedCategory === category ? "solid" : "flat"}
               color={selectedCategory === category ? "primary" : "default"}
+              className={cn(selectedCategory === category ? "cursor-pointer bg-primary text-black" : "cursor-pointer")}
               onClick={() => handleCategoryFilter(category)}
-              className="cursor-pointer"
             >
               {getCategoryLabel(category)}
             </Chip>
@@ -155,15 +157,15 @@ export default function PostsList({ posts }: PostsListProps) {
                 <CardBody className="p-4">
                   <div className="mb-2 flex flex-wrap gap-1">
                     {post.category.map((cat) => (
-                      <Chip key={cat} variant="flat" size="sm">
+                      <Chip key={cat} variant="flat" size="sm" className="bg-primary text-black">
                         {getCategoryLabel(cat)}
                       </Chip>
                     ))}
                   </div>
-                  <p className="mb-4 line-clamp-3 text-sm">{post.text}</p>
+                  <p className="my-4 line-clamp-3 text-sm">{post.text}</p>
                   {post.user && (
                     <div className="flex items-center gap-2">
-                      <div className="relative h-8 w-8 overflow-hidden rounded-full bg-content3">
+                      <div className="relative mt-4 h-8 w-8 overflow-hidden rounded-full bg-content3">
                         {post.user.profilePicture ? (
                           <Image
                             src={getImageUrl(post.user.profilePicture) || ""}
@@ -173,11 +175,11 @@ export default function PostsList({ posts }: PostsListProps) {
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center">
-                            <span className="text-xs font-bold">{post.user.username?.slice(0, 2) || "?"}</span>
+                            <span className="text-lg font-extrabold">{post.user.username?.slice(0, 2) || "?"}</span>
                           </div>
                         )}
                       </div>
-                      <span className="text-sm font-medium">{post.user.username}</span>
+                      <span className="mt-4 text-base font-extrabold">{post.user.username}</span>
                     </div>
                   )}
                 </CardBody>
@@ -187,19 +189,32 @@ export default function PostsList({ posts }: PostsListProps) {
                       isIconOnly
                       variant="light"
                       size="sm"
+                      color="primary"
                       onPress={() => handleLikePost(post.id)}
-                      className={isPostLiked(post.id) ? "text-danger" : ""}
+                      className={isPostLiked(post.id) ? "text-primary" : ""}
                     >
                       <Heart size={16} fill={isPostLiked(post.id) ? "currentColor" : "none"} />
                     </Button>
-                    <Button isIconOnly variant="light" size="sm">
-                      <MessageCircle size={16} />
-                    </Button>
-                    <Button isIconOnly variant="light" size="sm">
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      onPress={() => {
+                        // Copy link
+                        navigator.clipboard.writeText(window.location.href)
+                        toast.success("Lien copié dans le presse-papiers")
+                      }}
+                    >
                       <Share2 size={16} />
                     </Button>
                   </div>
-                  <Button as={Link} href={`/post/${post.id}`} color="primary" variant="flat" size="sm">
+                  <Button
+                    as={Link}
+                    href={`/post/${post.id}`}
+                    className="bg-primary text-black"
+                    variant="flat"
+                    size="sm"
+                  >
                     Voir détails
                   </Button>
                 </CardFooter>

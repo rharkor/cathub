@@ -66,7 +66,9 @@ export async function getCreators({ input }: apiInputFromSchema<typeof getCreato
         },
       },
       orderBy: {
-        createdAt: "desc",
+        likes: {
+          _count: "desc",
+        },
       },
       take: input.limit ?? 20,
       skip: (input.page ?? 0) * (input.limit ?? 20),

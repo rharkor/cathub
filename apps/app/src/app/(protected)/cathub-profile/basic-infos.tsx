@@ -165,7 +165,7 @@ export default function BasicInfos({
                     onValueChange={(isSelected) => field.onChange(isSelected)}
                     isDisabled={updateUserMutation.isPending}
                   >
-                    Activer la recherche de profil
+                    Profile public
                   </Checkbox>
                 )}
               />

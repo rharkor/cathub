@@ -1,6 +1,5 @@
 "use client"
 
-import { authSchemas } from "@cathub/api-routes/schemas"
 import { Button } from "@heroui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { setCookie } from "cookies-next"
@@ -15,23 +14,47 @@ import { useSession } from "@/contexts/use-session"
 import { env } from "@/lib/env"
 import { trpc } from "@/lib/trpc/client"
 
+// Schéma étendu avec confirmation de mot de passe
+const registerSchema = z
+  .object({
+    username: z.string().min(3, "Le nom d'utilisateur doit contenir au moins 3 caractères"),
+    email: z.string().email("Veuillez entrer une adresse email valide"),
+    password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
+    confirmPassword: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirmPassword"],
+  })
+
+type RegisterFormValues = z.infer<typeof registerSchema>
+
 const RegisterForm = () => {
   const { setToken } = useSession()
   const router = useRouter()
 
-  const form = useForm<z.infer<ReturnType<typeof authSchemas.signUpSchema>>>({
-    resolver: zodResolver(authSchemas.signUpSchema()),
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       username: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   })
 
   const signUpMutation = trpc.auth.signUp.useMutation()
 
-  const handleSubmit = async (data: z.infer<ReturnType<typeof authSchemas.signUpSchema>>) => {
-    const { token } = await signUpMutation.mutateAsync(data)
+  const handleSubmit = async (data: RegisterFormValues) => {
+    // Envoyer seulement les champs nécessaires à l'API
+    const { username, email, password } = data
+
+    const { token } = await signUpMutation.mutateAsync({
+      username,
+      email,
+      password,
+    })
+
     // Store the token in a cookie (expires in 365 days)
     setCookie("token", token, {
       maxAge: 365 * 24 * 60 * 60,
@@ -61,6 +84,15 @@ const RegisterForm = () => {
             passwordStrength
             type="password-eye-slash"
             label="Mot de passe"
+            required
+          />
+        </div>
+        <div className="w-full space-y-2">
+          <FormField
+            form={form}
+            name="confirmPassword"
+            type="password-eye-slash"
+            label="Confirmer le mot de passe"
             required
           />
         </div>

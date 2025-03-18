@@ -1,7 +1,7 @@
 "use client"
 
 import { postSchemas } from "@cathub/api-routes/schemas"
-import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider } from "@heroui/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, useDisclosure } from "@heroui/react"
 import { Category } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2, Trash } from "lucide-react"
 import Image from "next/image"
@@ -23,6 +23,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
   const router = useRouter()
   const utils = trpc.useUtils()
   const [isDeleting, setIsDeleting] = useState(false)
+  const { onOpen } = useDisclosure()
 
   const deletePostMutation = trpc.post.deletePost.useMutation({
     onSuccess: () => {
@@ -70,6 +71,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
   const handleLikePost = async () => {
     if (!session) {
       // Redirect to login or show login modal
+      toast.error("Vous devez être connecté pour liker un post")
       return
     }
 
@@ -88,32 +90,6 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </Button>
         <h1 className="text-2xl font-bold">Détails du post</h1>
       </div>
-
-      {/* Creator Profile Card */}
-      {post.post.user && (
-        <Card className="mb-6 w-full">
-          <CardBody className="p-4">
-            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              {/* User info section */}
-              <div className="flex w-full flex-col">
-                <UserProfile
-                  name={post.post.user?.username}
-                  description={post.post.user?.description || "Pas de description"}
-                  avatarProps={{
-                    src: post.post.user?.profilePicture ? getImageUrl(post.post.user.profilePicture) || "" : undefined,
-                    showFallback: true,
-                    fallback: post.post.user?.username?.slice(0, 3) || "?",
-                    size: "sm",
-                  }}
-                  userId={post.post.user?.id}
-                  price={post.post.user?.price ?? undefined}
-                  age={post.post.user?.age ?? undefined}
-                />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      )}
 
       <Card className="w-full">
         {post.post.image && (
@@ -139,7 +115,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
         <CardBody className="p-6">
           <div className="mb-4 flex flex-wrap gap-2">
             {post.post.category.map((cat: Category) => (
-              <Chip key={cat} variant="flat">
+              <Chip key={cat} variant="flat" className="bg-primary text-black">
                 {getCategoryLabel(cat)}
               </Chip>
             ))}
@@ -152,13 +128,22 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardBody>
         <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <Button variant="light" className="text-danger" isIconOnly onPress={handleLikePost}>
+            <Button variant="light" className="text-primary" isIconOnly onPress={handleLikePost}>
               <Heart size={18} style={{ fill: isLiked ? "currentColor" : "none" }} />
             </Button>
-            <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
+            <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />} onPress={onOpen}>
               Commenter
             </Button>
-            <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
+            <Button
+              color="default"
+              variant="flat"
+              startContent={<Share2 size={18} />}
+              onPress={() => {
+                // Copy link
+                navigator.clipboard.writeText(window.location.href)
+                toast.success("Lien copié dans le presse-papiers")
+              }}
+            >
               Partager
             </Button>
           </div>
@@ -175,6 +160,32 @@ export default function PostDetails({ post }: PostDetailsProps) {
           )}
         </CardFooter>
       </Card>
+
+      {/* Creator Profile Card */}
+      {post.post.user && (
+        <Card className="mt-6 w-full">
+          <CardBody className="p-4">
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              {/* User info section */}
+              <div className="flex w-full flex-col">
+                <UserProfile
+                  name={post.post.user?.username}
+                  description={post.post.user?.description || "Pas de description"}
+                  avatarProps={{
+                    src: post.post.user?.profilePicture ? getImageUrl(post.post.user.profilePicture) || "" : undefined,
+                    showFallback: true,
+                    fallback: post.post.user?.username?.slice(0, 3) || "?",
+                    size: "sm",
+                  }}
+                  userId={post.post.user?.id}
+                  price={post.post.user?.price ?? undefined}
+                  age={post.post.user?.age ?? undefined}
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+      )}
 
       {/* Future Comment Section */}
       <Card className="mt-6 w-full">

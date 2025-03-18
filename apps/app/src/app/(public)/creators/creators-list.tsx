@@ -189,10 +189,9 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
                   <Button
                     as={Link}
                     href={`/creators/${creator.id}`}
-                    color="primary"
+                    className="flex-1 bg-primary text-black"
                     variant="flat"
                     size="sm"
-                    className="flex-1"
                   >
                     Voir profil
                   </Button>
@@ -201,7 +200,7 @@ export default function CreatorsList({ creators }: CreatorsListProps) {
                       isIconOnly
                       variant="light"
                       size="sm"
-                      className="text-danger"
+                      className="text-primary"
                       onPress={() => handeChangeFollow(creator.id)}
                     >
                       <Heart
