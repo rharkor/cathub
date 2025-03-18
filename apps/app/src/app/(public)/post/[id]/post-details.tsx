@@ -73,6 +73,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
   const handleLikePost = async () => {
     if (!session) {
       // Redirect to login or show login modal
+      toast.error("Vous devez être connecté pour liker un post")
       return
     }
 

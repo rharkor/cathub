@@ -7,6 +7,7 @@ import { Heart, Search, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 import { z } from "zod"
 
 import { useSession } from "@/contexts/use-session"
@@ -83,6 +84,7 @@ export default function PostsList({ posts }: PostsListProps) {
   const handleLikePost = async (postId: string) => {
     if (!session) {
       // Redirect to login or show login modal
+      toast.error("Vous devez être connecté pour liker un post")
       return
     }
 
