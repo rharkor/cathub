@@ -1,15 +1,15 @@
 "use client"
 
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
-
+import { logger } from "@rharkor/logger"
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
-import { getImageUrl } from "@/lib/utils"
-import { logger } from "@rharkor/logger"
 import { toast } from "react-toastify"
-import { trpc } from "@/lib/trpc/client"
+
 import { useSession } from "@/contexts/use-session"
+import { trpc } from "@/lib/trpc/client"
+import { getImageUrl } from "@/lib/utils"
 
 const Header = () => {
   const { signOut, session } = useSession()
