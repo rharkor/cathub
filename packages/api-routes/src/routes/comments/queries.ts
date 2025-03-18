@@ -12,6 +12,18 @@ export const getComments = async ({ input }: apiInputFromSchema<typeof getCommen
       where: {
         postId: input.postId,
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            profilePicture: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     })
     return comments
   } catch (error) {

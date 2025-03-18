@@ -3,7 +3,7 @@
 import { postSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Input } from "@heroui/react"
 import { Category } from "@prisma/client"
-import { Heart, MessageCircle, Search, Share2 } from "lucide-react"
+import { Heart, Search, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -191,9 +191,6 @@ export default function PostsList({ posts }: PostsListProps) {
                       className={isPostLiked(post.id) ? "text-danger" : ""}
                     >
                       <Heart size={16} fill={isPostLiked(post.id) ? "currentColor" : "none"} />
-                    </Button>
-                    <Button isIconOnly variant="light" size="sm">
-                      <MessageCircle size={16} />
                     </Button>
                     <Button isIconOnly variant="light" size="sm">
                       <Share2 size={16} />
