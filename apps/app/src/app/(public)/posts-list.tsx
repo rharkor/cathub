@@ -194,7 +194,16 @@ export default function PostsList({ posts }: PostsListProps) {
                     >
                       <Heart size={16} fill={isPostLiked(post.id) ? "currentColor" : "none"} />
                     </Button>
-                    <Button isIconOnly variant="light" size="sm">
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      onPress={() => {
+                        // Copy link
+                        navigator.clipboard.writeText(window.location.href)
+                        toast.success("Lien copié dans le presse-papiers")
+                      }}
+                    >
                       <Share2 size={16} />
                     </Button>
                   </div>
