@@ -25,7 +25,14 @@ export const getComments = async ({ input }: apiInputFromSchema<typeof getCommen
         createdAt: "desc",
       },
     })
-    return comments
+
+    const count = await prisma.postComment.count({
+      where: {
+        postId: input.postId,
+      },
+    })
+
+    return { comments, count }
   } catch (error) {
     logger.error("Error in getComments", error)
     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Failed to retrieve comments" })

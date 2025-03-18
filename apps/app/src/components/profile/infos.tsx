@@ -5,6 +5,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Skeleton
 import { Heart, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { toast } from "react-toastify"
 import { z } from "zod"
 
 import { useSession } from "@/contexts/use-session"
@@ -197,7 +198,16 @@ export default function ProfileBasicInfos({
                   </Button>
                 </>
               )}
-              <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
+              <Button
+                color="default"
+                variant="flat"
+                startContent={<Share2 size={18} />}
+                onPress={() => {
+                  // Copy link
+                  navigator.clipboard.writeText(window.location.href)
+                  toast.success("Lien copié dans le presse-papiers")
+                }}
+              >
                 Partager
               </Button>
             </div>

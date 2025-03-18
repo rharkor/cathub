@@ -1,7 +1,7 @@
 "use client"
 
 import { postSchemas } from "@cathub/api-routes/schemas"
-import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, useDisclosure } from "@heroui/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, useDisclosure } from "@heroui/react"
 import { Category } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2, Trash } from "lucide-react"
 import Image from "next/image"
@@ -155,13 +155,28 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardBody>
         <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <Button variant="light" className="text-danger" isIconOnly onPress={handleLikePost}>
-              <Heart size={18} style={{ fill: isLiked ? "currentColor" : "none" }} />
+            <Button
+              variant="light"
+              endContent={<Heart size={18} className="shrink-0" style={{ fill: isLiked ? "currentColor" : "none" }} />}
+              className="w-max !gap-2 !px-3 text-danger"
+              isIconOnly
+              onPress={handleLikePost}
+            >
+              {post.post._count.likes}
             </Button>
             <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />} onPress={onOpen}>
               Commenter
             </Button>
-            <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
+            <Button
+              color="default"
+              variant="flat"
+              startContent={<Share2 size={18} />}
+              onPress={() => {
+                // Copy link
+                navigator.clipboard.writeText(window.location.href)
+                toast.success("Lien copié dans le presse-papiers")
+              }}
+            >
               Partager
             </Button>
           </div>
@@ -182,16 +197,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
       {/* Comment Modal */}
       <CommentModal isOpen={isOpen} onOpenChange={onOpenChange} postId={post.post.id} />
 
-      {/* Comment Section */}
-      <Card className="mt-6 w-full">
-        <CardHeader>
-          <h2 className="text-xl font-semibold">Commentaires</h2>
-        </CardHeader>
-        <Divider />
-        <CardBody className="p-6">
-          <CommentList postId={post.post.id} />
-        </CardBody>
-      </Card>
+      <CommentList postId={post.post.id} />
     </div>
   )
 }
