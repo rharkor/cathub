@@ -1,7 +1,7 @@
 "use client"
 
 import { postSchemas } from "@cathub/api-routes/schemas"
-import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, useDisclosure } from "@heroui/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, useDisclosure } from "@heroui/react"
 import { Category } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2, Trash } from "lucide-react"
 import Image from "next/image"
@@ -10,7 +10,9 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 import { z } from "zod"
 
+import CommentList from "@/components/comments/comment-list"
 import UserProfile from "@/components/profile/user-header-profile-post"
+import CommentModal from "@/components/ui/comment-modal"
 import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { getCategoryLabel, getImageUrl } from "@/lib/utils"
@@ -23,7 +25,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
   const router = useRouter()
   const utils = trpc.useUtils()
   const [isDeleting, setIsDeleting] = useState(false)
-  const { onOpen } = useDisclosure()
+  const { onOpen, isOpen, onOpenChange } = useDisclosure()
 
   const deletePostMutation = trpc.post.deletePost.useMutation({
     onSuccess: () => {
@@ -128,8 +130,13 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardBody>
         <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <Button variant="light" className="text-primary" isIconOnly onPress={handleLikePost}>
-              <Heart size={18} style={{ fill: isLiked ? "currentColor" : "none" }} />
+            <Button
+              variant="light"
+              onPress={handleLikePost}
+              endContent={<Heart size={18} className="shrink-0" style={{ fill: isLiked ? "currentColor" : "none" }} />}
+              className="text-primary"
+            >
+              {post.post._count.likes}
             </Button>
             <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />} onPress={onOpen}>
               Commenter
@@ -187,23 +194,9 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </Card>
       )}
 
-      {/* Future Comment Section */}
-      <Card className="mt-6 w-full">
-        <CardHeader>
-          <h2 className="text-xl font-semibold">Commentaires</h2>
-        </CardHeader>
-        <Divider />
-        <CardBody className="p-6">
-          <div className="flex flex-col gap-4">
-            {/* Comment form will go here */}
-            <div className="rounded-lg bg-content2 p-4 text-center">
-              <p className="text-default-500">
-                La section commentaires sera bientôt disponible. Restez à l&apos;écoute !
-              </p>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
+      <CommentModal isOpen={isOpen} onOpenChange={onOpenChange} postId={post.post.id} />
+
+      <CommentList postId={post.post.id} />
     </div>
   )
 }
