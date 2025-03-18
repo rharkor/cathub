@@ -15,17 +15,19 @@ import { env } from "@/lib/env"
 import { trpc } from "@/lib/trpc/client"
 
 // Schéma étendu avec confirmation de mot de passe
-const registerSchema = z.object({
-  username: z.string().min(3, "Le nom d'utilisateur doit contenir au moins 3 caractères"),
-  email: z.string().email("Veuillez entrer une adresse email valide"),
-  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
-  confirmPassword: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Les mots de passe ne correspondent pas",
-  path: ["confirmPassword"],
-});
+const registerSchema = z
+  .object({
+    username: z.string().min(3, "Le nom d'utilisateur doit contenir au moins 3 caractères"),
+    email: z.string().email("Veuillez entrer une adresse email valide"),
+    password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
+    confirmPassword: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirmPassword"],
+  })
 
-type RegisterFormValues = z.infer<typeof registerSchema>;
+type RegisterFormValues = z.infer<typeof registerSchema>
 
 const RegisterForm = () => {
   const { setToken } = useSession()
@@ -45,14 +47,14 @@ const RegisterForm = () => {
 
   const handleSubmit = async (data: RegisterFormValues) => {
     // Envoyer seulement les champs nécessaires à l'API
-    const { username, email, password } = data;
-    
+    const { username, email, password } = data
+
     const { token } = await signUpMutation.mutateAsync({
       username,
       email,
       password,
     })
-    
+
     // Store the token in a cookie (expires in 365 days)
     setCookie("token", token, {
       maxAge: 365 * 24 * 60 * 60,

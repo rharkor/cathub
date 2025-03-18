@@ -1,19 +1,18 @@
 "use client"
 
-import { authSchemas } from "@cathub/api-routes/schemas"
 import { Button } from "@heroui/react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { setCookie } from "cookies-next"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import React from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
 import FormField from "@/components/ui/form"
-import { useSession } from "@/contexts/use-session"
+import Link from "next/link"
+import React from "react"
+import { authSchemas } from "@cathub/api-routes/schemas"
 import { env } from "@/lib/env"
+import { setCookie } from "cookies-next"
 import { trpc } from "@/lib/trpc/client"
+import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { useSession } from "@/contexts/use-session"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 const LoginForm = () => {
   const { setToken } = useSession()
@@ -47,7 +46,14 @@ const LoginForm = () => {
     <div className="w-full max-w-md rounded-lg bg-secondary p-8 shadow-lg">
       <h1 className="mb-4 text-center text-2xl font-medium">Connexion</h1>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
-        <FormField form={form} name="email" type="email" required className="w-full rounded-md" label="Email" />
+        <FormField
+          form={form}
+          name="email"
+          type="text"
+          required
+          className="w-full rounded-md"
+          label="Email ou username"
+        />
         <FormField
           form={form}
           name="password"

@@ -1,15 +1,15 @@
 "use client"
 
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react"
-import { logger } from "@rharkor/logger"
+
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
-import { toast } from "react-toastify"
-
-import { useSession } from "@/contexts/use-session"
-import { trpc } from "@/lib/trpc/client"
 import { getImageUrl } from "@/lib/utils"
+import { logger } from "@rharkor/logger"
+import { toast } from "react-toastify"
+import { trpc } from "@/lib/trpc/client"
+import { useSession } from "@/contexts/use-session"
 
 const Header = () => {
   const { signOut, session } = useSession()
@@ -24,7 +24,7 @@ const Header = () => {
     try {
       await signOut()
       toast.success("Déconnexion réussie")
-    } catch(error) {
+    } catch (error) {
       toast.error("Erreur lors de la déconnexion")
       logger.error(error)
     }
@@ -33,7 +33,7 @@ const Header = () => {
   return (
     <>
       <nav
-        className="fixed left-0 right-0 top-0 z-50 h-[55px] border-b border-default-100 bg-background px-4 py-2"
+        className="fixed left-0 right-0 top-0 z-50 h-[55px] border-b border-primary bg-background px-4 py-2"
         data-testid="navbar-header"
       >
         <div className="mx-auto flex items-center justify-between">
@@ -43,7 +43,7 @@ const Header = () => {
             </Link>
             <div className="hidden items-center gap-2 md:flex">
               <Button as={Link} href="/creators" variant="light">
-                Créateurs
+                CRÉATEURS
               </Button>
             </div>
           </div>
