@@ -2,9 +2,10 @@
 
 import { creatorSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Skeleton } from "@heroui/react"
-import { Heart, MessageCircle, Share2 } from "lucide-react"
+import { Heart, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { toast } from "react-toastify"
 import { z } from "zod"
 
 import { useSession } from "@/contexts/use-session"
@@ -195,12 +196,18 @@ export default function ProfileBasicInfos({
                   >
                     {isFollowing ? "Ne plus suivre" : "Suivre"}
                   </Button>
-                  <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
-                    Message
-                  </Button>
                 </>
               )}
-              <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
+              <Button
+                color="default"
+                variant="flat"
+                startContent={<Share2 size={18} />}
+                onPress={() => {
+                  // Copy link
+                  navigator.clipboard.writeText(window.location.href)
+                  toast.success("Lien copié dans le presse-papiers")
+                }}
+              >
                 Partager
               </Button>
             </div>
@@ -263,9 +270,6 @@ export default function ProfileBasicInfos({
                           onPress={() => handleLikePost(post.id)}
                         >
                           <Heart size={16} style={{ fill: isLiked(post.id) ? "currentColor" : "none" }} />
-                        </Button>
-                        <Button isIconOnly variant="light" size="sm">
-                          <MessageCircle size={16} />
                         </Button>
                       </div>
                       <span className="text-sm text-default-400">{new Date(post.createdAt).toLocaleDateString()}</span>
