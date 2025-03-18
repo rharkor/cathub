@@ -31,9 +31,7 @@ export async function getAllPosts({ input }: apiInputFromSchema<typeof getPostsR
         },
       },
       orderBy: {
-        likes: {
-          _count: "desc",
-        },
+        createdAt: "desc",
       },
     })
     const data: z.infer<ReturnType<typeof getPostsResponseSchema>> = {
