@@ -21,11 +21,15 @@ interface PostDetailsProps {
   post: z.infer<ReturnType<typeof postSchemas.getPostByIdResponseSchema>>
 }
 
-export default function PostDetails({ post }: PostDetailsProps) {
+export default function PostDetails({ post: ssrPost }: PostDetailsProps) {
   const router = useRouter()
   const utils = trpc.useUtils()
   const [isDeleting, setIsDeleting] = useState(false)
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
+
+  const { data: post } = trpc.post.getPostById.useQuery(ssrPost.post, {
+    initialData: ssrPost,
+  })
 
   const deletePostMutation = trpc.post.deletePost.useMutation({
     onSuccess: () => {
