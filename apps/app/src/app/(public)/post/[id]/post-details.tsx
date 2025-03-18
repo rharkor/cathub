@@ -1,7 +1,7 @@
 "use client"
 
 import { postSchemas } from "@cathub/api-routes/schemas"
-import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider } from "@heroui/react"
+import { Button, Card, CardBody, CardFooter, CardHeader, Chip, useDisclosure } from "@heroui/react"
 import { Category } from "@prisma/client"
 import { ArrowLeft, Heart, MessageCircle, Share2, Trash } from "lucide-react"
 import Image from "next/image"
@@ -10,7 +10,9 @@ import { useState } from "react"
 import { toast } from "react-toastify"
 import { z } from "zod"
 
+import CommentList from "@/components/comments/comment-list"
 import UserProfile from "@/components/profile/user-header-profile-post"
+import CommentModal from "@/components/ui/comment-modal"
 import { useSession } from "@/contexts/use-session"
 import { trpc } from "@/lib/trpc/client"
 import { getCategoryLabel, getImageUrl } from "@/lib/utils"
@@ -23,6 +25,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
   const router = useRouter()
   const utils = trpc.useUtils()
   const [isDeleting, setIsDeleting] = useState(false)
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const deletePostMutation = trpc.post.deletePost.useMutation({
     onSuccess: () => {
@@ -70,6 +73,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
   const handleLikePost = async () => {
     if (!session) {
       // Redirect to login or show login modal
+      toast.error("Vous devez être connecté pour liker un post")
       return
     }
 
@@ -126,13 +130,33 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardBody>
         <CardFooter className="justify-between px-6 py-4">
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <Button variant="light" className="text-primary" isIconOnly onPress={handleLikePost}>
               <Heart size={18} style={{ fill: isLiked ? "currentColor" : "none" }} />
+=======
+            <Button
+              variant="light"
+              endContent={<Heart size={18} className="shrink-0" style={{ fill: isLiked ? "currentColor" : "none" }} />}
+              className="w-max !gap-2 !px-3 text-danger"
+              isIconOnly
+              onPress={handleLikePost}
+            >
+              {post.post._count.likes}
+>>>>>>> 03b5702fe8d22efba6b9977c389e3a25b206de5c
             </Button>
-            <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />}>
+            <Button color="secondary" variant="flat" startContent={<MessageCircle size={18} />} onPress={onOpen}>
               Commenter
             </Button>
-            <Button color="default" variant="flat" startContent={<Share2 size={18} />}>
+            <Button
+              color="default"
+              variant="flat"
+              startContent={<Share2 size={18} />}
+              onPress={() => {
+                // Copy link
+                navigator.clipboard.writeText(window.location.href)
+                toast.success("Lien copié dans le presse-papiers")
+              }}
+            >
               Partager
             </Button>
           </div>
@@ -150,6 +174,7 @@ export default function PostDetails({ post }: PostDetailsProps) {
         </CardFooter>
       </Card>
 
+<<<<<<< HEAD
       {/* Creator Profile Card */}
       {post.post.user && (
         <Card className="mt-6 w-full">
@@ -193,6 +218,12 @@ export default function PostDetails({ post }: PostDetailsProps) {
           </div>
         </CardBody>
       </Card>
+=======
+      {/* Comment Modal */}
+      <CommentModal isOpen={isOpen} onOpenChange={onOpenChange} postId={post.post.id} />
+
+      <CommentList postId={post.post.id} />
+>>>>>>> 03b5702fe8d22efba6b9977c389e3a25b206de5c
     </div>
   )
 }

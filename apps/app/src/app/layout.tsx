@@ -25,7 +25,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cathub",
-  description: "Find your cat's cat for a night. Grrrr miawww",
+  description:
+    "Découvrez le côté le plus miaou d'Internet 🐱💋 – un site 100% second degré qui donne aux chats l'attention qu'ils méritent... et bien plus encore. Préparez-vous à ronronner de plaisir ! 😼🔥",
 }
 
 export default async function RootLayout({

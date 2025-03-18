@@ -3,10 +3,11 @@
 import { postSchemas } from "@cathub/api-routes/schemas"
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Input } from "@heroui/react"
 import { Category } from "@prisma/client"
-import { Heart, MessageCircle, Search, Share2 } from "lucide-react"
+import { Heart, Search, Share2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 import { z } from "zod"
 
 import { useSession } from "@/contexts/use-session"
@@ -83,6 +84,7 @@ export default function PostsList({ posts }: PostsListProps) {
   const handleLikePost = async (postId: string) => {
     if (!session) {
       // Redirect to login or show login modal
+      toast.error("Vous devez être connecté pour liker un post")
       return
     }
 
@@ -193,10 +195,16 @@ export default function PostsList({ posts }: PostsListProps) {
                     >
                       <Heart size={16} fill={isPostLiked(post.id) ? "currentColor" : "none"} />
                     </Button>
-                    <Button isIconOnly variant="light" size="sm">
-                      <MessageCircle size={16} />
-                    </Button>
-                    <Button isIconOnly variant="light" size="sm">
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      onPress={() => {
+                        // Copy link
+                        navigator.clipboard.writeText(window.location.href)
+                        toast.success("Lien copié dans le presse-papiers")
+                      }}
+                    >
                       <Share2 size={16} />
                     </Button>
                   </div>
