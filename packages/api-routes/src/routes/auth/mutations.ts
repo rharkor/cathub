@@ -26,7 +26,7 @@ export async function signIn({ input }: apiInputFromSchema<typeof signInSchema>)
 
     // Look up the user by email
     const user = await prisma.user.findUnique({
-      where: { email  },
+      where: { email },
       select: { password: true, id: true, email: true },
     })
     if (!user) {
